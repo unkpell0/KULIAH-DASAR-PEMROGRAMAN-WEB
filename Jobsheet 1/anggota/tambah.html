@@ -1,50 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>SIMPUS-Mini | Tambah Anggota</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>SIMPUS-Mini</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Beranda</a></li>
-                <li><a href="../buku/list.html">Daftar Buku</a></li>
-                <li><a href="list.html">Daftar Anggota</a></li>
-                <li><a href="tambah.html">Tambah Anggota</a></li>
-            </ul>
-        </nav>
+      <h1>SIMPUS-Mini</h1>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Beranda</a></li>
+          <li><a href="../buku/list.html">Daftar Buku</a></li>
+          <li><a href="../buku/tambah.html">Tambah Buku</a></li>
+          <li><a href="list.html">Daftar Anggota</a></li>
+          <li><a href="tambah.html">Tambah Anggota</a></li>
+        </ul>
+      </nav>
     </header>
     <main>
-        <section>
-            <h2>Tambah Anggota</h2>
-            <form>
-                <p>
-                    <label for="nama">Nama</label>
-                    <input type="text" id="nama" name="nama" required>
-                </p>
-                <p>
-                    <label for="no_anggota">No. Anggota</label>
-                    <input type="text" id="no_anggota" name="no_anggota" required>
-                </p>
-                <p>
-                    <label for="alamat">Alamat</label>
-                    <input type="text" id="alamat" name="alamat">
-                </p>
-                <p>
-                    <label for="no_hp">No. HP</label>
-                    <input type="text" id="no_hp" name="no_hp" required>
-                </p>
-                <p>
-                    <button type="submit">Simpan</button>
-                </p>
-            </form>
-        </section>
+      <section>
+        <h2>Tambah Anggota</h2>
+        <form>
+          <p>
+            <label for="nama">Nama</label>
+            <input type="text" id="nama" name="nama" required />
+          </p>
+          <p>
+            <label for="no_anggota">No. Anggota</label>
+            <input type="text" id="no_anggota" name="no_anggota" required />
+          </p>
+          <p>
+            <label for="alamat">Alamat</label>
+            <input type="text" id="alamat" name="alamat" />
+          </p>
+          <p>
+            <label for="no_hp">No. HP</label>
+            <input type="text" id="no_hp" name="no_hp" required />
+          </p>
+          <p>
+            <label for="prodi">Prodi</label><br>
+            <select name="prodi" id="prodi" requried>
+              <option value="">Pilih Prodi</option>
+              <option value="teknik-informatika">Teknik Informatika</option>
+              <option value="sistem-informasi">Sistem Informasi</option>
+            </select>
+          </p>
+          <p>
+            <button type="submit">Simpan</button>
+          </p>
+        </form>
+      </section>
     </main>
-
     <footer>
-        <p>&copy; 2024 SIMPUS-Mini &mdash; Jobsheet 1</p>
+      <p>&copy; 2024 SIMPUS-Mini &mdash; Jobsheet 1</p>
     </footer>
-</body>
+  </body>
 </html>
