@@ -1,3 +1,11 @@
+:root {
+    --primary-blue: #3368a0;
+    --secondary-blue: #66a3bf;
+    --light-aqua: #c8dfdb;
+    --off-white: #f2efe7;
+    --text-dark: #333333;
+}
+
 /* ===== Reset & Base ===== */
 * {
     box-sizing: bordex-box;
@@ -7,8 +15,8 @@
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    color: #2b2b2b;
-    background-color: #f5f6f8;
+    color: var(--text-dark);
+    background-color: var(--off-white);
     line-height: 1.5;
 }
 
@@ -23,8 +31,8 @@ a:hover {
 
 /* ===== Header & Navbar (Flexbox) ===== */
 header {
-    background-color: #1d5b8a;
-    color: #fff;
+    background-color: var(--primary-blue);
+    color: #ffffff;
     padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
@@ -47,6 +55,19 @@ header nav a {
     font-weight: 500;
 }
 
+header nav a.active {
+    background-color: var(--secondary-blue);
+    padding: 7px;
+    border-radius: 13px;
+    width: auto;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+header nav a.active:hover {
+    text-decoration: none;
+}
+
 /* ===== Main Layout ===== */
 main {
     max-width: 1000px;
@@ -64,18 +85,31 @@ section {
 
 section h2 {
     margin-bottom: 1rem;
-    color: #1d5b8a;
+    color: #689D4B;
+    display: block;
 }
 
 /* ===== Kartu Statistik (CSS Grid) ===== */
 main section:nth-of-type(2){
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+main section:nth-of-type(2) h2 {
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 main section:nth-of-type(2) article {
-    background-color: #eef4fa;
+    flex: 1;
+    
+    background-color: var(--light-aqua);
     border-radius: 8px;
     padding: 1.25rem;
     text-align: center;
@@ -90,7 +124,7 @@ main section:nth-of-type(2) article h3 {
 main section:nth-of-type(2) article p {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #1d5b8a;
+    color: var(--primary-blue);
 }
 
 /* ===== Tabel ===== */
@@ -106,16 +140,16 @@ th, td {
 }
 
 thead {
-    background-color: #1d5b8a;
-    color: #fff;
+    background-color: var(--primary-blue);
+    color: #ffffff;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f7f9fb;
+    background-color: var(-off-white);
 }
 
 tbody tr:hover {
-    background-color: #eef4fa;
+    background-color: var(--off-white);
 }
 
 td button {
@@ -157,10 +191,11 @@ form select {
     border: 1px solid #cdd4da;
     border-radius: 4px;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 form button[type="submit"] {
-    background-color: #1d5b8a;
+    background-color: var(--secondary-blue);
     color: #fff;
     border: none;
     padding: 0.6rem 1.5rem;
@@ -170,7 +205,7 @@ form button[type="submit"] {
 }
 
 form button[type="submit"]:hover {
-    background-color: #164869;
+    background-color: var(--primary-blue);
 }
 
 /* ===== Footer ===== */
@@ -179,4 +214,5 @@ footer {
     padding: 1.25rem;
     color: #7a8794;
     font-size: 0.9rem;
+    margin-bottom: 10px;
 }
