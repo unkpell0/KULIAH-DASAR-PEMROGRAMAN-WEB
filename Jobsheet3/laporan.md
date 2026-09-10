@@ -1,4 +1,4 @@
-# Laporan Praktikum Jobsheet 3: Implementasi Responsive Design
+# Laporan Praktikum Jobsheet 3: Responsive Design
 
 ## Identitas Praktikan
 | Keterangan | Isi |
@@ -35,6 +35,6 @@ Praktikum ini berfokus pada implementasi Responsive Design dimana website akan m
 ## 3. Latihan Tambahan
 **Penyesuaian *Breakpoint* Responsif:** 
    Menetapkan titik henti (*breakpoint*) utama di angka `768px` (untuk transisi tata letak tablet/mobile) dan `480px` (khusus *smartphone* kecil). Penempatan kode *Media Query* diurutkan dari resolusi terbesar ke terkecil agar tidak terjadi tabrakan logika spesifisitas CSS.
-   
+
 **Penempatan Tombol Submit Dinamis:** 
    Menerapkan trik selektor spesifik `form > *:last-child { grid-column: 1 / -1; }`. Perintah ini memaksa elemen terakhir di dalam form (tombol "Simpan") untuk selalu mengambil satu baris penuh dari ujung kiri ke kanan, sehingga posisinya selalu rapi di bawah *input* apa pun.
