@@ -12,7 +12,7 @@
 ---
 
 ## 1. Penjelasan Singkat
-Praktikum ini berfokus pada implementasi Responsive Design dimana website akan mengikuti lebar tampilan device pengguna. Ada tiga tampilan yang akan diatur pada website ini yaitu tampilan mobile, tablet dan desktop. 
+Implementasi JavaScript dasar dengan menggunakan Bootstrap untuk menambahkan interaktivitas pada halaman web.
 
 ## 2. Screenshot hasil per halaman
 
