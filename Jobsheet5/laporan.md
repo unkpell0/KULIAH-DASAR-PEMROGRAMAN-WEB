@@ -4,7 +4,7 @@
 | Keterangan | Isi |
 | :--- | :--- |
 | Nama | Marvelino Husca |
-| Kelas | TI 1H |
+| Kelas | TI 2D |
 | NIM | 254107020184 |
 | No Absen | 14 |
 | Program Studi | D4 Teknik Informatika |
@@ -12,26 +12,28 @@
 ---
 
 ## 1. Penjelasan Singkat
-Praktikum ini berfokus pada implementasi Responsive Design dimana website akan mengikuti lebar tampilan device pengguna. Ada tiga tampilan yang akan diatur pada website ini yaitu tampilan mobile, tablet dan desktop. 
+Implementasi JavaScript dasar dengan menggunakan Bootstrap untuk menambahkan interaktivitas pada halaman web.
 
 ## 2. Screenshot hasil per halaman
 
-* **Tampilan Desktop vs Mobile**
-  Tampilan navbar home yang awalnya menyamping menjadi menurun ke bawah dengan adanya ikon garis tiga (hamburger) pada Mobile. Lalu grid ringkasan yang ditengah akan menurun vertikal menjadi satu kolom saja
+* **Tampilan Filter pada Halaman List Buku dan Anggota**
+  
+  ![alt text](img/filteranggota.png)
 
-  ![alt text](img/tampilandesktop.png)
-  ![alt text](img/tampilanmobile.png)
+  ![alt text](img/filterbuku.png)
 
-* **Implementasi Hamburger Menu**
-  Menu hamburger akan muncul di halaman mobile dan ketika ditekan akan muncul navbar dalam posisi vertikal
+* **Tampilan Hapus pada Halaman List Buku Anggota**
 
-  ![alt text](img/hamburger.png)
+  ![alt text](img/hapusbuku.png)
+  ![alt text](img/hapusanggota.png)
 
-* **Halaman Daftar Buku & Anggota (Tabel Responsif)**
-  Tampilan tabel yang dapat di-scroll secara horizontal di dalam bungkusannya pada layar kecil
-
-  ![alt text](img/tampilantabel.png)
+* **Validasi input pada form**
+  
+  ![alt text](img/validasibuku.png)
 
 ## 3. Latihan Tambahan
-**Tabel Responsif (Overflow):** 
-   Menyelesaikan masalah tabel yang merusak dimensi layar *mobile* dengan membungkus elemen `<table>` ke dalam `<div class="table-responsive">` yang memiliki properti `overflow-x: auto;`. Area tabel kini dapat digeser (di-*scroll*) secara horizontal tanpa menggeser elemen halaman lainnya.
+**Penyesuaian Navbar dengan Dropdown**
+  Penambahan Dropdown untuk item buku dan anggota dengan masing-masing sub-item daftar dan tambah
+
+  ![alt text](img/dropdownbuku.png)
+  ![alt text](img/dropdownanggota.png)

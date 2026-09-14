@@ -47,17 +47,24 @@ header h1 {
 header nav ul {
   list-style: none;
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 header nav a {
   color: #fff;
   font-weight: 500;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  text-decoration: none;
+  color: var(--secondary-blue);
+  /* width: auto; */
 }
 
 header nav a.active {
   background-color: var(--secondary-blue);
-  padding: 7px;
+  padding: 6px;
   border-radius: 13px;
   width: auto;
   color: #ffffff;
@@ -238,6 +245,50 @@ footer {
   color: #7a8794;
   font-size: 0.9rem;
   margin-bottom: 10px;
+}
+
+/* ===== Kolom Pencarian ===== */
+.search-box {
+    margin-bottom: 1rem;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cdd4da;
+    border-radius: 4px;
+}
+
+header nav ul li.nav-item {
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li a.nav-link {
+  color: #fff;
+  font-weight:500;
+  padding: 0;
+  text-decoration: none;
+}
+
+header nav ul li .dropdown-menu {
+  background-color: var(--primary-blue);
+  border: 1px solid var(--secondary-blue);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+header nav ul li .dropdown-item {
+  color: #fff;
+  font-weight: 400;
+  padding: 8px 16px;
+}
+
+header nav ul li .dropdown-item:hover {
+  background-color: var(--secondary-blue);
+  color: #ffffff;
+  border-radius: 4px;
 }
 
 /* Tabel Responsif*/
