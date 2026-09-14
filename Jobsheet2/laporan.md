@@ -4,7 +4,7 @@
 | Keterangan | Isi |
 | :--- | :--- |
 | Nama | Marvelino Husca |
-| Kelas | TI 1H |
+| Kelas | TI 2D |
 | NIM | 254107020184 |
 | No Absen | 14 |
 | Program Studi | D4 Teknik Informatika |
