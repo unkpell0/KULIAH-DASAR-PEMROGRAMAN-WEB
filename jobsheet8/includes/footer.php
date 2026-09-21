@@ -1,3 +1,4 @@
+<?php /** @var string $base */ ?>
 </main>
     <footer>
         <p>&copy; 2026 SIFILM-Mini &mdash; Jobsheet 7</p>

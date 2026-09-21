@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
-$port = "5433";
-$db   = "sifilm-mini";
+$port = "5432";
+$db   = "sifilm";
 $user = "postgres";
 $pass = "1234";
 

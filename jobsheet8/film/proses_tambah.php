@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . '/includes/koneksi.php';
+require __DIR__ . '/../includes/koneksi.php';
 
 $judul = trim($_POST['judul'] ?? '');
 $sutradara = trim($_POST['sutradara'] ?? '');
