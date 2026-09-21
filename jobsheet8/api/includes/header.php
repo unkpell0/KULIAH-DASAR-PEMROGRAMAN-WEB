@@ -1,9 +1,16 @@
 <?php
 session_start();
-$__jobsheetRoot = dirname(__DIR__);
-$__scriptDir = dirname($_SERVER['SCRIPT_FILENAME']);
-$__rel = ltrim(str_replace('\\', '/', substr($__scriptDir, strlen($__jobsheetRoot))), '/');
-$base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
+
+// Di Vercel: set APP_BASE=/ di Environment Variables.
+// Di lokal (APP_BASE tidak diset): pakai perhitungan lama.
+if (getenv('APP_BASE') !== false) {
+    $base = getenv('APP_BASE');
+} else {
+    $__jobsheetRoot = dirname(__DIR__);
+    $__scriptDir = dirname($_SERVER['SCRIPT_FILENAME']);
+    $__rel = ltrim(str_replace('\\', '/', substr($__scriptDir, strlen($__jobsheetRoot))), '/');
+    $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
