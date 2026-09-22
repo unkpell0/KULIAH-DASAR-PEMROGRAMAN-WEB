@@ -36,20 +36,26 @@ if (!empty($errors)) {
     exit;
 }
 
-$stmt = $pdo->prepare(
-    "INSERT INTO film (judul, sutradara, tahun, durasi, rating, genre)
-     VALUES (:judul, :sutradara, :tahun, :durasi, :rating, :genre)
-     RETURNING id"
-);
+try {
+    $stmt = $pdo->prepare(
+        "INSERT INTO film (judul, sutradara, tahun, durasi, rating, genre)
+         VALUES (:judul, :sutradara, :tahun, :durasi, :rating, :genre)
+         RETURNING id"
+    );
 
-$stmt->execute([
-    'judul' => $judul,
-    'sutradara' => $sutradara,
-    'tahun' => (int) $tahun,
-    'durasi' => (int) $durasi,
-    'rating' => (float) $rating,
-    'genre' => $genre,
-]);
+    $stmt->execute([
+        'judul' => $judul,
+        'sutradara' => $sutradara,
+        'tahun' => (int) $tahun,
+        'durasi' => (int) $durasi,
+        'rating' => (float) $rating,
+        'genre' => $genre,
+    ]);
+} catch (PDOException $e) {
+    $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal menyimpan data film. Coba lagi.'];
+    header('Location: tambah.php');
+    exit;
+}
 
 $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Data film berhasil ditambahkan.'];
 header('Location: list.php');

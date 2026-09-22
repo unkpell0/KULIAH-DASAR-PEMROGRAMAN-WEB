@@ -3,7 +3,7 @@ $page_title = "Beranda";
 include __DIR__ . '/includes/header.php';
 require __DIR__ . '/includes/koneksi.php';
 
-// Menghitung total film dari session
+// Menghitung total film dan anggota dari database
 $totalFilm = $pdo->query("SELECT COUNT(*) FROM film")->fetchColumn();
 $totalAnggota = $pdo->query("SELECT COUNT(*) FROM anggota")->fetchColumn();
 ?>

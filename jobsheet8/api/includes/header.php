@@ -27,7 +27,6 @@ if (getenv('APP_BASE') !== false) {
         <nav>
             <ul>
                 <li><a href="<?php echo $base; ?>index.php">Beranda</a></li>
-                <!-- Ubah path dari buku/ menjadi film/ -->
                 <li><a href="<?php echo $base; ?>film/list.php">Daftar Film</a></li>
                 <li><a href="<?php echo $base; ?>film/tambah.php">Tambah Film</a></li>
                 <li><a href="<?php echo $base; ?>anggota/list.php">Daftar Anggota</a></li>
