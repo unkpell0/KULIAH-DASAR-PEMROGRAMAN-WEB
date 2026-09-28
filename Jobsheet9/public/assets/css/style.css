@@ -1,13 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --primary-blue: #d4af6a;
-  --secondary-blue: #f0cd8a;
-  --light-aqua: #262a3d;
-  --off-white: #1b1e2b;
-  --text-dark: #e6e3f0;
-  --bg-deep: #0e0f17;
-  --border-glow: rgba(212, 175, 106, 0.25);
+  --primary-blue: #1D2A4A;
+  --secondary-blue: #E8A33D;
+  --light-aqua: #26314D;
+  --off-white: #12151C;
+  --text-dark: #F1EEE6;
+  --text-muted: #9098A8;
+  --line: #2C3140;
+  --velvet: #C24C5C;
+  --velvet-soft: #3A1E24;
+  --success-soft: #1C2E20;
+  --success: #7FBF8F;
 }
 
 /* ===== Reset & Base ===== */
@@ -20,39 +24,41 @@
 body {
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
   color: var(--text-dark);
-  background: radial-gradient(circle at top, #1a1d2b 0%, var(--bg-deep) 65%);
-  line-height: 1.6;
-  min-height: 100vh;
+  background-color: var(--off-white);
+  line-height: 1.5;
 }
 
 a {
-  color: var(--primary-blue);
+  color: var(--secondary-blue);
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
+h2, h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
 /* ===== Header & Navbar (Flexbox) ===== */
 header {
-  background-color: #14152e;
-  color: #f5f1e6;
+  background-color: var(--primary-blue);
+  color: #ffffff;
   padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--border-glow);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid var(--secondary-blue);
 }
 
 header h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.5rem;
-  letter-spacing: 0.04em;
-  color: var(--primary-blue);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 header nav ul {
@@ -62,26 +68,23 @@ header nav ul {
 }
 
 header nav a {
-  color: #d8d4e6;
+  color: #fff;
   font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 header nav a:hover {
   text-decoration: none;
   color: var(--secondary-blue);
-  /* width: auto; */
 }
 
 header nav a.active {
-  background-color: rgba(212, 175, 106, 0.15);
+  background-color: var(--secondary-blue);
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: 13px;
   width: auto;
-  color: var(--primary-blue);
+  color: #1B1305;
   font-weight: bold;
-  border: 1px solid var(--border-glow);
 }
 
 header nav a.active:hover {
@@ -96,33 +99,28 @@ main {
 }
 
 section {
-  background-color: var(--off-white);
-  border: 1px solid var(--border-glow);
+  background-color: #1B1F29;
+  border: 1px solid var(--line);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 section h2 {
   margin-bottom: 1rem;
-  color: var(--secondary-blue);
+  color: var(--text-dark);
   display: block;
-  font-family: "Playfair Display", serif;
 }
 
 /* ===== Kartu Statistik (CSS Grid) ===== */
 main section:nth-of-type(2) {
   display: grid;
-  /* flex-wrap: wrap; */
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 
-  background-color: var(--off-white);
+  background-color: #1B1F29;
   padding: 30px;
   border-radius: 10px;
-  border: 1px solid var(--border-glow);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 main section:nth-of-type(2) h2 {
@@ -131,31 +129,26 @@ main section:nth-of-type(2) h2 {
 }
 
 main section:nth-of-type(2) article {
-  /* flex: 1; */
-
   background-color: var(--light-aqua);
-  border: 1px solid var(--border-glow);
+  border-left: 3px solid var(--secondary-blue);
   border-radius: 8px;
   padding: 1.25rem;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-main section:nth-of-type(2) article:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(212, 175, 106, 0.15);
 }
 
 main section:nth-of-type(2) article h3 {
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
-  color: #a39cc0;
+  font-weight: 500;
+  color: var(--text-muted);
   margin-bottom: 0.5rem;
 }
 
 main section:nth-of-type(2) article p {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--primary-blue);
+  font-family: "Fraunces", serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--secondary-blue);
 }
 
 /* ===== Tabel ===== */
@@ -168,20 +161,20 @@ th,
 td {
   text-align: left;
   padding: 0.65rem 0.75rem;
-  border-bottom: 1px solid #2c2f42;
+  border-bottom: 1px solid var(--line);
 }
 
 thead {
-  background-color: #14152e;
-  color: var(--primary-blue);
+  background-color: var(--primary-blue);
+  color: #ffffff;
 }
 
 tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: #16191F;
 }
 
 tbody tr:hover {
-  background-color: rgba(212, 175, 106, 0.08);
+  background-color: var(--light-aqua);
 }
 
 td .btn-edit,
@@ -233,7 +226,7 @@ form {
 }
 
 form > p:first-child,
-form button[type="submit"] {
+#form-tambah button[type="submit"] {
   grid-column: 1 / -1;
 }
 
@@ -242,7 +235,7 @@ form > *:last-child {
   margin-top: 15px;
 }
 
-form button[type="submit"] {
+#form-tambah button[type="submit"] {
   justify-self: start;
   margin-top: 10px;
 }
@@ -255,50 +248,48 @@ form label {
   display: block;
   margin-bottom: 0.35rem;
   font-weight: 600;
-  color: #c9c4dc;
+  color: var(--text-muted);
 }
 
 form input,
 form select {
   width: 100%;
   max-width: 400px;
+  background-color: var(--off-white);
+  border: 1px solid var(--line);
+  color: var(--text-dark);
   padding: 0.55rem 0.7rem;
-  border: 1px solid #34374d;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
-  background-color: #14152a;
-  color: var(--text-dark);
-  transition: border-color 0.2s ease;
 }
 
 form input:focus,
 form select:focus {
-  outline: none;
-  border-color: var(--primary-blue);
+  outline: 2px solid var(--secondary-blue);
+  outline-offset: 1px;
 }
 
-form button[type="submit"] {
-  background-color: var(--primary-blue);
-  color: #1b1e2b;
+#form-tambah button[type="submit"] {
+  background-color: var(--secondary-blue);
+  color: #1B1305;
   border: none;
   padding: 0.6rem 1.5rem;
   border-radius: 4px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-form button[type="submit"]:hover {
-  background-color: var(--secondary-blue);
+#form-tambah button[type="submit"]:hover {
+  background-color: #f0b357;
 }
 
 /* ===== Footer ===== */
 footer {
   text-align: center;
   padding: 1.25rem;
-  color: #6f6b85;
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin-bottom: 10px;
 }
@@ -311,7 +302,7 @@ footer {
 .nav-toggle-label {
   display: none;
   font-size: 1.6rem;
-  color: var(--primary-blue);
+  color: #fff;
   cursor: pointer;
   background: none;
   border: none;
@@ -327,21 +318,21 @@ footer {
 }
 
 .flash-success {
-    background-color: rgba(96, 173, 122, 0.12);
-    color: #7fd9a0;
-    border-color: rgba(96, 173, 122, 0.3);
+    background-color: var(--success-soft);
+    color: var(--success);
+    border-color: var(--success);
 }
 
 .flash-error {
-    background-color: rgba(161, 61, 71, 0.15);
-    color: #e08a92;
-    border-color: rgba(161, 61, 71, 0.35);
+    background-color: var(--velvet-soft);
+    color: var(--velvet);
+    border-color: var(--velvet);
 }
 
 /* ===== Pesan Error Validasi ===== */
 .error {
   display: block;
-  color: #e08a92;
+  color: var(--velvet);
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
@@ -354,11 +345,16 @@ footer {
 .search-box input {
     width: 100%;
     max-width: 320px;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #34374d;
-    border-radius: 4px;
-    background-color: #14152a;
+    background-color: var(--off-white);
+    border: 1px solid var(--line);
     color: var(--text-dark);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+}
+
+.search-box input:focus {
+    outline: 2px solid var(--secondary-blue);
+    outline-offset: 1px;
 }
 
 /* Responsive Breakpoints */
@@ -379,7 +375,6 @@ footer {
     margin-top: 1rem;
   }
 
-  /* PERUBAHAN UTAMA: Gunakan .nav-open dari JS, bukan :checked */
   header nav.nav-open {
     display: block;
   }
@@ -421,7 +416,7 @@ footer {
     margin-top: 1rem;
   }
 
-  .nav-toggle:checked ~ nav {
+  header nav.nav-open {
     display: block;
   }
 
@@ -430,9 +425,8 @@ footer {
     gap: 0.75rem;
   }
 
-  /* KARTU STATISTIK HP */
   main section:nth-of-type(2) {
-    grid-template-columns: 1fr; /* TYPO DIPERBAIKI (kolom menjadi 1fr) */
+    grid-template-columns: 1fr;
   }
 
   form {
