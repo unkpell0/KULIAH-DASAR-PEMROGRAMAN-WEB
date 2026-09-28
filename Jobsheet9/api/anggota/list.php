@@ -1,7 +1,26 @@
 <?php
+session_start();
+require __DIR__ . '/../includes/koneksi.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hapus_id'])) {
+    $hapusId = (int) $_POST['hapus_id'];
+    try {
+        $del = $pdo->prepare("DELETE FROM anggota WHERE id = :id");
+        $del->execute(['id' => $hapusId]);
+        if ($del->rowCount() === 0) {
+            $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Anggota tidak ditemukan.'];
+        } else {
+            $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Anggota berhasil dihapus.'];
+        }
+    } catch (PDOException $e) {
+        $_SESSION['flash'] = ['type' => 'error', 'pesan' => 'Gagal menghapus data anggota. Coba lagi.'];
+    }
+    header('Location: list.php');
+    exit;
+}
+
 $page_title = "Daftar Anggota";
 include __DIR__ . '/../includes/header.php';
-require __DIR__ . '/../includes/koneksi.php';
 
 $flash = $_SESSION['flash'] ?? null;
 unset($_SESSION['flash']);
@@ -45,9 +64,9 @@ $daftarAnggota = $pdo->query("SELECT * FROM anggota ORDER BY id DESC")->fetchAll
                             <td><?php echo htmlspecialchars($anggota['no_hp']); ?></td>
                             <td>
                                 <a href="edit.php?id=<?php echo (int) $anggota['id']; ?>" class="btn-edit">Edit</a>
-                                <form action="hapus.php" method="post" class="form-hapus">
-                                    <input type="hidden" name="id" value="<?php echo (int) $anggota['id']; ?>">
-                                    <button class="btn-hapus" type="submit">Hapus</button>
+                                <form method="post" action="list.php" class="form-hapus">
+                                    <input type="hidden" name="hapus_id" value="<?php echo (int) $anggota['id']; ?>">
+                                    <button type="submit" class="btn-hapus">Hapus</button>
                                 </form>
                             </td>
                         </tr>
