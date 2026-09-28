@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Di Vercel: set APP_BASE=/ di Environment Variables.
 // Di lokal (APP_BASE tidak diset): pakai perhitungan lama.
