@@ -30,9 +30,7 @@ if (getenv('APP_BASE') !== false) {
             <ul>
                 <li><a href="<?php echo $base; ?>index.php">Beranda</a></li>
                 <li><a href="<?php echo $base; ?>film/list.php">Daftar Film</a></li>
-                <li><a href="<?php echo $base; ?>film/tambah.php">Tambah Film</a></li>
                 <li><a href="<?php echo $base; ?>anggota/list.php">Daftar Anggota</a></li>
-                <li><a href="<?php echo $base; ?>anggota/tambah.php">Tambah Anggota</a></li>
             </ul>
         </nav>
     </header>

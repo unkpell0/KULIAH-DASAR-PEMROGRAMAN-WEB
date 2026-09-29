@@ -177,6 +177,31 @@ tbody tr:hover {
   background-color: var(--light-aqua);
 }
 
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.section-head h2 {
+  margin-bottom: 0;
+}
+
+.btn-create {
+  background-color: var(--secondary-blue);
+  color: #1B1305;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.btn-create:hover {
+  background-color: #f0b357;
+  text-decoration: none;
+}
+
 td .btn-edit,
 td .btn-hapus {
   display: inline-block;
@@ -219,25 +244,20 @@ td .btn-hapus:hover {
 }
 
 /* ===== Form ===== */
-form {
+#form-tambah {                      /* dulu: form { */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px 30px;
 }
 
-form > p:first-child,
+#form-tambah > p:first-child,       /* dulu: form > p:first-child, */
 #form-tambah button[type="submit"] {
   grid-column: 1 / -1;
 }
 
-form > *:last-child {
+#form-tambah > *:last-child {       /* dulu: form > *:last-child */
   grid-column: 1 / -1;
   margin-top: 15px;
-}
-
-#form-tambah button[type="submit"] {
-  justify-self: start;
-  margin-top: 10px;
 }
 
 form p {
