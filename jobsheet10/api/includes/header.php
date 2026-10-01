@@ -26,7 +26,7 @@ if (getenv('APP_BASE') !== false) {
 
 <body>
     <header>
-        <h1>SIFILM-Mini</h1>
+        <h1><a href="<?php echo $base; ?>index.php">SIFILM-Mini</a></h1>
         <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
         <nav>
             <ul>
