@@ -1,0 +1,100 @@
+/* SIFILM-Mini — tema kustom di atas Bootstrap 5.3
+   Hanya berisi warna, font, dan sidebar. Layout/komponen lain memakai class bawaan Bootstrap. */
+:root {
+  --lamp: #173a31;
+  --lamp-soft: #24503f;
+  --brass: #c79a3e;
+  --ink: #1d2a27;
+  --paper: #e8ecea;
+  --rule-red: #b8453a;
+  --sidebar-w: 248px;
+  --font-head: "Zilla Slab", Rockwell, "Roboto Slab", Georgia, serif;
+  --bs-body-font-family: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --bs-body-color: var(--ink);
+  --bs-body-bg: var(--paper);
+  --bs-border-radius: 3px;
+  --bs-link-color-rgb: 36, 80, 63;
+  --bs-link-hover-color-rgb: 29, 42, 39;
+}
+
+h1, h2, h3, h4, h5, .font-head { font-family: var(--font-head); font-weight: 600; }
+.min-w-0 { min-width: 0; }
+.content-wrap > main { max-width: 1120px; width: 100%; }
+
+/* ===== Warna kustom ===== */
+.bg-lamp { background-color: var(--lamp); }
+/* Bootstrap 5.3 memakai warna latar body untuk card/tabel/input; di tema ini latar body abu-hijau, jadi dibuat putih */
+.card { --bs-card-bg: #fff; --bs-card-border-color: #cfd8d3; }
+.table { --bs-table-bg: transparent; }
+.form-control, .form-select,
+.form-control:focus, .form-select:focus { background-color: #fff; }
+.form-control:focus, .form-select:focus { border-color: var(--brass); box-shadow: 0 0 0 0.2rem rgba(199, 154, 62, 0.25); }
+.card-catalog { border-top: 3px solid var(--rule-red); }
+.form-card { max-width: 720px; }
+
+.btn-brass {
+  --bs-btn-color: var(--lamp);
+  --bs-btn-bg: var(--brass);
+  --bs-btn-border-color: var(--brass);
+  --bs-btn-hover-color: var(--lamp);
+  --bs-btn-hover-bg: #d6aa4f;
+  --bs-btn-hover-border-color: #d6aa4f;
+  --bs-btn-active-color: var(--lamp);
+  --bs-btn-active-bg: #b98a33;
+  --bs-btn-active-border-color: #b98a33;
+  font-weight: 700;
+}
+.progress-bar.bg-brass { background-color: var(--brass); color: var(--lamp); font-weight: 600; }
+
+/* ===== Sidebar (offcanvas di layar < lg, sidebar tetap di layar >= lg) ===== */
+.sidebar {
+  --bs-offcanvas-width: var(--sidebar-w);
+  --bs-offcanvas-bg: var(--lamp);
+  --bs-offcanvas-color: #e7efe9;
+  --bs-offcanvas-border-width: 0;
+}
+@media (min-width: 992px) {
+  .sidebar { background-color: var(--lamp) !important; color: #e7efe9; flex: 0 0 var(--sidebar-w); }
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+}
+.offcanvas-header .sidebar-brand { padding: 0; }
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 2.3rem;
+  background: var(--brass);
+  color: var(--lamp);
+  border-radius: 2px 5px 5px 2px;
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.18);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.sidebar .nav-label { display: block; padding: 0 1.5rem; margin: 1.4rem 0 0.4rem; font-size: 0.85rem; color: #93aaa0; }
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.5rem;
+  color: #d8e4dd;
+  border-left: 4px solid transparent;
+  border-radius: 0;
+}
+.sidebar .nav-link:hover, .sidebar .nav-link:focus-visible { background: var(--lamp-soft); color: #fff; }
+.sidebar .nav-link.active { background: var(--lamp-soft); border-left-color: var(--brass); color: #fff; font-weight: 600; }
+.sidebar-foot { font-size: 0.85rem; color: #93aaa0; }
+
+/* ===== Tabel ===== */
+.table > thead th { font-size: 0.9rem; color: #5f6f6a; border-bottom: 2px solid var(--ink); }
+.table > tbody > tr > td:first-child { font-weight: 600; }
