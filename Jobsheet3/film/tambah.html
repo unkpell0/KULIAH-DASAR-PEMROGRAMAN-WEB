@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIMPUS-Mini | Tambah Buku</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>SIMPUS-Mini</h1>
+      <input type="checkbox" id<!DOCTYPE html>
+<!-- Jobsheet 3 (Responsive Design): ditambah meta viewport, pembungkus tabel .table-responsive, dan media query di style.css. -->
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIFILM-Mini | Tambah Film</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Zilla+Slab:wght@500;600&display=swap">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+      <p class="brand"><a href="../index.html">SIFILM-Mini</a></p>
+    </header>
+
+    <nav aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><span>Film</span>
+          <ul>
+            <li><a href="../film/list.html">Daftar Film</a></li>
+            <li><a href="../film/tambah.html" aria-current="page">Tambah Film</a></li>
+          </ul>
+        </li>
+        <li><span>Anggota</span>
+          <ul>
+            <li><a href="../anggota/list.html">Daftar Anggota</a></li>
+            <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <h1>Tambah Film</h1>
+      <p><a class="page-action" href="list.html">Kembali ke daftar film</a></p>
+
+      <section>
+        <h2>Formulir Film Baru</h2>
+        <form id="form-tambah" action="list.html" method="get">
+          <fieldset>
+            <legend>Detail film</legend>
+            <p>
+              <label for="judul">Judul</label>
+              <input type="text" id="judul" name="judul" placeholder="Contoh: Laskar Pelangi" required>
+            </p>
+            <p>
+              <label for="sutradara">Sutradara</label>
+              <input type="text" id="sutradara" name="sutradara" list="daftar-sutradara" placeholder="Nama sutradara" required>
+              <datalist id="daftar-sutradara"><option value="Riri Riza"><option value="Gareth Evans"><option value="Christopher Nolan"><option value="Hayao Miyazaki"><option value="Bong Joon-ho"></datalist>
+            </p>
+            <p>
+              <label for="tahun">Tahun Rilis</label>
+              <input type="number" id="tahun" name="tahun" min="1900" max="2026" placeholder="2008" required>
+            </p>
+            <p>
+              <label for="durasi">Durasi (menit)</label>
+              <input type="number" id="durasi" name="durasi" min="1" placeholder="125" required>
+            </p>
+            <p>
+              <label for="rating">Rating (0-10)</label>
+              <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" placeholder="7.7" required>
+            </p>
+            <p>
+              <label for="genre">Genre</label>
+              <select id="genre" name="genre" required>
+                <option value="">Pilih Genre</option>
+                <option value="action">Action</option>
+                <option value="animasi">Animasi</option>
+                <option value="drama">Drama</option>
+                <option value="komedi">Komedi</option>
+                <option value="sci-fi">Sci-fi</option>
+                <option value="thriller">Thriller</option>
+              </select>
+            </p>
+          </fieldset>
+          <p>
+            <button type="reset">Reset</button>
+            <button type="submit">Simpan</button>
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 SIFILM-Mini &mdash; Jobsheet 3</p>
+    </footer>
+</body>
+</html>
+="nav-toggle" class="nav-toggle" />
+      <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Beranda</a></li>
+          <li><a href="list.html">Daftar Buku</a></li>
+          <li><a href="tambah.html" class="active">Tambah Buku</a></li>
+          <li><a href="../anggota/list.html">Daftar Anggota</a></li>
+          <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <h2>Tambah Buku</h2>
+        <form>
+          <p>
+            <label for="judul">Judul</label><br />
+            <input type="text" id="judul" name="judul" required />
+          </p>
+
+          <p>
+            <label for="pengarang">Pengarang</label><br />
+            <input type="text" id="pengarang" name="pengarang" required />
+          </p>
+
+          <p>
+            <label for="tahun">Tahun Terbit</label><br />
+            <input
+              type="number"
+              id="tahun"
+              name="tahun"
+              min="1900"
+              max="2026"
+              required
+            />
+          </p>
+
+          <p>
+            <label for="isbn">ISBN</label><br />
+            <input type="text" id="isbn" name="isbn" />
+          </p>
+
+          <p>
+            <label for="stok">Stok</label><br />
+            <input type="number" id="stok" name="stok" min="0" required />
+          </p>
+
+          <p>
+            <label for="kategori">Kategori</label><br />
+            <select name="kategori" id="kategori">
+              <option value="">Pilih Kategori</option>
+              <option value="fiksi">Fiksi</option>
+              <option value="non-fiksi">Non-Fiksi</option>
+              <option value="sains">Sains</option>
+              <option value="sejarah">Sejarah</option>
+              <option value="referensi">Referensi</option>
+            </select>
+          </p>
+
+          <p>
+            <button type="submit">Simpan</button>
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 SIMPUS-Mini &mdash; Jobsheet 3</p>
+    </footer>
+  </body>
+</html>
