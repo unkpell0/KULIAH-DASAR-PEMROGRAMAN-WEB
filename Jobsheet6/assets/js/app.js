@@ -26,7 +26,7 @@ function pesanGagal(err) {
 
 function tampilkanLoading(aktif) {
     const el = document.getElementById("loading-indicator");
-    if (el) el.classList.toggle("d-none", !aktif);
+    if (el) el.hidden = !aktif;
 }
 
 function tampilkanGagal(tbody, jumlahKolom, err) {
@@ -34,7 +34,6 @@ function tampilkanGagal(tbody, jumlahKolom, err) {
     tr.className = "baris-error";
     const td = document.createElement("td");
     td.colSpan = jumlahKolom;
-    td.className = "text-center text-danger py-4";
     td.textContent = pesanGagal(err);
     tr.appendChild(td);
     tbody.replaceChildren(tr);
@@ -50,14 +49,13 @@ function buatSel(teks) {
 
 function buatSelAksi() {
     const td = document.createElement("td");
-    td.className = "text-nowrap";
     const edit = document.createElement("button");
     edit.type = "button";
-    edit.className = "btn btn-sm btn-outline-success btn-edit";
+    edit.className = "btn-edit";
     edit.textContent = "Edit";
     const hapus = document.createElement("button");
     hapus.type = "button";
-    hapus.className = "btn btn-sm btn-outline-danger btn-hapus";
+    hapus.className = "btn-hapus";
     hapus.textContent = "Hapus";
     td.append(edit, " ", hapus);
     return td;
@@ -102,7 +100,6 @@ function sinkronkanTabel() {
             kosong.className = "baris-kosong";
             const td = document.createElement("td");
             td.colSpan = document.querySelectorAll("#tabel-data thead th").length;
-            td.className = "text-center text-secondary py-4";
             kosong.appendChild(td);
             tbody.appendChild(kosong);
         }
@@ -167,28 +164,28 @@ function validasiField(el, form) {
 }
 
 function tampilkanError(el, pesan) {
-    el.classList.add("is-invalid");
-    el.classList.remove("is-valid");
-    let fb = el.parentElement.querySelector(".invalid-feedback");
+    el.classList.add("salah");
+    el.classList.remove("benar");
+    let fb = el.parentElement.querySelector(".pesan-salah");
     if (!fb) {
         fb = document.createElement("div");
-        fb.className = "invalid-feedback";
+        fb.className = "pesan-salah";
         el.insertAdjacentElement("afterend", fb);
     }
     fb.textContent = pesan;
 }
 
 function tandaiValid(el) {
-    el.classList.remove("is-invalid");
-    if (el.value.trim() !== "") el.classList.add("is-valid");
-    else el.classList.remove("is-valid");
+    el.classList.remove("salah");
+    if (el.value.trim() !== "") el.classList.add("benar");
+    else el.classList.remove("benar");
 }
 
 function bersihkanStatus(form) {
-    form.querySelectorAll(".is-invalid, .is-valid").forEach(function (el) {
-        el.classList.remove("is-invalid", "is-valid");
+    form.querySelectorAll(".salah, .benar").forEach(function (el) {
+        el.classList.remove("salah", "benar");
     });
-    form.querySelectorAll(".invalid-feedback").forEach(function (fb) { fb.remove(); });
+    form.querySelectorAll(".pesan-salah").forEach(function (fb) { fb.remove(); });
 }
 
 function hapusAlertSukses(form) {
@@ -200,8 +197,8 @@ function tampilkanSukses(form, nama, data) {
     hapusAlertSukses(form);
 
     const alert = document.createElement("div");
-    alert.className = "alert alert-success alert-dismissible fade show alert-sukses";
-    alert.setAttribute("role", "alert");
+    alert.className = "alert-sukses";
+    alert.setAttribute("role", "status");
 
     const teks = document.createElement("span");
     teks.append('Data "');
@@ -211,16 +208,17 @@ function tampilkanSukses(form, nama, data) {
 
     const tutup = document.createElement("button");
     tutup.type = "button";
-    tutup.className = "btn-close";
-    tutup.setAttribute("data-bs-dismiss", "alert");
+    tutup.className = "alert-tutup";
+    tutup.textContent = "\u00d7"; // tanda silang
     tutup.setAttribute("aria-label", "Tutup");
+    tutup.addEventListener("click", function () { alert.remove(); });
 
     // Data form diubah menjadi JSON — format yang sama dengan isi data/*.json.
     // Di jobsheet berikutnya, string ini dikirim ke server: fetch(url, { method: "POST", body: json })
     const json = JSON.stringify(data, null, 2);
     console.log(json);
     const pre = document.createElement("pre");
-    pre.className = "small mb-0 mt-2";
+    pre.className = "json-hasil";
     pre.textContent = json;
     teks.append(pre);
 
@@ -232,7 +230,7 @@ function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
 
-    form.noValidate = true; // matikan bubble bawaan browser agar pesan Bootstrap yang tampil
+    form.noValidate = true; // matikan bubble bawaan browser agar pesan buatan kita yang tampil
     const fields = form.querySelectorAll("input, select");
 
     form.addEventListener("submit", function (e) {
@@ -263,7 +261,7 @@ function initValidasiForm() {
     // Validasi ulang saat user mengetik, tapi hanya untuk field yang sudah diberi status
     fields.forEach(function (el) {
         const ulang = function () {
-            if (!el.classList.contains("is-invalid") && !el.classList.contains("is-valid")) return;
+            if (!el.classList.contains("salah") && !el.classList.contains("benar")) return;
             const pesan = validasiField(el, form);
             if (pesan) tampilkanError(el, pesan);
             else tandaiValid(el);

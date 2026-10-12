@@ -17,12 +17,12 @@ async function muatRingkasan() {
         document.getElementById("total-anggota").textContent = anggota.length;
         document.getElementById("total-dipinjam").textContent = dipinjam;
 
-        const bar = document.getElementById("bar-dipinjam");
-        bar.style.width = persen + "%";
-        bar.textContent = dipinjam + " dari " + film.length;
-        const wadah = bar.parentElement;
-        wadah.setAttribute("aria-valuenow", dipinjam);
-        wadah.setAttribute("aria-valuemax", film.length);
+        const bar = document.getElementById("pinjam");   // elemen <progress>
+        bar.max = film.length;
+        bar.value = dipinjam;
+        bar.textContent = persen + "%";
+        document.getElementById("label-pinjam").textContent =
+            "Film sedang dipinjam: " + dipinjam + " dari " + film.length;
     } catch (err) {
         document.getElementById("ringkasan-error").textContent = pesanGagal(err);
     }
