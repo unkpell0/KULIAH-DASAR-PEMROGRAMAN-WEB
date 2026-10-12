@@ -1,37 +1,32 @@
-async function muatDaftarAnggota(){
-    const tbody = document.querySelector(".table-responsive table tbody");
-    const loading = document.getElementById("loading-indicator");
+// SIFILM-Mini — Jobsheet 6: memuat daftar anggota dari data/anggota.json dengan Fetch API
+
+function buatBarisAnggota(anggota) {
+    const tr = document.createElement("tr");
+    tr.append(
+        buatSel(anggota.no_anggota),
+        buatSel(anggota.nama),
+        buatSel(anggota.alamat),
+        buatSel(anggota.no_hp),
+        buatSelAksi()
+    );
+    return tr;
+}
+
+async function muatDaftarAnggota() {
+    const tbody = document.querySelector("#tabel-data tbody");
     if (!tbody) return;
 
-    loading.style.display = "block";
-    tbody.innerHTML = "";
+    tampilkanLoading(true);
+    tbody.replaceChildren();
 
     try {
-        await new Promise((resolve) => setTimeout(resolve, 600));
-
-        const res = await fetch("../data/anggota.json");
-        if (!res.ok){
-            throw new Error("Gagal mengambil data (status " + res.status + ")");
-        }
-        const daftarAnggota = await res.json();
-
-        daftarAnggota.forEach(function (anggota) {
-            const tr = document.createElement("tr");
-            tr.innerHTML = 
-                "<td>" + anggota.no_anggota + "</td>" +
-                "<td>" + anggota.nama + "</td>" +
-                "<td>" + anggota.alamat + "</td>" +
-                "<td>" + anggota.no_hp + "</td>" +
-                "<td>" +
-                "<button type=\"button\">Edit</button> " +
-                "<button type=\"button\" class=\"btn-hapus\">Hapus</button>" +
-                "</td>";
-            tbody.appendChild(tr);
-        });
+        const daftarAnggota = await ambilJSON("../data/anggota.json");
+        tbody.replaceChildren(...daftarAnggota.map(buatBarisAnggota));
     } catch (err) {
-        tbody.innerHTML = "<tr><td colspan=\"5\">Gagal memuat data: " + err.message + "</td></tr>";
+        tampilkanGagal(tbody, 5, err);
     } finally {
-        loading.style.display = "none";
+        tampilkanLoading(false);
+        sinkronkanTabel();
     }
 }
 

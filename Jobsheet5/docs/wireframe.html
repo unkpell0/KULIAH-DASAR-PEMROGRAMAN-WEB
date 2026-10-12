@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!-- Jobsheet 5: ditambah JavaScript (assets/js/app.js) — manipulasi DOM dan event: konfirmasi hapus, pencarian real-time, validasi form. -->
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIFILM-Mini | Wireframe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Zilla+Slab:wght@500;600&display=swap">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/wireframe.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Top bar: hanya tampil di layar < lg, berisi tombol pembuka sidebar (offcanvas) -->
+    <header class="navbar sticky-top d-lg-none bg-lamp" data-bs-theme="dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+                aria-controls="sidebar" aria-label="Buka menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <span class="navbar-brand font-head mb-0 me-auto ms-3">SIFILM-Mini</span>
+      </div>
+    </header>
+
+    <div class="d-lg-flex min-vh-100">
+      <!-- Sidebar: offcanvas di layar kecil, sidebar tetap di layar lg ke atas -->
+      <aside id="sidebar" class="sidebar offcanvas-lg offcanvas-start" tabindex="-1"
+             aria-labelledby="sidebar-title" data-bs-theme="dark">
+        <div class="offcanvas-header">
+          <h2 class="offcanvas-title sidebar-brand" id="sidebar-title"><span class="brand-mark">S</span>SIFILM-Mini</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Tutup menu"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column flex-grow-1 p-0">
+          <div class="sidebar-brand d-none d-lg-flex"><span class="brand-mark">S</span>SIFILM-Mini</div>
+          <nav aria-label="Navigasi utama">
+            <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="../index.html"><i class="bi bi-house-door" aria-hidden="true"></i>Beranda</a></li>
+            <li class="nav-item"><span class="nav-label">Film</span></li>
+            <li class="nav-item"><a class="nav-link" href="../film/list.html"><i class="bi bi-film" aria-hidden="true"></i>Daftar Film</a></li>
+            <li class="nav-item"><a class="nav-link" href="../film/tambah.html"><i class="bi bi-plus-square" aria-hidden="true"></i>Tambah Film</a></li>
+            <li class="nav-item"><span class="nav-label">Anggota</span></li>
+            <li class="nav-item"><a class="nav-link" href="../anggota/list.html"><i class="bi bi-people" aria-hidden="true"></i>Daftar Anggota</a></li>
+            <li class="nav-item"><a class="nav-link" href="../anggota/tambah.html"><i class="bi bi-person-plus" aria-hidden="true"></i>Tambah Anggota</a></li>
+            <li class="nav-item"><span class="nav-label">Desain</span></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="../docs/wireframe.html"><i class="bi bi-bounding-box" aria-hidden="true"></i>Wireframe</a></li>
+            </ul>
+          </nav>
+          <p class="sidebar-foot mt-auto px-4 pt-4 pb-3 mb-0">Jobsheet 5 &middot; DOM &amp; Event</p>
+        </div>
+      </aside>
+
+      <div class="content-wrap d-flex flex-column flex-grow-1 min-w-0">
+        <main class="flex-grow-1 p-3 p-md-4 p-xl-5">
+          <div class="mb-4">
+            <h1 class="h2 mb-2">Wireframe SIFILM-Mini</h1>
+            <p class="text-secondary mb-2">Sketsa tata letak (low-fidelity) setiap halaman sebelum diberi perilaku JavaScript. Angka pada gambar merujuk ke catatan di sebelah kanannya.</p>
+            <p class="small mb-0"><strong>Alur halaman:</strong> Beranda &rarr; Daftar Film &harr; Tambah Film &nbsp;|&nbsp; Beranda &rarr; Daftar Anggota &harr; Tambah Anggota</p>
+          </div>
+          <section class="card mb-4"><div class="card-body">
+            <h2 class="h5 mb-3">1. Beranda <small class="text-secondary fw-normal">index.html</small></h2>
+            <div class="row g-4 align-items-start">
+              <div class="col-xl-8"><div class="wf"><div class="wf-side wf-has"><span class="wf-pin" aria-hidden="true">1</span><div class="wf-logo">SIFILM-Mini</div><div class="wf-item on">Beranda</div><div class="wf-label">Film</div><div class="wf-item">Daftar Film</div><div class="wf-item">Tambah Film</div><div class="wf-label">Anggota</div><div class="wf-item">Daftar Anggota</div><div class="wf-item">Tambah Anggota</div><div class="wf-label">Desain</div><div class="wf-item">Wireframe</div></div><div class="wf-content">
+  <div class="wf-has"><div class="wf-title"></div><span class="wf-pin" aria-hidden="true">2</span></div>
+  <div class="wf-bar" style="width:70%"></div>
+  <div class="wf-stats wf-has"><span class="wf-pin" aria-hidden="true">3</span>
+    <div class="wf-stat"><b>12</b>Total Film</div><div class="wf-stat"><b>8</b>Total Anggota</div><div class="wf-stat"><b>3</b>Dipinjam</div>
+  </div>
+  <div class="wf-panel wf-has"><span class="wf-pin" aria-hidden="true">4</span><span>Film sedang dipinjam</span><div class="wf-progress"></div></div>
+</div></div></div>
+              <div class="col-xl-4"><ol class="wf-notes"><li>Sidebar navigasi (menu Beranda, Film, Anggota). Di layar kecil berubah menjadi menu yang dibuka lewat tombol &#9776;.</li><li>Judul halaman dan kalimat pengantar.</li><li>Tiga kartu ringkasan: total film, total anggota, film sedang dipinjam.</li><li>Progress bar perbandingan film dipinjam terhadap total film.</li></ol></div>
+            </div>
+          </div></section>
+          <section class="card mb-4"><div class="card-body">
+            <h2 class="h5 mb-3">2. Daftar Film <small class="text-secondary fw-normal">film/list.html</small></h2>
+            <div class="row g-4 align-items-start">
+              <div class="col-xl-8"><div class="wf"><div class="wf-side wf-has"><span class="wf-pin" aria-hidden="true">1</span><div class="wf-logo">SIFILM-Mini</div><div class="wf-item">Beranda</div><div class="wf-label">Film</div><div class="wf-item on">Daftar Film</div><div class="wf-item">Tambah Film</div><div class="wf-label">Anggota</div><div class="wf-item">Daftar Anggota</div><div class="wf-item">Tambah Anggota</div><div class="wf-label">Desain</div><div class="wf-item">Wireframe</div></div><div class="wf-content">
+  <div class="wf-row wf-has"><div class="wf-title"></div><span class="wf-btn">Tambah film</span><span class="wf-pin" aria-hidden="true">2</span></div>
+  <div class="wf-panel">
+    <div class="wf-input wf-has" style="max-width:60%"><span class="wf-pin" aria-hidden="true">3</span>&#128269; Cari judul film...</div>
+    <div class="wf-grid wf-has" style="grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto"><span class="wf-pin" aria-hidden="true">4</span><div class="wf-cell h">Judul</div><div class="wf-cell h">Sutradara</div><div class="wf-cell h">Tahun</div><div class="wf-cell h">Durasi</div><div class="wf-cell h">Rating</div><div class="wf-cell h">Genre</div><div class="wf-cell h">Aksi</div><div class="wf-cell">Laskar Pelangi</div><div class="wf-cell">Riri Riza</div><div class="wf-cell">2008</div><div class="wf-cell">125 Menit</div><div class="wf-cell">7.7 / 10</div><div class="wf-cell">Drama</div><div class="wf-cell"><span class="wf-btn mini ghost">Edit</span> <span class="wf-btn mini ghost">Hapus</span></div><div class="wf-cell">The Raid</div><div class="wf-cell">Gareth Evans</div><div class="wf-cell">2011</div><div class="wf-cell">101 Menit</div><div class="wf-cell">7.6 / 10</div><div class="wf-cell">Action</div><div class="wf-cell"><span class="wf-btn mini ghost">Edit</span> <span class="wf-btn mini ghost">Hapus</span></div><div class="wf-cell">Inception</div><div class="wf-cell">C. Nolan</div><div class="wf-cell">2010</div><div class="wf-cell">148 Menit</div><div class="wf-cell">8.8 / 10</div><div class="wf-cell">Sci-fi</div><div class="wf-cell"><span class="wf-btn mini ghost">Edit</span> <span class="wf-btn mini ghost">Hapus</span></div></div>
+  </div>
+</div></div></div>
+              <div class="col-xl-4"><ol class="wf-notes"><li>Sidebar navigasi (menu Beranda, Film, Anggota). Di layar kecil berubah menjadi menu yang dibuka lewat tombol &#9776;.</li><li>Judul halaman + tombol aksi utama &ldquo;Tambah film&rdquo;.</li><li>Kolom pencarian di atas tabel.</li><li>Tabel data film (Judul, Sutradara, Tahun, Durasi, Rating, Genre).</li><li>Kolom Aksi: tombol Edit dan Hapus pada setiap baris.</li></ol></div>
+            </div>
+          </div></section>
+          <section class="card mb-4"><div class="card-body">
+            <h2 class="h5 mb-3">3. Tambah Film <small class="text-secondary fw-normal">film/tambah.html</small></h2>
+            <div class="row g-4 align-items-start">
+              <div class="col-xl-8"><div class="wf"><div class="wf-side wf-has"><span class="wf-pin" aria-hidden="true">1</span><div class="wf-logo">SIFILM-Mini</div><div class="wf-item">Beranda</div><div class="wf-label">Film</div><div class="wf-item">Daftar Film</div><div class="wf-item on">Tambah Film</div><div class="wf-label">Anggota</div><div class="wf-item">Daftar Anggota</div><div class="wf-item">Tambah Anggota</div><div class="wf-label">Desain</div><div class="wf-item">Wireframe</div></div><div class="wf-content">
+  <div class="wf-row wf-has"><div class="wf-title"></div><span style="text-decoration:underline">&larr; Kembali ke daftar film</span><span class="wf-pin" aria-hidden="true">2</span></div>
+  <div class="wf-panel wf-has" style="border-top-width:4px"><span class="wf-pin" aria-hidden="true">3</span>
+    <div class="wf-field"><span>Judul</span><div class="wf-input">teks</div></div><div class="wf-field"><span>Sutradara</span><div class="wf-input">teks + saran</div></div><div class="wf-field"><span>Tahun Rilis</span><div class="wf-input">angka</div></div><div class="wf-field"><span>Durasi (menit)</span><div class="wf-input">angka</div></div><div class="wf-field"><span>Rating (0-10)</span><div class="wf-input">angka</div></div><div class="wf-field"><span>Genre</span><div class="wf-input">pilihan &#9662;</div></div>
+    <div class="wf-actions wf-has"><span class="wf-pin" aria-hidden="true">4</span><span class="wf-btn ghost">Reset</span><span class="wf-btn">Simpan</span></div>
+  </div>
+</div></div></div>
+              <div class="col-xl-4"><ol class="wf-notes"><li>Sidebar navigasi (menu Beranda, Film, Anggota). Di layar kecil berubah menjadi menu yang dibuka lewat tombol &#9776;.</li><li>Judul halaman + tautan kembali ke daftar.</li><li>Kartu form: label di kiri, input di kanan.</li><li>Tombol Reset dan Simpan di kanan bawah.</li></ol></div>
+            </div>
+          </div></section>
+          <section class="card mb-4"><div class="card-body">
+            <h2 class="h5 mb-3">4. Daftar Anggota <small class="text-secondary fw-normal">anggota/list.html</small></h2>
+            <div class="row g-4 align-items-start">
+              <div class="col-xl-8"><div class="wf"><div class="wf-side wf-has"><span class="wf-pin" aria-hidden="true">1</span><div class="wf-logo">SIFILM-Mini</div><div class="wf-item">Beranda</div><div class="wf-label">Film</div><div class="wf-item">Daftar Film</div><div class="wf-item">Tambah Film</div><div class="wf-label">Anggota</div><div class="wf-item on">Daftar Anggota</div><div class="wf-item">Tambah Anggota</div><div class="wf-label">Desain</div><div class="wf-item">Wireframe</div></div><div class="wf-content">
+  <div class="wf-row wf-has"><div class="wf-title"></div><span class="wf-btn">Tambah anggota</span><span class="wf-pin" aria-hidden="true">2</span></div>
+  <div class="wf-panel">
+    <div class="wf-input wf-has" style="max-width:60%"><span class="wf-pin" aria-hidden="true">3</span>&#128269; Cari anggota...</div>
+    <div class="wf-grid wf-has" style="grid-template-columns: 1fr 1fr 1fr 1fr auto"><span class="wf-pin" aria-hidden="true">4</span><div class="wf-cell h">No. Anggota</div><div class="wf-cell h">Nama</div><div class="wf-cell h">Alamat</div><div class="wf-cell h">No. HP</div><div class="wf-cell h">Aksi</div><div class="wf-cell">A001</div><div class="wf-cell">Siti Aminah</div><div class="wf-cell">Malang</div><div class="wf-cell">0812xxxx</div><div class="wf-cell"><span class="wf-btn mini ghost">Edit</span> <span class="wf-btn mini ghost">Hapus</span></div><div class="wf-cell">A002</div><div class="wf-cell">Budi Santoso</div><div class="wf-cell">Batu</div><div class="wf-cell">0813xxxx</div><div class="wf-cell"><span class="wf-btn mini ghost">Edit</span> <span class="wf-btn mini ghost">Hapus</span></div></div>
+  </div>
+</div></div></div>
+              <div class="col-xl-4"><ol class="wf-notes"><li>Sidebar navigasi (menu Beranda, Film, Anggota). Di layar kecil berubah menjadi menu yang dibuka lewat tombol &#9776;.</li><li>Judul halaman + tombol &ldquo;Tambah anggota&rdquo;.</li><li>Kolom pencarian.</li><li>Tabel anggota (No. Anggota, Nama, Alamat, No. HP).</li><li>Kolom Aksi: Edit dan Hapus.</li></ol></div>
+            </div>
+          </div></section>
+          <section class="card mb-4"><div class="card-body">
+            <h2 class="h5 mb-3">5. Tambah Anggota <small class="text-secondary fw-normal">anggota/tambah.html</small></h2>
+            <div class="row g-4 align-items-start">
+              <div class="col-xl-8"><div class="wf"><div class="wf-side wf-has"><span class="wf-pin" aria-hidden="true">1</span><div class="wf-logo">SIFILM-Mini</div><div class="wf-item">Beranda</div><div class="wf-label">Film</div><div class="wf-item">Daftar Film</div><div class="wf-item">Tambah Film</div><div class="wf-label">Anggota</div><div class="wf-item">Daftar Anggota</div><div class="wf-item on">Tambah Anggota</div><div class="wf-label">Desain</div><div class="wf-item">Wireframe</div></div><div class="wf-content">
+  <div class="wf-row wf-has"><div class="wf-title"></div><span style="text-decoration:underline">&larr; Kembali ke daftar anggota</span><span class="wf-pin" aria-hidden="true">2</span></div>
+  <div class="wf-panel wf-has" style="border-top-width:4px"><span class="wf-pin" aria-hidden="true">3</span>
+    <div class="wf-field"><span>Nama</span><div class="wf-input">teks</div></div><div class="wf-field"><span>No. Anggota</span><div class="wf-input">contoh: A001</div></div><div class="wf-field"><span>Alamat</span><div class="wf-input">teks (opsional)</div></div><div class="wf-field"><span>No. HP</span><div class="wf-input">telepon</div></div>
+    <div class="wf-actions wf-has"><span class="wf-pin" aria-hidden="true">4</span><span class="wf-btn ghost">Reset</span><span class="wf-btn">Simpan</span></div>
+  </div>
+</div></div></div>
+              <div class="col-xl-4"><ol class="wf-notes"><li>Sidebar navigasi (menu Beranda, Film, Anggota). Di layar kecil berubah menjadi menu yang dibuka lewat tombol &#9776;.</li><li>Judul halaman + tautan kembali.</li><li>Kartu form anggota.</li><li>Tombol Reset dan Simpan.</li></ol></div>
+            </div>
+          </div></section>
+          <div class="row g-4">
+            <div class="col-lg-6">
+              <section class="card h-100"><div class="card-body">
+                <h2 class="h5 mb-3">6. Tampilan mobile &mdash; Daftar <small class="text-secondary fw-normal">&lt; 992px</small></h2>
+                <div class="wf mobile">
+  <div class="wf-top wf-has"><span class="wf-pin" aria-hidden="true">1</span><span class="wf-burger">&#9776;</span><b>SIFILM-Mini</b></div>
+  <div class="wf-content">
+    <div class="wf-title" style="width:70%"></div>
+    <span class="wf-btn" style="align-self:flex-start">Tambah film</span>
+    <div class="wf-panel">
+      <div class="wf-input wf-has"><span class="wf-pin" aria-hidden="true">2</span>&#128269; Cari...</div>
+      <div class="wf-grid wf-has" style="grid-template-columns: 1.4fr 1fr 0.8fr"><span class="wf-pin" aria-hidden="true">3</span>
+        <div class="wf-cell h">Judul</div><div class="wf-cell h">Sutradara</div><div class="wf-cell h">Tahun</div>
+        <div class="wf-cell">Inception</div><div class="wf-cell">Nolan</div><div class="wf-cell">2010</div>
+        <div class="wf-cell">Parasite</div><div class="wf-cell">Bong</div><div class="wf-cell">2019</div>
+      </div>
+      <div class="wf-scroll">&larr; tabel bisa digeser &rarr;</div>
+    </div>
+  </div>
+</div>
+                <ol class="wf-notes mt-3"><li>Top bar dengan tombol &#9776; pembuka sidebar.</li><li>Pencarian selebar kartu.</li><li>Tabel digeser horizontal di dalam kartu.</li></ol>
+              </div></section>
+            </div>
+            <div class="col-lg-6">
+              <section class="card h-100"><div class="card-body">
+                <h2 class="h5 mb-3">7. Tampilan mobile &mdash; Form <small class="text-secondary fw-normal">&lt; 992px</small></h2>
+                <div class="wf mobile">
+  <div class="wf-top wf-has"><span class="wf-pin" aria-hidden="true">1</span><span class="wf-burger">&#9776;</span><b>SIFILM-Mini</b></div>
+  <div class="wf-content">
+    <div class="wf-title" style="width:60%"></div>
+    <div class="wf-panel wf-has" style="border-top-width:4px"><span class="wf-pin" aria-hidden="true">2</span>
+      <div class="wf-field"><span>Judul</span><div class="wf-input">...</div></div><div class="wf-field"><span>Sutradara</span><div class="wf-input">...</div></div><div class="wf-field"><span>Tahun Rilis</span><div class="wf-input">...</div></div>
+      <div class="wf-field wf-has"><span class="wf-pin" aria-hidden="true">3</span><span>...field lainnya</span></div>
+      <div class="wf-actions"><span class="wf-btn ghost">Reset</span><span class="wf-btn">Simpan</span></div>
+    </div>
+  </div>
+</div>
+                <ol class="wf-notes mt-3"><li>Top bar yang sama.</li><li>Label berada di atas input (1 kolom).</li><li>Semua field ditumpuk ke bawah.</li></ol>
+              </div></section>
+            </div>
+          </div>
+        </main>
+        <footer class="px-3 px-md-4 px-xl-5 py-3 text-secondary small">
+          <p class="mb-0">&copy; 2026 SIFILM-Mini &mdash; Jobsheet 5</p>
+        </footer>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>

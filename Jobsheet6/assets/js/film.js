@@ -1,54 +1,36 @@
-// Memuat data film ke dalam tabel
+// SIFILM-Mini — Jobsheet 6: memuat daftar film dari data/film.json dengan Fetch API
+// Fungsi bantu (ambilJSON, buatSel, dst.) ada di app.js, jadi app.js harus dimuat lebih dulu.
+
+function buatBarisFilm(film) {
+    const tr = document.createElement("tr");
+    tr.append(
+        buatSel(film.judul),
+        buatSel(film.sutradara),
+        buatSel(film.tahun),
+        buatSel(film.durasi + " Menit"),
+        buatSel(Number(film.rating).toFixed(1) + " / 10"),
+        buatSel(kapital(film.genre)),
+        buatSelAksi()
+    );
+    return tr;
+}
+
 async function muatDaftarFilm() {
-    const tbody = document.querySelector(".table-responsive table tbody");
-    const loading = document.getElementById("loading-indicator");
-    
-    // Jika tidak ada tabel di halaman ini, hentikan fungsi
+    const tbody = document.querySelector("#tabel-data tbody");
     if (!tbody) return;
 
-    if (loading) loading.style.display = "block";
-    tbody.innerHTML = "";
+    tampilkanLoading(true);
+    tbody.replaceChildren();
 
     try {
-        // Simulasi waktu loading 600ms
-        await new Promise((resolve) => setTimeout(resolve, 600));
-
-        // Mengambil data JSON
-        const res = await fetch("../data/film.json");
-        if (!res.ok) {
-            throw new Error("Gagal mengambil data (status " + res.status + ")");
-        }
-        const daftarFilm = await res.json();
-
-        // Menyusun baris tabel
-        daftarFilm.forEach(function (film) {
-            const tr = document.createElement("tr");
-            tr.innerHTML = 
-                "<td>" + film.judul + "</td>" +
-                "<td>" + film.sutradara + "</td>" +
-                "<td>" + film.tahun + "</td>" +
-                "<td>" + film.durasi + " Menit</td>" +
-                "<td>" + film.rating + " / 10</td>" +
-                "<td><span style='text-transform: capitalize;'>" + film.genre + "</span></td>" +
-                "<td>" +
-                "<button type=\"button\">Edit</button> " +
-                "<button type=\"button\" class=\"btn-hapus\">Hapus</button>" +
-                "</td>";
-            tbody.appendChild(tr);
-        });
-
-        // Panggil ulang fungsi hapus dari app.js agar tombol "Hapus" yang baru dibuat bisa diklik
-        if (typeof initHapusConfirm === "function") {
-            initHapusConfirm();
-        }
-
+        const daftarFilm = await ambilJSON("../data/film.json");
+        tbody.replaceChildren(...daftarFilm.map(buatBarisFilm));
     } catch (err) {
-        tbody.innerHTML =
-            "<tr><td colspan=\"7\" style=\"text-align:center; color:red;\">Gagal memuat data: " + err.message + "</td></tr>";
+        tampilkanGagal(tbody, 7, err);
     } finally {
-        if (loading) loading.style.display = "none";
+        tampilkanLoading(false);
+        sinkronkanTabel();
     }
 }
 
-// Jalankan saat HTML selesai dimuat
 document.addEventListener("DOMContentLoaded", muatDaftarFilm);

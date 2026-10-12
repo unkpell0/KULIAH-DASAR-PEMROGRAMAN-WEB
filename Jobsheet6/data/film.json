@@ -1,0 +1,110 @@
+[
+    {
+        "judul": "Laskar Pelangi",
+        "sutradara": "Riri Riza",
+        "tahun": 2008,
+        "durasi": 125,
+        "rating": 7.7,
+        "genre": "drama",
+        "dipinjam": false
+    },
+    {
+        "judul": "The Raid",
+        "sutradara": "Gareth Evans",
+        "tahun": 2011,
+        "durasi": 101,
+        "rating": 7.6,
+        "genre": "action",
+        "dipinjam": true
+    },
+    {
+        "judul": "Inception",
+        "sutradara": "Christopher Nolan",
+        "tahun": 2010,
+        "durasi": 148,
+        "rating": 8.8,
+        "genre": "sci-fi",
+        "dipinjam": false
+    },
+    {
+        "judul": "Spirited Away",
+        "sutradara": "Hayao Miyazaki",
+        "tahun": 2001,
+        "durasi": 125,
+        "rating": 8.6,
+        "genre": "animasi",
+        "dipinjam": false
+    },
+    {
+        "judul": "Parasite",
+        "sutradara": "Bong Joon-ho",
+        "tahun": 2019,
+        "durasi": 132,
+        "rating": 8.5,
+        "genre": "thriller",
+        "dipinjam": false
+    },
+    {
+        "judul": "Interstellar",
+        "sutradara": "Christopher Nolan",
+        "tahun": 2014,
+        "durasi": 169,
+        "rating": 8.7,
+        "genre": "sci-fi",
+        "dipinjam": true
+    },
+    {
+        "judul": "The Dark Knight",
+        "sutradara": "Christopher Nolan",
+        "tahun": 2008,
+        "durasi": 152,
+        "rating": 9.0,
+        "genre": "action",
+        "dipinjam": false
+    },
+    {
+        "judul": "Toy Story",
+        "sutradara": "John Lasseter",
+        "tahun": 1995,
+        "durasi": 81,
+        "rating": 8.3,
+        "genre": "animasi",
+        "dipinjam": false
+    },
+    {
+        "judul": "Joker",
+        "sutradara": "Todd Phillips",
+        "tahun": 2019,
+        "durasi": 122,
+        "rating": 8.4,
+        "genre": "thriller",
+        "dipinjam": false
+    },
+    {
+        "judul": "The Shawshank Redemption",
+        "sutradara": "Frank Darabont",
+        "tahun": 1994,
+        "durasi": 142,
+        "rating": 9.3,
+        "genre": "drama",
+        "dipinjam": true
+    },
+    {
+        "judul": "Superbad",
+        "sutradara": "Greg Mottola",
+        "tahun": 2007,
+        "durasi": 113,
+        "rating": 7.6,
+        "genre": "komedi",
+        "dipinjam": false
+    },
+    {
+        "judul": "Se7en",
+        "sutradara": "David Fincher",
+        "tahun": 1995,
+        "durasi": 127,
+        "rating": 8.6,
+        "genre": "thriller",
+        "dipinjam": false
+    }
+]
