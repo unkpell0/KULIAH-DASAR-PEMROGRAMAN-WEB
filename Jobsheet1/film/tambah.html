@@ -1,72 +1,78 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>SIMPUS-Mini | Tambah Film</title>
-  </head>
-  <body>
+<!DOCTYPE html>
+<!-- Jobsheet 1: struktur HTML5 semantik (header, nav, main, section, footer), tabel, dan form. Belum ada CSS. -->
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>SIFILM-Mini | Tambah Film</title>
+</head>
+<body>
     <header>
-      <h1>SIMPUS-Mini</h1>
-      <nav>
-        <ul>
-          <li><a href="../index.html">Beranda</a></li>
-          <li><a href="list.html">Daftar Film</a></li>
-          <li><a href="tambah.html">Tambah Film</a></li>
-          <li><a href="../anggota/list.html">Daftar Anggota</a></li>
-          <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
-        </ul>
-      </nav>
+      <p class="brand"><a href="../index.html">SIFILM-Mini</a></p>
     </header>
 
+    <nav aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><span>Film</span>
+          <ul>
+            <li><a href="../film/list.html">Daftar Film</a></li>
+            <li><a href="../film/tambah.html" aria-current="page">Tambah Film</a></li>
+          </ul>
+        </li>
+        <li><span>Anggota</span>
+          <ul>
+            <li><a href="../anggota/list.html">Daftar Anggota</a></li>
+            <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
     <main>
+      <h1>Tambah Film</h1>
+      <p><a class="page-action" href="list.html">Kembali ke daftar film</a></p>
+
       <section>
-        <h2>Tambah Film</h2>
-        <form>
+        <h2>Formulir Film Baru</h2>
+        <form id="form-tambah" action="list.html" method="get">
+          <fieldset>
+            <legend>Detail film</legend>
+            <p>
+              <label for="judul">Judul</label>
+              <input type="text" id="judul" name="judul" placeholder="Contoh: Laskar Pelangi" required>
+            </p>
+            <p>
+              <label for="sutradara">Sutradara</label>
+              <input type="text" id="sutradara" name="sutradara" list="daftar-sutradara" placeholder="Nama sutradara" required>
+              <datalist id="daftar-sutradara"><option value="Riri Riza"><option value="Gareth Evans"><option value="Christopher Nolan"><option value="Hayao Miyazaki"><option value="Bong Joon-ho"></datalist>
+            </p>
+            <p>
+              <label for="tahun">Tahun Rilis</label>
+              <input type="number" id="tahun" name="tahun" min="1900" max="2026" placeholder="2008" required>
+            </p>
+            <p>
+              <label for="durasi">Durasi (menit)</label>
+              <input type="number" id="durasi" name="durasi" min="1" placeholder="125" required>
+            </p>
+            <p>
+              <label for="rating">Rating (0-10)</label>
+              <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" placeholder="7.7" required>
+            </p>
+            <p>
+              <label for="genre">Genre</label>
+              <select id="genre" name="genre" required>
+                <option value="">Pilih Genre</option>
+                <option value="action">Action</option>
+                <option value="animasi">Animasi</option>
+                <option value="drama">Drama</option>
+                <option value="komedi">Komedi</option>
+                <option value="sci-fi">Sci-fi</option>
+                <option value="thriller">Thriller</option>
+              </select>
+            </p>
+          </fieldset>
           <p>
-            <label for="judul">Judul</label><br />
-            <input type="text" id="judul" name="judul" required />
-          </p>
-
-          <p>
-            <label for="pengarang">Pengarang</label><br />
-            <input type="text" id="pengarang" name="pengarang" required />
-          </p>
-
-          <p>
-            <label for="tahun">Tahun Terbit</label><br />
-            <input
-              type="number"
-              id="tahun"
-              name="tahun"
-              min="1900"
-              max="2026"
-              required
-            />
-          </p>
-
-          <p>
-            <label for="isbn">ISBN</label><br />
-            <input type="text" id="isbn" name="isbn" />
-          </p>
-
-          <p>
-            <label for="stok">Stok</label><br />
-            <input type="number" id="stok" name="stok" min="0" required />
-          </p>
-
-          <p>
-            <label for="kategori">Kategori</label><br />
-            <select name="kategori" id="kategori">
-              <option value="">Pilih Kategori</option>
-              <option value="fiksi">Fiksi</option>
-              <option value="non-fiksi">Non-Fiksi</option>
-              <option value="sains">Sains</option>
-              <option value="sejarah">Sejarah</option>
-              <option value="referensi">Referensi</option>
-            </select>
-          </p>
-
-          <p>
+            <button type="reset">Reset</button>
             <button type="submit">Simpan</button>
           </p>
         </form>
@@ -74,7 +80,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2024 SIMPUS-Mini &mdash; Jobsheet 1</p>
+      <p>&copy; 2026 SIFILM-Mini &mdash; Jobsheet 1</p>
     </footer>
-  </body>
+</body>
 </html>

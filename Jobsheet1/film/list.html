@@ -1,93 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Jobsheet 1: struktur HTML5 semantik (header, nav, main, section, footer), tabel, dan form. Belum ada CSS. -->
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>SIMPUS-Mini | Daftar Film</title>
+    <title>SIFILM-Mini | Daftar Film</title>
 </head>
 <body>
     <header>
-        <h1>SIMPUS-Mini</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Beranda</a></li>
-                <li><a href="list.html">Daftar Film</a></li>
-                <li><a href="tambah.html">Tambah Film</a></li>
-                <li><a href="../anggota/list.html">Daftar Anggota</a></li>
-                <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
-            </ul>
-        </nav>
+      <p class="brand"><a href="../index.html">SIFILM-Mini</a></p>
     </header>
 
+    <nav aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><span>Film</span>
+          <ul>
+            <li><a href="../film/list.html" aria-current="page">Daftar Film</a></li>
+            <li><a href="../film/tambah.html">Tambah Film</a></li>
+          </ul>
+        </li>
+        <li><span>Anggota</span>
+          <ul>
+            <li><a href="../anggota/list.html">Daftar Anggota</a></li>
+            <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
     <main>
-        <section>
-            <h2>List Film</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Judul</th>
-                        <th>Pengarang</th>
-                        <th>Tahun</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Laskar Pelangi</td>
-                        <td>Andrea Hirata</td>
-                        <td>2005</td>
-                        <td>4</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Bumi Manusia</td>
-                        <td>Pramodya Ananta Toer</td>
-                        <td>1980</td>
-                        <td>2</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Negeri 5 Menara</td>
-                        <td>Ahmad Fuadi</td>
-                        <td>2009</td>
-                        <td>0</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Filosofi Teras</td>
-                        <td>Henry Manampiring</td>
-                        <td>2018</td>
-                        <td>5</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ronggeng Dukuh Paruk</td>
-                        <td>Ahmad Tohari</td>
-                        <td>1982</td>
-                        <td>1</td>
-                        <td>
-                            <button type="button">Edit</button>
-                            <button type="button">Hapus</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+      <h1>Daftar Film</h1>
+      <p><a class="page-action" href="tambah.html">Tambah film</a></p>
+
+      <section>
+        <h2>Data Film</h2>
+        <table>
+          <caption>Daftar film koleksi SIFILM-Mini</caption>
+          <thead>
+            <tr><th scope="col">Judul</th><th scope="col">Sutradara</th><th scope="col">Tahun</th><th scope="col">Durasi</th><th scope="col">Rating</th><th scope="col">Genre</th><th scope="col">Aksi</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Laskar Pelangi</td>
+              <td>Riri Riza</td>
+              <td>2008</td>
+              <td>125 Menit</td>
+              <td>7.7 / 10</td>
+              <td>Drama</td>
+              <td>
+                <button type="button" class="btn-edit">Edit</button>
+                <button type="button" class="btn-hapus">Hapus</button>
+              </td>
+            </tr>
+            <tr>
+              <td>The Raid</td>
+              <td>Gareth Evans</td>
+              <td>2011</td>
+              <td>101 Menit</td>
+              <td>7.6 / 10</td>
+              <td>Action</td>
+              <td>
+                <button type="button" class="btn-edit">Edit</button>
+                <button type="button" class="btn-hapus">Hapus</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Inception</td>
+              <td>Christopher Nolan</td>
+              <td>2010</td>
+              <td>148 Menit</td>
+              <td>8.8 / 10</td>
+              <td>Sci-fi</td>
+              <td>
+                <button type="button" class="btn-edit">Edit</button>
+                <button type="button" class="btn-hapus">Hapus</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Spirited Away</td>
+              <td>Hayao Miyazaki</td>
+              <td>2001</td>
+              <td>125 Menit</td>
+              <td>8.6 / 10</td>
+              <td>Animasi</td>
+              <td>
+                <button type="button" class="btn-edit">Edit</button>
+                <button type="button" class="btn-hapus">Hapus</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Parasite</td>
+              <td>Bong Joon-ho</td>
+              <td>2019</td>
+              <td>132 Menit</td>
+              <td>8.5 / 10</td>
+              <td>Thriller</td>
+              <td>
+                <button type="button" class="btn-edit">Edit</button>
+                <button type="button" class="btn-hapus">Hapus</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 SIMPUS-Mini &mdash; Jobsheet 1</p>
+      <p>&copy; 2026 SIFILM-Mini &mdash; Jobsheet 1</p>
+    </footer>
 </body>
 </html>
