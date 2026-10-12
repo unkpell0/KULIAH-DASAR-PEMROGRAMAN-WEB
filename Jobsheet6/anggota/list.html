@@ -1,86 +1,72 @@
 <!DOCTYPE html>
-<!-- Jobsheet 6: data dimuat dengan Fetch API dari file JSON (data/*.json). Jalankan lewat server lokal, bukan file://. -->
+<!-- Jobsheet 6: data dimuat dengan Fetch API dari data/*.json. Jalankan lewat server lokal, bukan file://. -->
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIFILM-Mini | Daftar Anggota</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Zilla+Slab:wght@500;600&display=swap">
-    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <!-- Top bar: hanya tampil di layar < lg, berisi tombol pembuka sidebar (offcanvas) -->
-    <header class="navbar sticky-top d-lg-none bg-lamp" data-bs-theme="dark">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-                aria-controls="sidebar" aria-label="Buka menu">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <span class="navbar-brand font-head mb-0 me-auto ms-3">SIFILM-Mini</span>
-      </div>
+    <header>
+      <p class="brand"><a href="../index.html">SIFILM-Mini</a></p>
     </header>
 
-    <div class="d-lg-flex min-vh-100">
-      <!-- Sidebar: offcanvas di layar kecil, sidebar tetap di layar lg ke atas -->
-      <aside id="sidebar" class="sidebar offcanvas-lg offcanvas-start" tabindex="-1"
-             aria-labelledby="sidebar-title" data-bs-theme="dark">
-        <div class="offcanvas-header">
-          <h2 class="offcanvas-title sidebar-brand" id="sidebar-title"><span class="brand-mark">S</span>SIFILM-Mini</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Tutup menu"></button>
-        </div>
-        <div class="offcanvas-body d-flex flex-column flex-grow-1 p-0">
-          <div class="sidebar-brand d-none d-lg-flex"><span class="brand-mark">S</span>SIFILM-Mini</div>
-          <nav aria-label="Navigasi utama">
-            <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="../index.html"><i class="bi bi-house-door" aria-hidden="true"></i>Beranda</a></li>
-            <li class="nav-item"><span class="nav-label">Film</span></li>
-            <li class="nav-item"><a class="nav-link" href="../film/list.html"><i class="bi bi-film" aria-hidden="true"></i>Daftar Film</a></li>
-            <li class="nav-item"><a class="nav-link" href="../film/tambah.html"><i class="bi bi-plus-square" aria-hidden="true"></i>Tambah Film</a></li>
-            <li class="nav-item"><span class="nav-label">Anggota</span></li>
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="../anggota/list.html"><i class="bi bi-people" aria-hidden="true"></i>Daftar Anggota</a></li>
-            <li class="nav-item"><a class="nav-link" href="../anggota/tambah.html"><i class="bi bi-person-plus" aria-hidden="true"></i>Tambah Anggota</a></li>
-            <li class="nav-item"><span class="nav-label">Desain</span></li>
-            <li class="nav-item"><a class="nav-link" href="../docs/wireframe.html"><i class="bi bi-bounding-box" aria-hidden="true"></i>Wireframe</a></li>
-            </ul>
-          </nav>
-          <p class="sidebar-foot mt-auto px-4 pt-4 pb-3 mb-0">Jobsheet 6 &middot; Fetch API &amp; JSON</p>
-        </div>
-      </aside>
+    <nav aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Beranda</a></li>
+        <li><span>Film</span>
+          <ul>
+            <li><a href="../film/list.html">Daftar Film</a></li>
+            <li><a href="../film/tambah.html">Tambah Film</a></li>
+          </ul>
+        </li>
+        <li><span>Anggota</span>
+          <ul>
+            <li><a href="../anggota/list.html" aria-current="page">Daftar Anggota</a></li>
+            <li><a href="../anggota/tambah.html">Tambah Anggota</a></li>
+          </ul>
+        </li>
+        <li><span>Desain</span>
+          <ul>
+            <li><a href="../wireframe/index.html">Wireframe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-      <div class="content-wrap d-flex flex-column flex-grow-1 min-w-0">
-        <main class="flex-grow-1 p-3 p-md-4 p-xl-5">
-          <div class="d-flex flex-wrap align-items-baseline justify-content-between gap-2 mb-3">
-          <h1 class="h2 mb-0">Daftar Anggota</h1>
-          <a class="btn btn-brass" href="tambah.html"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Tambah anggota</a>
-          </div>
-          <div class="card"><div class="card-body">
-              <div class="mb-3 col-md-6 col-lg-5">
-                <label for="search-input" class="form-label fw-semibold">Cari Anggota</label>
-                <input type="search" class="form-control" id="search-input" placeholder="Ketik nama, alamat, atau no. anggota..." autocomplete="off">
-              </div>
-              <div id="loading-indicator" class="d-flex align-items-center gap-2 text-secondary mb-3 d-none" role="status">
-                <div class="spinner-border spinner-border-sm" aria-hidden="true"></div><span>Memuat data...</span>
-              </div>
-              <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0" id="tabel-data">
-                  <thead><tr><th scope="col">No. Anggota</th><th scope="col">Nama</th><th scope="col">Alamat</th><th scope="col">No. HP</th><th scope="col">Aksi</th></tr></thead>
-                  <tbody></tbody>
-                </table>
-              </div>
-              <p id="info-jumlah" class="text-secondary small mt-3 mb-0" aria-live="polite"></p>
-          </div></div>
-        </main>
-        <footer class="px-3 px-md-4 px-xl-5 py-3 text-secondary small">
-          <p class="mb-0">&copy; 2026 SIFILM-Mini &mdash; Jobsheet 6</p>
-        </footer>
-      </div>
-    </div>
+    <main>
+      <h1>Daftar Anggota</h1>
+      <p><a class="page-action" href="tambah.html">Tambah anggota</a></p>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      <section>
+        <h2>Data Anggota</h2>
+        <p class="cari">
+          <label for="search-input">Cari Anggota</label>
+          <input type="search" id="search-input" placeholder="Ketik nama, alamat, atau no. anggota..." autocomplete="off">
+        </p>
+        <p id="loading-indicator" class="loading" role="status" hidden>
+          <span class="spinner" aria-hidden="true"></span>Memuat data...
+        </p>
+        <div class="table-responsive">
+        <table id="tabel-data">
+          <caption>Daftar anggota SIFILM-Mini</caption>
+          <thead>
+            <tr><th scope="col">No. Anggota</th><th scope="col">Nama</th><th scope="col">Alamat</th><th scope="col">No. HP</th><th scope="col">Aksi</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        </div>
+        <p id="info-jumlah" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 SIFILM-Mini &mdash; Jobsheet 6</p>
+    </footer>
     <script src="../assets/js/app.js"></script>
     <script src="../assets/js/anggota.js"></script>
 </body>
