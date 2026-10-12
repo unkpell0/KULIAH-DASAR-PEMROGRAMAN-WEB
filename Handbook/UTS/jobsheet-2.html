@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobsheet 2: CSS | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html" aria-current="page"><span class="num">2</span>CSS</a></li><li><ul class="toc"><li><a href="#21-tujuan">2.1 Tujuan</a></li><li><a href="#22-menyambungkan-css">2.2 Menyambungkan CSS</a></li><li><a href="#23-variabel-css-custom-properties">2.3 Variabel CSS (custom properties)</a></li><li><a href="#24-reset-sederhana">2.4 Reset sederhana</a></li><li><a href="#25-selector-yang-dipakai-di-proyek">2.5 Selector yang dipakai di proyek</a></li><li><a href="#26-layout-halaman-dengan-css-grid">2.6 Layout halaman dengan CSS Grid</a></li><li><a href="#27-logo-dengan-pseudo-element">2.7 Logo dengan pseudo-element</a></li><li><a href="#28-navigasi-dan-penanda-halaman-aktif">2.8 Navigasi dan penanda halaman aktif</a></li><li><a href="#29-konten-dan-kartu">2.9 Konten dan "kartu"</a></li><li><a href="#210-daftar-isi-bertitik-pada-ringkasan">2.10 Daftar isi bertitik pada ringkasan</a></li><li><a href="#211-tabel-dan-tombol">2.11 Tabel dan tombol</a></li><li><a href="#212-form-bergaya-kartu-katalog">2.12 Form bergaya kartu katalog</a></li><li><a href="#213-cascade-dan-specificity">2.13 Cascade dan specificity</a></li><li><a href="#214-kesalahan-umum">2.14 Kesalahan umum</a></li><li><a href="#215-latihan">2.15 Latihan</a></li></ul></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Jobsheet 2 dari 6</p>
+      <h1>Jobsheet 2: CSS</h1>
+      <p class="lead">Memberi gaya pada halaman yang sama: variabel, selector, Grid, Flexbox, dan pseudo-element.</p>
+      <ul class="tags"><li>CSS</li><li>Grid</li><li>Flexbox</li><li>Variabel CSS</li></ul>
+    </div></header>
+    <main class="article">
+
+<h2 id="21-tujuan">2.1 Tujuan<a class="headerlink" href="#21-tujuan" title="Permanent link">#</a></h2>
+<p>Setelah jobsheet ini kamu mampu menyambungkan CSS ke HTML, memakai variabel CSS, menulis berbagai jenis selector, dan membuat layout dengan CSS Grid dan Flexbox. Markup HTML-nya <strong>tidak berubah</strong> dari Jobsheet 1; yang ditambah hanya satu baris <code>&lt;link&gt;</code> dan file <code>assets/css/style.css</code>.</p>
+<h2 id="22-menyambungkan-css">2.2 Menyambungkan CSS<a class="headerlink" href="#22-menyambungkan-css" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../assets/css/style.css&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Baris ini ditaruh di dalam <code>&lt;head&gt;</code>. Untuk halaman di subfolder, path diawali <code>../</code> supaya naik satu folder lebih dulu. Font Hanken Grotesk dan Zilla Slab dimuat dari Google Fonts lewat <code>&lt;link&gt;</code> serupa; setiap font punya <em>fallback</em> (misalnya <code>system-ui</code>) bila internet mati.</p>
+<h2 id="23-variabel-css-custom-properties">2.3 Variabel CSS (custom properties)<a class="headerlink" href="#23-variabel-css-custom-properties" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">:</span><span class="nd">root</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--lamp</span><span class="p">:</span><span class="w"> </span><span class="mh">#173a31</span><span class="p">;</span><span class="w">      </span><span class="c">/* hijau sidebar */</span>
+<span class="w">  </span><span class="nv">--brass</span><span class="p">:</span><span class="w"> </span><span class="mh">#c79a3e</span><span class="p">;</span><span class="w">     </span><span class="c">/* kuningan: tombol utama &amp; penanda aktif */</span>
+<span class="w">  </span><span class="nv">--ink</span><span class="p">:</span><span class="w"> </span><span class="mh">#1d2a27</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--paper</span><span class="p">:</span><span class="w"> </span><span class="mh">#e8ecea</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--sidebar-w</span><span class="p">:</span><span class="w"> </span><span class="mi">248</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--font-body</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hanken Grotesk&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Segoe UI&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">system-ui</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">body</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--font-body</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--ink</span><span class="p">);</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--paper</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p><code>:root</code> adalah elemen paling atas dokumen, sehingga variabel di dalamnya berlaku di seluruh halaman. Nilai dipanggil dengan <code>var(--nama)</code>. Keuntungannya: mengganti warna tema cukup di satu tempat. Coba ubah <code>--brass</code> menjadi <code>#2f6fbf</code> dan lihat semua tombol dan penanda aktif ikut berubah.</p>
+<h2 id="24-reset-sederhana">2.4 Reset sederhana<a class="headerlink" href="#24-reset-sederhana" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="o">*,</span><span class="w"> </span><span class="o">*</span><span class="p">::</span><span class="nd">before</span><span class="o">,</span><span class="w"> </span><span class="o">*</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>*</code> memilih semua elemen. <code>::before</code> dan <code>::after</code> ikut dipilih supaya pseudo-element juga terkena.</li>
+<li><code>box-sizing: border-box</code> membuat <code>width</code> sudah <strong>termasuk</strong> padding dan border. Tanpanya, elemen selebar 100% dengan padding akan melebihi layar.</li>
+<li><code>margin</code> dan <code>padding</code> dinolkan agar semua jarak berasal dari aturan yang kita tulis sendiri, bukan bawaan browser.</li>
+</ul>
+<h2 id="25-selector-yang-dipakai-di-proyek">2.5 Selector yang dipakai di proyek<a class="headerlink" href="#25-selector-yang-dipakai-di-proyek" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Jenis</th>
+<th>Contoh di proyek</th>
+<th>Arti</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Elemen</td>
+<td><code>table</code>, <code>nav</code>, <code>footer</code></td>
+<td>Semua elemen bertag itu</td>
+</tr>
+<tr>
+<td>Class</td>
+<td><code>.btn-hapus</code>, <code>.page-lede</code></td>
+<td>Elemen ber-<code>class</code> itu</td>
+</tr>
+<tr>
+<td>Turunan</td>
+<td><code>nav a</code></td>
+<td>Semua <code>a</code> di dalam <code>nav</code> (di kedalaman berapa pun)</td>
+</tr>
+<tr>
+<td>Anak langsung</td>
+<td><code>main &gt; h1</code></td>
+<td>Hanya <code>h1</code> yang langsung di bawah <code>main</code></td>
+</tr>
+<tr>
+<td>Atribut</td>
+<td><code>nav a[aria-current="page"]</code></td>
+<td><code>a</code> yang punya atribut itu bernilai <code>page</code></td>
+</tr>
+<tr>
+<td>Pseudo-class</td>
+<td><code>tbody tr:hover</code>, <code>input:focus-visible</code>, <code>td:first-child</code></td>
+<td>Elemen dalam keadaan/posisi tertentu</td>
+</tr>
+<tr>
+<td>Pseudo-element</td>
+<td><code>.brand a::before</code>, <code>dl div::after</code></td>
+<td>Bagian virtual yang dibuat CSS</td>
+</tr>
+<tr>
+<td>Gabungan</td>
+<td><code>.btn-edit, .btn-hapus</code></td>
+<td>Koma = aturan berlaku untuk keduanya</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="26-layout-halaman-dengan-css-grid">2.6 Layout halaman dengan CSS Grid<a class="headerlink" href="#26-layout-halaman-dengan-css-grid" title="Permanent link">#</a></h2>
+<p>Sidebar dan konten disusun oleh <code>body</code> yang dijadikan grid. HTML-nya hanya berisi <code>header</code>, <code>nav</code>, <code>main</code>, <code>footer</code> berurutan, tanpa pembungkus tambahan.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">body</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
+<span class="w">  </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--sidebar-w</span><span class="p">)</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">);</span>
+<span class="w">  </span><span class="k">grid-template-rows</span><span class="p">:</span><span class="w"> </span><span class="kc">auto</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
+<span class="w">  </span><span class="k">grid-template-areas</span><span class="p">:</span>
+<span class="w">    </span><span class="s2">&quot;brand main&quot;</span>
+<span class="w">    </span><span class="s2">&quot;nav   main&quot;</span>
+<span class="w">    </span><span class="s2">&quot;nav   foot&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">min-height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">vh</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">header</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">grid-area</span><span class="p">:</span><span class="w"> </span><span class="n">brand</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="k">grid-area</span><span class="p">:</span><span class="w"> </span><span class="n">nav</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">main</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">grid-area</span><span class="p">:</span><span class="w"> </span><span class="n">main</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">footer</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">grid-area</span><span class="p">:</span><span class="w"> </span><span class="n">foot</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p>Baca <code>grid-template-areas</code> seperti denah:</p>
+<div class="highlight"><pre><span></span><code>+---------+---------------------+
+| brand   |                     |
++---------+        main         |
+|         |                     |
+|  nav    +---------------------+
+|         |        foot         |
++---------+---------------------+
+</code></pre></div>
+
+<ul>
+<li>Kolom pertama selebar <code>248px</code> (variabel <code>--sidebar-w</code>), kolom kedua <code>minmax(0, 1fr)</code>: ambil sisa ruang, tetapi boleh menyusut sampai nol. Bagian <code>0</code> penting agar tabel lebar tidak mendorong kolom keluar layar.</li>
+<li>Baris kedua <code>1fr</code> menyerap tinggi sisa sehingga <code>footer</code> selalu di dasar, walau isi halaman pendek (didukung <code>min-height: 100vh</code>).</li>
+<li><code>main</code> menempati dua baris sekaligus, karena namanya muncul di baris 1 dan 2.</li>
+</ul>
+<h2 id="27-logo-dengan-pseudo-element">2.7 Logo dengan pseudo-element<a class="headerlink" href="#27-logo-dengan-pseudo-element" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">brand</span><span class="w"> </span><span class="nt">a</span><span class="p">::</span><span class="nd">before</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;S&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline</span><span class="o">-</span><span class="k">grid</span><span class="p">;</span>
+<span class="w">  </span><span class="k">place-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mf">1.9</span><span class="kt">rem</span><span class="p">;</span>
+<span class="w">  </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mf">2.3</span><span class="kt">rem</span><span class="p">;</span>
+<span class="w">  </span><span class="k">margin-right</span><span class="p">:</span><span class="w"> </span><span class="mf">0.65</span><span class="kt">rem</span><span class="p">;</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--brass</span><span class="p">);</span>
+<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp</span><span class="p">);</span>
+<span class="w">  </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">  </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"> </span><span class="kc">inset</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.18</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>::before</code> menyisipkan elemen virtual <strong>sebelum</strong> isi tautan, dan <code>content</code> wajib ada agar ia muncul. Hasilnya kotak kuningan berhuruf "S" mirip punggung buku, tanpa file gambar dan tanpa mengubah HTML. <code>border-radius</code> dengan empat nilai mengatur sudut berurutan (kiri-atas, kanan-atas, kanan-bawah, kiri-bawah); <code>inset</code> pada <code>box-shadow</code> membuat garis gelap di tepi kiri sebagai efek punggung.</p>
+<h2 id="28-navigasi-dan-penanda-halaman-aktif">2.8 Navigasi dan penanda halaman aktif<a class="headerlink" href="#28-navigasi-dan-penanda-halaman-aktif" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">list-style</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="nt">a</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span>
+<span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.6</span><span class="kt">rem</span><span class="w"> </span><span class="mf">1.5</span><span class="kt">rem</span><span class="p">;</span>
+<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#d8e4dd</span><span class="p">;</span>
+<span class="w">  </span><span class="k">text-decoration</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border-left</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">transparent</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="nt">a</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp-soft</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="nt">a</span><span class="o">[</span><span class="nt">aria-current</span><span class="o">=</span><span class="s2">&quot;page&quot;</span><span class="o">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp-soft</span><span class="p">);</span>
+<span class="w">  </span><span class="k">border-left-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--brass</span><span class="p">);</span>
+<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span>
+<span class="w">  </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">600</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>display: block</code> membuat seluruh baris menu bisa diklik, bukan hanya teksnya.</li>
+<li>Semua tautan diberi <code>border-left</code> <strong>transparan</strong> sejak awal. Saat aktif, hanya warnanya yang berganti. Jika border baru ditambahkan saat aktif, teks akan bergeser 4px.</li>
+<li>Selector atribut <code>[aria-current="page"]</code> memanfaatkan atribut yang sudah kita tulis di <a href="jobsheet-1.html">Jobsheet 1</a>. Tidak perlu class <code>active</code> terpisah.</li>
+</ul>
+<h2 id="29-konten-dan-kartu">2.9 Konten dan "kartu"<a class="headerlink" href="#29-konten-dan-kartu" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">main</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">grid-area</span><span class="p">:</span><span class="w"> </span><span class="n">main</span><span class="p">;</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">1120</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">2.5</span><span class="kt">rem</span><span class="w"> </span><span class="mi">3</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="nt">section</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--sheet</span><span class="p">);</span>
+<span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--line</span><span class="p">);</span>
+<span class="w">  </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">1.75</span><span class="kt">rem</span><span class="p">;</span>
+<span class="w">  </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mf">1.75</span><span class="kt">rem</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>max-width</code> membatasi lebar teks agar nyaman dibaca di layar sangat lebar, sedangkan <code>width: 100%</code> membuatnya mengisi ruang di layar yang lebih sempit. Satuan <code>rem</code> relatif terhadap ukuran font dasar, sehingga jarak ikut menyesuaikan bila pengguna memperbesar teks di browser.</p>
+<h2 id="210-daftar-isi-bertitik-pada-ringkasan">2.10 Daftar isi bertitik pada ringkasan<a class="headerlink" href="#210-daftar-isi-bertitik-pada-ringkasan" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">dl</span><span class="w"> </span><span class="nt">div</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">baseline</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.35</span><span class="kt">rem</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">dl</span><span class="w"> </span><span class="nt">div</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="k">order</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="k">flex</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">dotted</span><span class="w"> </span><span class="mh">#9aa8a2</span><span class="p">;</span>
+<span class="w">  </span><span class="k">transform</span><span class="p">:</span><span class="w"> </span><span class="nb">translateY</span><span class="p">(</span><span class="mi">-4</span><span class="kt">px</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">dt</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">flex</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">dd</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">order</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">1.6</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">font-variant-numeric</span><span class="p">:</span><span class="w"> </span><span class="n">tabular-nums</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p>Ini trik klasik "titik-titik penuntun" seperti pada daftar isi buku. Tiga anak flex disusun: <code>dt</code> (teks), titik-titik (<code>::after</code>), <code>dd</code> (angka). Properti <code>order</code> menukar urutan visual: titik (<code>order: 1</code>) berada di antara <code>dt</code> (bawaan 0) dan <code>dd</code> (2). <code>flex: 1</code> membuat garis titik menyerap seluruh sisa lebar. <code>tabular-nums</code> membuat semua angka sama lebar sehingga rapi sejajar.</p>
+<h2 id="211-tabel-dan-tombol">2.11 Tabel dan tombol<a class="headerlink" href="#211-tabel-dan-tombol" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">table</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">border-collapse</span><span class="p">:</span><span class="w"> </span><span class="kc">collapse</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">th</span><span class="o">,</span><span class="w"> </span><span class="nt">td</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">left</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8</span><span class="kt">rem</span><span class="w"> </span><span class="mf">0.75</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--line</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">th</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--ink</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">tbody</span><span class="w"> </span><span class="nt">tr</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#f4efe1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="p">.</span><span class="nc">btn-edit</span><span class="o">,</span><span class="w"> </span><span class="p">.</span><span class="nc">btn-hapus</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="kc">transparent</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">currentColor</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">  </span><span class="k">cursor</span><span class="p">:</span><span class="w"> </span><span class="kc">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">btn-edit</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp-soft</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">btn-hapus</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--danger</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">btn-hapus</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--danger</span><span class="p">);</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p><code>border-collapse: collapse</code> menyatukan garis antar sel menjadi satu garis. Kuncinya ada pada <code>currentColor</code>: warna border mengikuti warna teks, jadi cukup mengatur <code>color</code> di <code>.btn-edit</code> atau <code>.btn-hapus</code> dan border ikut berubah. Saat hover, latar diisi warna yang sama dan teks menjadi putih.</p>
+<h2 id="212-form-bergaya-kartu-katalog">2.12 Form bergaya kartu katalog<a class="headerlink" href="#212-form-bergaya-kartu-katalog" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">fieldset</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="k">border-top</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--rule-red</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">fieldset</span><span class="w"> </span><span class="nt">p</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
+<span class="w">  </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="kt">rem</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span><span class="w">   </span><span class="c">/* label | input */</span>
+<span class="w">  </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="w">  </span><span class="k">column-gap</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="kt">rem</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--rule-blue</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">input</span><span class="o">,</span><span class="w"> </span><span class="nt">select</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+<span class="w">  </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#aebbb5</span><span class="p">;</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="kc">transparent</span><span class="p">;</span>
+<span class="w">  </span><span class="k">font</span><span class="p">:</span><span class="w"> </span><span class="kc">inherit</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">input</span><span class="p">:</span><span class="nd">focus-visible</span><span class="o">,</span><span class="w"> </span><span class="nt">select</span><span class="p">:</span><span class="nd">focus-visible</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">outline</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--brass</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">input</span><span class="p">:</span><span class="nd">user-invalid</span><span class="o">,</span><span class="w"> </span><span class="nt">select</span><span class="p">:</span><span class="nd">user-invalid</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-bottom-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--danger</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Setiap <code>p</code> menjadi grid dua kolom, jadi semua label dan input sejajar rapi tanpa tabel.</li>
+<li><code>font: inherit</code> membuat input memakai font halaman. Tanpanya browser memakai font sistem yang berbeda.</li>
+<li><code>:focus-visible</code> menandai field yang sedang aktif lewat keyboard, dan <code>outline: none</code> aman dipakai <strong>hanya karena</strong> kita menggantinya dengan indikator lain (garis kuningan).</li>
+<li><code>:user-invalid</code> menandai field merah <strong>setelah pengguna berinteraksi</strong>. Berbeda dengan <code>:invalid</code> yang langsung merah saat halaman dibuka karena semua field <code>required</code> masih kosong.</li>
+</ul>
+<h2 id="213-cascade-dan-specificity">2.13 Cascade dan specificity<a class="headerlink" href="#213-cascade-dan-specificity" title="Permanent link">#</a></h2>
+<p>Bila dua aturan mengenai elemen yang sama, yang menang ditentukan <strong>specificity</strong> (kekhususan), lalu <strong>urutan</strong> kemunculan. Urutan kasar dari lemah ke kuat: selector elemen &lt; class/atribut/pseudo-class &lt; <code>id</code> &lt; <code>style</code> inline &lt; <code>!important</code>. Contoh: <code>.btn-hapus</code> (class) mengalahkan <code>button</code> (elemen) walaupun <code>button</code> ditulis belakangan. Bila specificity sama, aturan yang <strong>terakhir</strong> ditulis menang. Gunakan tab <em>Styles</em> di DevTools; aturan yang dicoret adalah yang dikalahkan.</p>
+<h2 id="214-kesalahan-umum">2.14 Kesalahan umum<a class="headerlink" href="#214-kesalahan-umum" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala</th>
+<th>Penyebab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Halaman tetap polos</td>
+<td>Path <code>href</code> stylesheet salah atau lupa <code>../</code> di subfolder</td>
+</tr>
+<tr>
+<td>Elemen melebar keluar layar</td>
+<td>Tidak memakai <code>box-sizing: border-box</code></td>
+</tr>
+<tr>
+<td>Pseudo-element tidak muncul</td>
+<td>Lupa properti <code>content</code></td>
+</tr>
+<tr>
+<td>Perubahan tidak terlihat</td>
+<td>Cache browser; tekan Ctrl+F5</td>
+</tr>
+<tr>
+<td>Sidebar menyempit saat tabel lebar</td>
+<td>Kolom grid <code>1fr</code> tanpa <code>minmax(0, 1fr)</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="215-latihan">2.15 Latihan<a class="headerlink" href="#215-latihan" title="Permanent link">#</a></h2>
+<ol>
+<li>Ganti tema warna menjadi biru hanya dengan mengubah variabel di <code>:root</code>.</li>
+<li>Buat baris tabel berselang-seling (zebra) memakai <code>tbody tr:nth-child(even)</code>.</li>
+<li>Tambahkan efek <code>transition</code> halus pada hover menu sidebar.</li>
+<li>Perbesar browser hingga 150% lalu persempit jendela. Catat apa yang rusak; ini bahan untuk <a href="jobsheet-3.html">Jobsheet 3</a>.</li>
+</ol>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="prev" href="jobsheet-1.html"><small>Sebelumnya</small>Jobsheet 1: HTML5</a><a class="next" href="jobsheet-3.html"><small>Berikutnya</small>Jobsheet 3: Responsive Design dan Bootstrap</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

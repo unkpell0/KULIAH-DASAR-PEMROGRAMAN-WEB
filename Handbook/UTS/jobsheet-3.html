@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobsheet 3: Responsive Design dan Bootstrap | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html" aria-current="page"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><ul class="toc"><li><a href="#bagian-a">Bagian A. Responsive Design dengan CSS</a></li><li class="sub"><a href="#3a1-tujuan">3A.1 Tujuan</a></li><li class="sub"><a href="#3a2-masalahnya">3A.2 Masalahnya</a></li><li class="sub"><a href="#3a3-meta-viewport">3A.3 Meta viewport</a></li><li class="sub"><a href="#3a4-mobile-first-dan-breakpoint">3A.4 Mobile-first dan breakpoint</a></li><li class="sub"><a href="#3a5-navigasi-baris-tombol-di-hp-sidebar-di-desktop">3A.5 Navigasi: baris tombol di HP, sidebar di desktop</a></li><li class="sub"><a href="#3a6-tabel-yang-bisa-digeser">3A.6 Tabel yang bisa digeser</a></li><li class="sub"><a href="#3a7-form-1-kolom-lalu-2-kolom">3A.7 Form 1 kolom lalu 2 kolom</a></li><li class="sub"><a href="#3a8-detail-kecil-yang-penting">3A.8 Detail kecil yang penting</a></li><li class="sub"><a href="#3a9-cara-menguji">3A.9 Cara menguji</a></li><li class="sub"><a href="#3a10-kesalahan-umum-dan-latihan">3A.10 Kesalahan umum dan latihan</a></li><li><a href="#bagian-b">Bagian B. Bootstrap 5</a></li><li class="sub"><a href="#3b1-tujuan">3B.1 Tujuan</a></li><li class="sub"><a href="#3b2-apa-itu-bootstrap">3B.2 Apa itu Bootstrap</a></li><li class="sub"><a href="#3b3-class-utilitas-yang-dipakai">3B.3 Class utilitas yang dipakai</a></li><li class="sub"><a href="#3b4-anatomi-layout-halaman">3B.4 Anatomi layout halaman</a></li><li class="sub"><a href="#3b5-grid-system">3B.5 Grid system</a></li><li class="sub"><a href="#3b6-komponen-yang-dipakai">3B.6 Komponen yang dipakai</a></li><li class="sub"><a href="#3b7-menyesuaikan-tema-customcss">3B.7 Menyesuaikan tema: custom.css</a></li><li class="sub"><a href="#3b8-css-manual-vs-bootstrap">3B.8 CSS manual vs Bootstrap</a></li><li class="sub"><a href="#3b9-kesalahan-umum-dan-latihan">3B.9 Kesalahan umum dan latihan</a></li></ul></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Jobsheet 3 dari 6</p>
+      <h1>Jobsheet 3: Responsive Design dan Bootstrap</h1>
+      <p class="lead">Dua cara membuat halaman nyaman di semua layar: CSS mobile-first buatan sendiri, lalu Bootstrap 5.</p>
+      <ul class="tags"><li>Media query</li><li>Mobile-first</li><li>Bootstrap 5</li><li>Offcanvas</li></ul>
+    </div></header>
+    <main class="article">
+
+<p>Jobsheet 3 punya dua bagian yang menyelesaikan masalah yang sama dengan cara berbeda. <strong>Bagian A</strong> menyelesaikannya dengan CSS buatan sendiri, <strong>Bagian B</strong> dengan framework Bootstrap. Mengerjakan keduanya memperlihatkan apa yang sebenarnya dilakukan sebuah framework.</p>
+<h2 id="bagian-a">Bagian A. Responsive Design dengan CSS<a class="headerlink" href="#bagian-a" title="Permanent link">#</a></h2>
+<h3 id="3a1-tujuan">3A.1 Tujuan<a class="headerlink" href="#3a1-tujuan" title="Permanent link">#</a></h3>
+<p>Membuat satu halaman yang nyaman dipakai di HP, tablet, dan desktop, memakai <code>meta viewport</code>, pendekatan <em>mobile-first</em>, dan media query.</p>
+<h3 id="3a2-masalahnya">3A.2 Masalahnya<a class="headerlink" href="#3a2-masalahnya" title="Permanent link">#</a></h3>
+<p>Buka Jobsheet 2 di HP (atau DevTools mode perangkat). Sidebar 248px memakan separuh layar, tabel melebar keluar, dan form sempit. Penyebabnya dua: browser HP tanpa petunjuk akan berpura-pura memiliki layar sekitar 980px lalu memperkecil hasilnya, dan CSS Jobsheet 2 memang hanya dirancang untuk layar lebar.</p>
+<h3 id="3a3-meta-viewport">3A.3 Meta viewport<a class="headerlink" href="#3a3-meta-viewport" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Baris ini wajib di setiap <code>&lt;head&gt;</code>. <code>width=device-width</code> memerintahkan browser memakai lebar layar sebenarnya, dan <code>initial-scale=1.0</code> mencegah pembesaran awal. Tanpa baris ini, media query tidak akan bereaksi dengan benar di HP. Sengaja baris ini <strong>baru ditambahkan di Jobsheet 3</strong>, supaya kamu bisa membandingkan sebelum dan sesudahnya.</p>
+<h3 id="3a4-mobile-first-dan-breakpoint">3A.4 Mobile-first dan breakpoint<a class="headerlink" href="#3a4-mobile-first-dan-breakpoint" title="Permanent link">#</a></h3>
+<p>Pendekatan <em>mobile-first</em>: aturan dasar ditulis untuk layar paling kecil, lalu <strong>diperluas</strong> dengan <code>@media (min-width: ...)</code> untuk layar yang lebih besar. Hasilnya CSS lebih ringkas, karena HP tidak perlu "membatalkan" aturan desktop.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rentang</th>
+<th>Perangkat</th>
+<th>Perubahan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>di bawah 600px</td>
+<td>HP</td>
+<td>Menu menjadi baris tombol di atas, form 1 kolom</td>
+</tr>
+<tr>
+<td>600px ke atas</td>
+<td>Tablet</td>
+<td>Form 2 kolom (label di kiri), padding lebih lega</td>
+</tr>
+<tr>
+<td>900px ke atas</td>
+<td>Desktop</td>
+<td>Menu menjadi sidebar di kiri (CSS Grid)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Breakpoint ditentukan oleh <strong>kapan tampilan mulai rusak</strong>, bukan oleh model perangkat tertentu. Persempit jendela perlahan dan catat lebar saat tata letak mulai terasa sesak.</p>
+<h3 id="3a5-navigasi-baris-tombol-di-hp-sidebar-di-desktop">3A.5 Navigasi: baris tombol di HP, sidebar di desktop<a class="headerlink" href="#3a5-navigasi-baris-tombol-di-hp-sidebar-di-desktop" title="Permanent link">#</a></h3>
+<p>Markup HTML-nya sama persis. Yang berubah hanya CSS. Aturan dasar (HP):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">flex-wrap</span><span class="p">:</span><span class="w"> </span><span class="kc">wrap</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="kt">rem</span><span class="w"> </span><span class="mf">0.75</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">li</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">flex-wrap</span><span class="p">:</span><span class="w"> </span><span class="kc">wrap</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="nt">li</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">flex-wrap</span><span class="p">:</span><span class="w"> </span><span class="kc">wrap</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="nt">a</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.45</span><span class="kt">rem</span><span class="w"> </span><span class="mf">0.7</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">transparent</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="nt">nav</span><span class="w"> </span><span class="nt">a</span><span class="o">[</span><span class="nt">aria-current</span><span class="o">=</span><span class="s2">&quot;page&quot;</span><span class="o">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-bottom-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--brass</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p><code>display: flex</code> dengan <code>flex-wrap: wrap</code> membuat tautan berjajar menyamping dan otomatis turun ke baris berikutnya bila tidak muat. Penanda halaman aktif berupa garis <strong>bawah</strong>. Pada layar 900px ke atas, aturannya diubah:</p>
+<div class="highlight"><pre><span></span><code><span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="o">(</span><span class="nt">min-width</span><span class="o">:</span><span class="w"> </span><span class="nt">900px</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">body</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--sidebar-w</span><span class="p">)</span><span class="w"> </span><span class="nf">minmax</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">);</span><span class="w"> </span><span class="c">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">nav</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">ul</span><span class="o">,</span><span class="w"> </span><span class="nt">nav</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">li</span><span class="o">,</span><span class="w"> </span><span class="nt">nav</span><span class="w"> </span><span class="nt">li</span><span class="w"> </span><span class="nt">ul</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">nav</span><span class="w"> </span><span class="nt">a</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.6</span><span class="kt">rem</span><span class="w"> </span><span class="mf">1.5</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">border-left</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">transparent</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Daftar kembali menjadi <code>block</code> (bertumpuk ke bawah), garis penanda pindah ke sisi <strong>kiri</strong>, dan <code>body</code> menjadi grid dua kolom seperti di Jobsheet 2. Karena <code>display: grid</code> pada <code>body</code> hanya ada di dalam media query, di HP <code>body</code> tetap berupa tumpukan vertikal biasa: header, menu, isi, footer.</p>
+<h3 id="3a6-tabel-yang-bisa-digeser">3A.6 Tabel yang bisa digeser<a class="headerlink" href="#3a6-tabel-yang-bisa-digeser" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;table-responsive&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">table-responsive</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">overflow-x</span><span class="p">:</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p>Tabel film punya tujuh kolom, mustahil muat di layar 360px tanpa merusak teks. Solusinya bukan mengecilkan tabel, melainkan membungkusnya: wadah yang memiliki <code>overflow-x: auto</code> menggulir <strong>di dalam dirinya sendiri</strong>, sehingga halaman tidak ikut bergeser ke samping.</p>
+<h3 id="3a7-form-1-kolom-lalu-2-kolom">3A.7 Form 1 kolom lalu 2 kolom<a class="headerlink" href="#3a7-form-1-kolom-lalu-2-kolom" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">fieldset</span><span class="w"> </span><span class="nt">p</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span><span class="w"> </span><span class="k">row-gap</span><span class="p">:</span><span class="w"> </span><span class="mf">0.15</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="o">(</span><span class="nt">min-width</span><span class="o">:</span><span class="w"> </span><span class="nt">600px</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">fieldset</span><span class="w"> </span><span class="nt">p</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="kt">rem</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span><span class="w"> </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span><span class="w"> </span><span class="k">column-gap</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Di HP, label berada di atas input (satu kolom penuh) karena itu lebih mudah dijangkau jempol. Mulai 600px, label dan input berdampingan.</p>
+<h3 id="3a8-detail-kecil-yang-penting">3A.8 Detail kecil yang penting<a class="headerlink" href="#3a8-detail-kecil-yang-penting" title="Permanent link">#</a></h3>
+<ul>
+<li><code>img, video { max-width: 100%; height: auto; }</code> membuat media tidak pernah melebihi wadahnya.</li>
+<li>Ukuran font input minimal 16px (<code>font: inherit</code>) agar iOS tidak memperbesar halaman otomatis saat input difokuskan.</li>
+<li>Tombol diberi <code>padding</code> lebih besar (0.7rem 1.5rem) agar area sentuh cukup besar untuk jari.</li>
+</ul>
+<h3 id="3a9-cara-menguji">3A.9 Cara menguji<a class="headerlink" href="#3a9-cara-menguji" title="Permanent link">#</a></h3>
+<ol>
+<li>Buka DevTools lalu aktifkan <em>Toggle device toolbar</em> (Ctrl+Shift+M).</li>
+<li>Pilih perangkat (misalnya iPhone SE) dan juga ubah lebar secara manual dengan menggeser pegangan.</li>
+<li>Periksa tiga hal di setiap lebar: tidak ada scroll horizontal pada halaman, teks terbaca tanpa dicubit, dan semua tombol mudah ditekan.</li>
+</ol>
+<h3 id="3a10-kesalahan-umum-dan-latihan">3A.10 Kesalahan umum dan latihan<a class="headerlink" href="#3a10-kesalahan-umum-dan-latihan" title="Permanent link">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala</th>
+<th>Penyebab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tampilan di HP sama seperti desktop yang diperkecil</td>
+<td>Lupa <code>meta viewport</code></td>
+</tr>
+<tr>
+<td>Seluruh halaman bisa digeser ke samping</td>
+<td>Ada elemen lebih lebar dari layar, biasanya tabel tanpa pembungkus</td>
+</tr>
+<tr>
+<td>Aturan media query tidak berlaku</td>
+<td>Ditulis <strong>sebelum</strong> aturan dasar yang ingin ditimpa; aturan belakangan menang</td>
+</tr>
+<tr>
+<td>Aturan tablet ikut tampil di HP</td>
+<td>Memakai <code>max-width</code> dan <code>min-width</code> bercampur dalam satu pendekatan</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Latihan:</strong> (1) Tambahkan breakpoint 1200px yang melebarkan sidebar menjadi 280px. (2) Ubah tabel anggota menjadi tampilan kartu pada layar di bawah 600px. (3) Tambahkan <code>@media (prefers-color-scheme: dark)</code> sederhana untuk warna latar.</p>
+<h2 id="bagian-b">Bagian B. Bootstrap 5<a class="headerlink" href="#bagian-b" title="Permanent link">#</a></h2>
+<h3 id="3b1-tujuan">3B.1 Tujuan<a class="headerlink" href="#3b1-tujuan" title="Permanent link">#</a></h3>
+<p>Memakai Bootstrap untuk membangun tata letak responsif dan komponen UI memakai class siap pakai, serta menyesuaikan temanya dengan CSS kustom.</p>
+<h3 id="3b2-apa-itu-bootstrap">3B.2 Apa itu Bootstrap<a class="headerlink" href="#3b2-apa-itu-bootstrap" title="Permanent link">#</a></h3>
+<p>Bootstrap adalah <em>framework</em> CSS (dan sedikit JavaScript) berisi sistem grid, komponen (navbar, card, tabel, form, tombol), dan kelas utilitas. Alih-alih menulis aturan CSS, kamu <strong>menempelkan class pada HTML</strong>. Pada proyek ini ia dimuat dari CDN:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css&quot;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css&quot;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;assets/css/custom.css&quot;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span><span class="p">&gt;</span>   <span class="cm">&lt;!-- harus PALING AKHIR --&gt;</span>
+...
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><code>custom.css</code> dimuat <strong>setelah</strong> Bootstrap supaya aturan kita menang bila specificity-nya sama. Skrip <code>bootstrap.bundle</code> diperlukan untuk komponen interaktif, dalam proyek ini untuk membuka dan menutup sidebar.</p>
+<h3 id="3b3-class-utilitas-yang-dipakai">3B.3 Class utilitas yang dipakai<a class="headerlink" href="#3b3-class-utilitas-yang-dipakai" title="Permanent link">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Arti</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d-flex</code>, <code>d-lg-flex</code></td>
+<td><code>display: flex</code>; versi <code>lg</code> hanya berlaku mulai 992px</td>
+</tr>
+<tr>
+<td><code>d-lg-none</code></td>
+<td>Sembunyikan mulai ukuran <code>lg</code> ke atas</td>
+</tr>
+<tr>
+<td><code>flex-column</code>, <code>flex-grow-1</code></td>
+<td>Arah kolom; elemen menyerap sisa ruang</td>
+</tr>
+<tr>
+<td><code>gap-2</code>, <code>mb-3</code>, <code>mt-4</code>, <code>p-3</code></td>
+<td>Jarak: <code>m</code> margin, <code>p</code> padding, <code>b/t/e/s</code> sisi, angka = skala 0 sampai 5</td>
+</tr>
+<tr>
+<td><code>p-3 p-md-4 p-xl-5</code></td>
+<td>Padding yang membesar seiring lebar layar</td>
+</tr>
+<tr>
+<td><code>text-secondary</code>, <code>small</code>, <code>fw-semibold</code></td>
+<td>Warna teks, ukuran kecil, tebal sedang</td>
+</tr>
+<tr>
+<td><code>text-nowrap</code></td>
+<td>Teks tidak dipatahkan ke baris baru</td>
+</tr>
+<tr>
+<td><code>min-vh-100</code></td>
+<td>Tinggi minimal 100% tinggi layar</td>
+</tr>
+</tbody>
+</table></div>
+<p>Breakpoint Bootstrap: <code>sm</code> 576px, <code>md</code> 768px, <code>lg</code> 992px, <code>xl</code> 1200px, <code>xxl</code> 1400px. Awalan seperti <code>md-</code> berarti "mulai ukuran itu ke atas", sehingga Bootstrap juga mobile-first.</p>
+<h3 id="3b4-anatomi-layout-halaman">3B.4 Anatomi layout halaman<a class="headerlink" href="#3b4-anatomi-layout-halaman" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">header</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar sticky-top d-lg-none bg-lamp&quot;</span> <span class="na">data-bs-theme</span><span class="o">=</span><span class="s">&quot;dark&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container-fluid&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-toggler&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">data-bs-toggle</span><span class="o">=</span><span class="s">&quot;offcanvas&quot;</span>
+            <span class="na">data-bs-target</span><span class="o">=</span><span class="s">&quot;#sidebar&quot;</span> <span class="na">aria-controls</span><span class="o">=</span><span class="s">&quot;sidebar&quot;</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;Buka menu&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-toggler-icon&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-brand font-head mb-0 me-auto ms-3&quot;</span><span class="p">&gt;</span>SIFILM-Mini<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;d-lg-flex min-vh-100&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">aside</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;sidebar&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;sidebar offcanvas-lg offcanvas-start&quot;</span> <span class="na">tabindex</span><span class="o">=</span><span class="s">&quot;-1&quot;</span>
+         <span class="na">aria-labelledby</span><span class="o">=</span><span class="s">&quot;sidebar-title&quot;</span> <span class="na">data-bs-theme</span><span class="o">=</span><span class="s">&quot;dark&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;offcanvas-header&quot;</span><span class="p">&gt;</span> ... tombol btn-close ... <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;offcanvas-body d-flex flex-column flex-grow-1 p-0&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;Navigasi utama&quot;</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">aside</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;content-wrap d-flex flex-column flex-grow-1 min-w-0&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">main</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;flex-grow-1 p-3 p-md-4 p-xl-5&quot;</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">footer</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;px-3 px-md-4 px-xl-5 py-3 text-secondary small&quot;</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Cara kerjanya:</p>
+<ul>
+<li><strong>Top bar</strong> (<code>header</code>) memiliki <code>d-lg-none</code>, jadi hanya tampil di bawah 992px. Tombolnya membawa dua atribut data: <code>data-bs-toggle="offcanvas"</code> (jenis aksi) dan <code>data-bs-target="#sidebar"</code> (elemen yang dibuka, dicocokkan dengan <code>id</code>).</li>
+<li><strong>Sidebar</strong> memakai <code>offcanvas-lg</code>. Di bawah <code>lg</code>, ia menjadi panel geser dari kiri (<code>offcanvas-start</code>) yang disertai latar gelap. Mulai <code>lg</code>, ia otomatis menjadi blok biasa. Satu markup melayani dua perilaku, yang di Bagian A harus kita tulis dengan media query sendiri.</li>
+<li>Wadah luar <code>d-lg-flex</code> menjajarkan sidebar dan konten <strong>hanya di layar lg ke atas</strong>; di bawahnya keduanya bertumpuk.</li>
+<li><code>min-w-0</code> (kelas kustom: <code>min-width: 0</code>) mencegah wadah flex melebar mengikuti tabel yang lebar, sama seperti <code>minmax(0, 1fr)</code> pada grid Jobsheet 2.</li>
+</ul>
+<h3 id="3b5-grid-system">3B.5 Grid system<a class="headerlink" href="#3b5-grid-system" title="Permanent link">#</a></h3>
+<p>Grid Bootstrap memakai 12 kolom. <code>row</code> adalah baris, <code>col-*</code> adalah kolom.</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Ringkasan Beranda: 1 kolom di HP, 3 kolom mulai md --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;row row-cols-1 row-cols-md-3 g-3 mb-4&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span> ...kartu... <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span> ...kartu... <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span> ...kartu... <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Satu baris form: label 3 kolom, input 9 kolom, mulai sm --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;row mb-3&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;judul&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-sm-3 col-form-label fw-semibold&quot;</span><span class="p">&gt;</span>Judul<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-sm-9&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;form-control&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;judul&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;judul&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><code>row-cols-1 row-cols-md-3</code> berarti "satu kartu per baris, lalu tiga per baris mulai md". <code>g-3</code> memberi jarak antar kolom. Di bawah <code>sm</code>, <code>col-sm-3</code> dan <code>col-sm-9</code> otomatis menjadi lebar penuh, sehingga label berada di atas input, perilaku yang sama dengan form Bagian A.</p>
+<h3 id="3b6-komponen-yang-dipakai">3B.6 Komponen yang dipakai<a class="headerlink" href="#3b6-komponen-yang-dipakai" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Card --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card h-100&quot;</span><span class="p">&gt;&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;card-body&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;text-secondary small&quot;</span><span class="p">&gt;</span>Total Film<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;display-6 fw-semibold font-head&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;total-film&quot;</span><span class="p">&gt;</span>12<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Progress --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;progress&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;progressbar&quot;</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;Film sedang dipinjam&quot;</span>
+     <span class="na">aria-valuenow</span><span class="o">=</span><span class="s">&quot;3&quot;</span> <span class="na">aria-valuemin</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">aria-valuemax</span><span class="o">=</span><span class="s">&quot;12&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;height: 1.5rem&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;progress-bar bg-brass&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;bar-dipinjam&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 25%&quot;</span><span class="p">&gt;</span>3 dari 12<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Tabel --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;table-responsive&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;table table-hover align-middle mb-0&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;tabel-data&quot;</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Tombol aksi di sel tabel --&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-sm btn-outline-danger btn-hapus&quot;</span><span class="p">&gt;</span>Hapus<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<ul>
+<li><code>card h-100</code> membuat tiga kartu sama tinggi.</li>
+<li>Pada progress, atribut <code>aria-valuenow</code> dan kawan-kawan menjelaskan nilainya untuk pembaca layar; lebar visualnya diatur <code>style="width: 25%"</code> (3 dibagi 12).</li>
+<li><code>table-hover</code> menyorot baris saat kursor di atasnya, <code>align-middle</code> meratakan isi sel secara vertikal, <code>mb-0</code> menghapus margin bawah bawaan.</li>
+<li>Class kita sendiri (<code>btn-hapus</code>, <code>bg-brass</code>) berdampingan dengan class Bootstrap. <code>btn-hapus</code> tidak punya gaya Bootstrap, ia ada untuk dicari JavaScript di Jobsheet 5.</li>
+</ul>
+<h3 id="3b7-menyesuaikan-tema-customcss">3B.7 Menyesuaikan tema: custom.css<a class="headerlink" href="#3b7-menyesuaikan-tema-customcss" title="Permanent link">#</a></h3>
+<p>Bootstrap 5.3 dikendalikan oleh <strong>CSS variables</strong>, jadi tema diubah tanpa melawan kodenya.</p>
+<div class="highlight"><pre><span></span><code><span class="p">:</span><span class="nd">root</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--bs-body-font-family</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hanken Grotesk&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Segoe UI&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">system-ui</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--bs-body-bg</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--paper</span><span class="p">);</span>
+<span class="w">  </span><span class="nv">--bs-border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Tombol warna kuningan: cukup isi variabel milik .btn */</span>
+<span class="p">.</span><span class="nc">btn-brass</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--bs-btn-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp</span><span class="p">);</span>
+<span class="w">  </span><span class="nv">--bs-btn-bg</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--brass</span><span class="p">);</span>
+<span class="w">  </span><span class="nv">--bs-btn-border-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--brass</span><span class="p">);</span>
+<span class="w">  </span><span class="nv">--bs-btn-hover-bg</span><span class="p">:</span><span class="w"> </span><span class="mh">#d6aa4f</span><span class="p">;</span>
+<span class="w">  </span><span class="nv">--bs-btn-hover-border-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#d6aa4f</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Card, tabel, dan input memakai warna latar body; di tema ini dibuat putih */</span>
+<span class="p">.</span><span class="nc">card</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nv">--bs-card-bg</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">table</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nv">--bs-table-bg</span><span class="p">:</span><span class="w"> </span><span class="kc">transparent</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p>Bagian terakhir adalah contoh jebakan nyata. Karena kita mengubah warna latar body menjadi abu-hijau, semua card, tabel, dan input ikut abu-hijau, sebab Bootstrap mengisinya dengan <code>var(--bs-body-bg)</code>. Solusinya menimpa variabel komponen yang bersangkutan. Prinsipnya: <strong>inspeksi elemen di DevTools, temukan variabel <code>--bs-...</code> yang dipakai, lalu timpa.</strong></p>
+<p>Sidebar juga mendapat penyesuaian:</p>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">sidebar</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--bs-offcanvas-width</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--sidebar-w</span><span class="p">);</span>
+<span class="w">  </span><span class="nv">--bs-offcanvas-bg</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="o">(</span><span class="nt">min-width</span><span class="o">:</span><span class="w"> </span><span class="nt">992px</span><span class="o">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">.</span><span class="nc">sidebar</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--lamp</span><span class="p">)</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span><span class="w"> </span><span class="k">flex</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--sidebar-w</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Di layar <code>lg</code> ke atas Bootstrap memaksa latar offcanvas menjadi transparan dengan <code>!important</code>, jadi satu-satunya cara menimpanya adalah <code>!important</code> juga. <code>flex: 0 0 248px</code> mengunci lebar sidebar dalam wadah flex.</p>
+<h3 id="3b8-css-manual-vs-bootstrap">3B.8 CSS manual vs Bootstrap<a class="headerlink" href="#3b8-css-manual-vs-bootstrap" title="Permanent link">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kebutuhan</th>
+<th>Bagian A (CSS sendiri)</th>
+<th>Bagian B (Bootstrap)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sidebar menjadi menu di HP</td>
+<td>Media query dan aturan flex/grid sendiri</td>
+<td><code>offcanvas-lg</code> + dua atribut <code>data-bs-*</code></td>
+</tr>
+<tr>
+<td>Tabel bisa digeser</td>
+<td><code>.table-responsive { overflow-x: auto }</code></td>
+<td>Class <code>table-responsive</code> (sudah ada)</td>
+</tr>
+<tr>
+<td>Form 1 atau 2 kolom</td>
+<td>Grid + media query</td>
+<td><code>row</code> + <code>col-sm-3</code> / <code>col-sm-9</code></td>
+</tr>
+<tr>
+<td>Tombol, kartu, progress</td>
+<td>Menulis CSS satu per satu</td>
+<td>Class <code>btn</code>, <code>card</code>, <code>progress</code></td>
+</tr>
+<tr>
+<td>Kontrol penuh atas tampilan</td>
+<td>Penuh</td>
+<td>Terbatas pada variabel dan penimpaan</td>
+</tr>
+</tbody>
+</table></div>
+<p>Bootstrap menghemat banyak kode, dengan harga ukuran file lebih besar dan tampilan yang mirip situs lain bila tidak disesuaikan.</p>
+<h3 id="3b9-kesalahan-umum-dan-latihan">3B.9 Kesalahan umum dan latihan<a class="headerlink" href="#3b9-kesalahan-umum-dan-latihan" title="Permanent link">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala</th>
+<th>Penyebab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sidebar tidak mau terbuka di HP</td>
+<td>Skrip <code>bootstrap.bundle.min.js</code> tidak dimuat, atau <code>data-bs-target</code> tidak cocok dengan <code>id</code></td>
+</tr>
+<tr>
+<td>Kolom form tidak berdampingan</td>
+<td>Lupa membungkus kolom dalam <code>row</code></td>
+</tr>
+<tr>
+<td>Gaya kustom tidak berlaku</td>
+<td><code>custom.css</code> dimuat sebelum Bootstrap</td>
+</tr>
+<tr>
+<td>Ikon tidak tampil</td>
+<td>CDN Bootstrap Icons tidak termuat (periksa koneksi internet)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Latihan:</strong> (1) Ubah <code>--brass</code> menjadi warna lain dan amati dampaknya. (2) Tambahkan badge jumlah film pada menu "Daftar Film" memakai class <code>badge</code>. (3) Ubah tiga kartu ringkasan menjadi <code>row-cols-2</code> di HP.</p>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="prev" href="jobsheet-2.html"><small>Sebelumnya</small>Jobsheet 2: CSS</a><a class="next" href="jobsheet-4.html"><small>Berikutnya</small>Jobsheet 4: Wireframe</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

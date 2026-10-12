@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobsheet 4: Wireframe | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html" aria-current="page"><span class="num">4</span>Wireframe</a></li><li><ul class="toc"><li><a href="#41-tujuan">4.1 Tujuan</a></li><li><a href="#42-apa-dan-mengapa">4.2 Apa dan mengapa</a></li><li><a href="#43-langkah-membuat-wireframe">4.3 Langkah membuat wireframe</a></li><li><a href="#44-wireframe-daftar-film">4.4 Wireframe Daftar Film</a></li><li><a href="#45-bagaimana-halaman-wireframe-dibuat">4.5 Bagaimana halaman wireframe dibuat</a></li><li><a href="#46-aturan-praktis-wireframe">4.6 Aturan praktis wireframe</a></li><li><a href="#47-latihan-dan-penilaian-mandiri">4.7 Latihan dan penilaian mandiri</a></li></ul></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Jobsheet 4 dari 6</p>
+      <h1>Jobsheet 4: Wireframe</h1>
+      <p class="lead">Merancang tata letak sebelum menambah perilaku. Tampilan aplikasi tidak berubah.</p>
+      <ul class="tags"><li>Wireframe</li><li>Low-fidelity</li><li>Alur halaman</li></ul>
+    </div></header>
+    <main class="article">
+
+<h2 id="41-tujuan">4.1 Tujuan<a class="headerlink" href="#41-tujuan" title="Permanent link">#</a></h2>
+<p>Memahami fungsi wireframe, membuat wireframe low-fidelity untuk setiap halaman, dan menghubungkannya dengan implementasi. Jobsheet ini <strong>tidak mengubah tampilan aplikasi</strong>; yang ditambahkan hanyalah halaman <code>wireframe/index.html</code> dan tautan "Wireframe" di sidebar.</p>
+<h2 id="42-apa-dan-mengapa">4.2 Apa dan mengapa<a class="headerlink" href="#42-apa-dan-mengapa" title="Permanent link">#</a></h2>
+<p>Wireframe adalah sketsa tata letak halaman yang menunjukkan <strong>apa isi halaman dan di mana letaknya</strong>, tanpa warna, gambar, atau font final. Ia dibuat sebelum (atau bersamaan dengan) coding karena mengubah garis di kertas jauh lebih murah daripada mengubah HTML dan CSS yang sudah jadi.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Low-fidelity</th>
+<th>High-fidelity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tampilan</td>
+<td>Abu-abu, kotak, teks seadanya</td>
+<td>Warna, font, ikon, gambar final</td>
+</tr>
+<tr>
+<td>Alat</td>
+<td>Kertas, papan tulis, Figma sederhana</td>
+<td>Figma / Adobe XD</td>
+</tr>
+<tr>
+<td>Tujuan</td>
+<td>Menyepakati struktur dan alur</td>
+<td>Menyepakati tampilan akhir</td>
+</tr>
+<tr>
+<td>Waktu</td>
+<td>Menit</td>
+<td>Jam sampai hari</td>
+</tr>
+</tbody>
+</table></div>
+<p>Halaman wireframe SIFILM-Mini adalah low-fidelity.</p>
+<h2 id="43-langkah-membuat-wireframe">4.3 Langkah membuat wireframe<a class="headerlink" href="#43-langkah-membuat-wireframe" title="Permanent link">#</a></h2>
+<ol>
+<li><strong>Daftar halaman.</strong> Untuk SIFILM-Mini ada lima, ditambah variasi tampilan mobile.</li>
+<li><strong>Tentukan isi tiap halaman.</strong> Daftar Film membutuhkan: judul, tombol tambah, pencarian, tabel, tombol edit dan hapus.</li>
+<li><strong>Urutkan menurut prioritas.</strong> Yang paling penting ditaruh paling mudah dilihat.</li>
+<li><strong>Gambar tata letak.</strong> Mulai dari kerangka besar (sidebar, konten) lalu isi bagian dalamnya.</li>
+<li><strong>Beri anotasi.</strong> Angka pada gambar merujuk ke penjelasan fungsi tiap bagian.</li>
+<li><strong>Gambar alur antarhalaman.</strong> Dari halaman mana pengguna menuju halaman mana.</li>
+<li><strong>Tinjau dan revisi</strong> sebelum menulis kode.</li>
+</ol>
+<h2 id="44-wireframe-daftar-film">4.4 Wireframe Daftar Film<a class="headerlink" href="#44-wireframe-daftar-film" title="Permanent link">#</a></h2>
+<p>Desktop (angka = nomor catatan):</p>
+<div class="highlight"><pre><span></span><code>+---------------+----------------------------------------------+
+| (1)           |  (2) Daftar Film              [Tambah film]  |
+| SIFILM-Mini   |  +----------------------------------------+  |
+|               |  | (3) [ Cari judul film...      ]        |  |
+| Beranda       |  |                                        |  |
+| Film          |  | (4) Judul | Sutradara | ... | Aksi (5) |  |
+|  &gt; Daftar     |  |     ------+-----------+-----+--------- |  |
+|  &gt; Tambah     |  |     ....  | ....      | ... | Edit Hps |  |
+| Anggota       |  |     ....  | ....      | ... | Edit Hps |  |
+| Wireframe     |  +----------------------------------------+  |
++---------------+----------------------------------------------+
+</code></pre></div>
+
+<p>Mobile (di bawah 992px):</p>
+<div class="highlight"><pre><span></span><code>+-------------------------+
+| [=]  SIFILM-Mini        |   (1) top bar + tombol menu
++-------------------------+
+| Daftar Film             |
+| [Tambah film]           |
+| +---------------------+ |
+| | [ Cari...         ] | |   (2) pencarian
+| | Judul | Sutr. | Thn | |   (3) tabel bisa digeser
+| | ...   | ...   | ... | |
+| |  &lt; geser &gt;          | |
+| +---------------------+ |
++-------------------------+
+</code></pre></div>
+
+<p>Keputusan desain yang terbaca dari wireframe: tombol "Tambah film" sebagai aksi utama berada di kanan atas judul; pencarian berada <strong>di atas</strong> tabel yang dicari; kolom Aksi paling kanan; pada mobile sidebar tersembunyi di balik tombol menu.</p>
+<h2 id="45-bagaimana-halaman-wireframe-dibuat">4.5 Bagaimana halaman wireframe dibuat<a class="headerlink" href="#45-bagaimana-halaman-wireframe-dibuat" title="Permanent link">#</a></h2>
+<p>Wireframe di proyek ini murni HTML dan CSS (file <code>assets/css/wireframe.css</code>), tanpa gambar. Satu "layar" adalah grid dua kolom:</p>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">wf</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nv">--wf-line</span><span class="p">:</span><span class="w"> </span><span class="mh">#6b7280</span><span class="p">;</span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span>
+<span class="w">  </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="kt">%</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span><span class="w">         </span><span class="c">/* sidebar | konten */</span>
+<span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--wf-line</span><span class="p">);</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span>
+<span class="w">  </span><span class="k">font</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="o">/</span><span class="mf">1.3</span><span class="w"> </span><span class="n">ui-monospace</span><span class="p">,</span><span class="w"> </span><span class="n">Menlo</span><span class="p">,</span><span class="w"> </span><span class="n">Consolas</span><span class="p">,</span><span class="w"> </span><span class="kc">monospace</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">wf-has</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">relative</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">           </span><span class="c">/* penampung penanda angka */</span>
+<span class="p">.</span><span class="nc">wf-pin</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">absolute</span><span class="p">;</span><span class="w"> </span><span class="k">top</span><span class="p">:</span><span class="w"> </span><span class="mi">-9</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">left</span><span class="p">:</span><span class="w"> </span><span class="mi">-9</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#111827</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;wf-input wf-has&quot;</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;wf-pin&quot;</span><span class="p">&gt;</span>3<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>Cari judul film...<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Penanda angka adalah <code>span</code> dengan <code>position: absolute</code>. Ia diletakkan relatif terhadap induknya yang diberi <code>position: relative</code> (<code>wf-has</code>). Pola ini umum dipakai untuk badge notifikasi. Kolom tabel wireframe memakai grid juga, dengan jumlah kolom diatur lewat <code>grid-template-columns</code> sehingga mudah diubah.</p>
+<h2 id="46-aturan-praktis-wireframe">4.6 Aturan praktis wireframe<a class="headerlink" href="#46-aturan-praktis-wireframe" title="Permanent link">#</a></h2>
+<ul>
+<li>Tetap <strong>abu-abu</strong>. Warna mengalihkan diskusi dari struktur ke selera.</li>
+<li>Pakai <strong>teks nyata</strong> untuk label penting ("Simpan", "Cari judul film..."), bukan lorem ipsum, supaya fungsinya jelas.</li>
+<li>Gambar <strong>urutan baca</strong> pengguna, bukan dekorasi.</li>
+<li>Satu wireframe menjawab satu pertanyaan: <em>di mana letak X dan apa yang terjadi bila ditekan?</em></li>
+<li>Buat versi <strong>mobile</strong> untuk halaman yang paling padat.</li>
+</ul>
+<h2 id="47-latihan-dan-penilaian-mandiri">4.7 Latihan dan penilaian mandiri<a class="headerlink" href="#47-latihan-dan-penilaian-mandiri" title="Permanent link">#</a></h2>
+<ol>
+<li>Gambar wireframe halaman baru <strong>Detail Film</strong> (poster, sinopsis, tombol pinjam) untuk desktop dan mobile, di kertas atau Figma.</li>
+<li>Tambahkan halaman itu ke <code>wireframe/index.html</code> dengan menyalin salah satu blok <code>section</code> yang ada.</li>
+<li>Periksa wireframemu: apakah aksi utama jelas, apakah setiap elemen punya catatan, apakah alur dari halaman lain ke halaman ini tergambar?</li>
+</ol>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="prev" href="jobsheet-3.html"><small>Sebelumnya</small>Jobsheet 3: Responsive Design dan Bootstrap</a><a class="next" href="jobsheet-5.html"><small>Berikutnya</small>Jobsheet 5: JavaScript DOM dan Event</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

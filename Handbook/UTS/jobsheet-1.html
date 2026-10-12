@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobsheet 1: HTML5 | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html" aria-current="page"><span class="num">1</span>HTML5</a></li><li><ul class="toc"><li><a href="#11-tujuan">1.1 Tujuan</a></li><li><a href="#12-konsep-html-adalah-struktur-bukan-tampilan">1.2 Konsep: HTML adalah struktur, bukan tampilan</a></li><li><a href="#13-kerangka-dokumen">1.3 Kerangka dokumen</a></li><li><a href="#14-landmark-semantik">1.4 Landmark semantik</a></li><li><a href="#15-navigasi-daftar-bersarang">1.5 Navigasi: daftar bersarang</a></li><li><a href="#16-beranda-progress-dan-dl">1.6 Beranda: <code>progress</code> dan <code>dl</code></a></li><li><a href="#17-tabel-data">1.7 Tabel data</a></li><li><a href="#form">1.8 Form dan validasi HTML5</a></li><li><a href="#19-kesalahan-umum">1.9 Kesalahan umum</a></li><li><a href="#110-latihan">1.10 Latihan</a></li></ul></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Jobsheet 1 dari 6</p>
+      <h1>Jobsheet 1: HTML5</h1>
+      <p class="lead">Struktur semantik, tabel, form, dan validasi bawaan browser. Tanpa CSS dan tanpa JavaScript.</p>
+      <ul class="tags"><li>HTML5</li><li>Elemen semantik</li><li>Tabel</li><li>Form</li></ul>
+    </div></header>
+    <main class="article">
+
+<h2 id="11-tujuan">1.1 Tujuan<a class="headerlink" href="#11-tujuan" title="Permanent link">#</a></h2>
+<p>Setelah jobsheet ini kamu mampu:</p>
+<ul>
+<li>menyusun kerangka dokumen HTML5 yang valid;</li>
+<li>memakai elemen <strong>semantik</strong> (<code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>footer</code>);</li>
+<li>membuat tabel dan form yang benar secara struktur dan aksesibilitas;</li>
+<li>memakai validasi form bawaan HTML5 tanpa JavaScript.</li>
+</ul>
+<h2 id="12-konsep-html-adalah-struktur-bukan-tampilan">1.2 Konsep: HTML adalah struktur, bukan tampilan<a class="headerlink" href="#12-konsep-html-adalah-struktur-bukan-tampilan" title="Permanent link">#</a></h2>
+<p>HTML menjelaskan <strong>arti</strong> sebuah konten: ini judul, ini navigasi, ini tabel. Tampilan diurus CSS. Karena itu Jobsheet 1 sengaja <strong>tidak memiliki CSS</strong>; halaman akan tampil dengan gaya bawaan browser, dan itu normal.</p>
+<p>Elemen semantik membuat kode mudah dibaca manusia, dipahami mesin pencari, dan dapat dinavigasi pembaca layar (screen reader). Bandingkan <code>&lt;div class="atas"&gt;</code> dengan <code>&lt;header&gt;</code>: yang kedua langsung memberi tahu perannya.</p>
+<h2 id="13-kerangka-dokumen">1.3 Kerangka dokumen<a class="headerlink" href="#13-kerangka-dokumen" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;id&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>SIFILM-Mini | Beranda<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    ...
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<ul>
+<li><code>&lt;!DOCTYPE html&gt;</code> memberi tahu browser bahwa ini HTML5. Tanpanya browser masuk <em>quirks mode</em> dan menampilkan halaman dengan aturan lama.</li>
+<li><code>lang="id"</code> menyatakan bahasa halaman. Dipakai pembaca layar untuk memilih logat pengucapan dan oleh browser untuk menawarkan terjemahan.</li>
+<li><code>&lt;meta charset="UTF-8"&gt;</code> mengatur penyandian karakter agar huruf seperti <code>&amp;</code> dan tanda baca Indonesia tampil benar.</li>
+<li><code>&lt;title&gt;</code> muncul di tab browser dan hasil pencarian. Setiap halaman diberi judul berbeda: <code>SIFILM-Mini | Daftar Film</code>, dan seterusnya.</li>
+</ul>
+<h2 id="14-landmark-semantik">1.4 Landmark semantik<a class="headerlink" href="#14-landmark-semantik" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;brand&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;index.html&quot;</span><span class="p">&gt;</span>SIFILM-Mini<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;Navigasi utama&quot;</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span> ... <span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="ni">&amp;copy;</span> 2026 SIFILM-Mini <span class="ni">&amp;mdash;</span> Jobsheet 1<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Elemen</th>
+<th>Peran</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>header</code></td>
+<td>Kepala halaman; di sini berisi nama aplikasi</td>
+</tr>
+<tr>
+<td><code>nav</code></td>
+<td>Blok tautan navigasi utama</td>
+</tr>
+<tr>
+<td><code>main</code></td>
+<td>Isi utama halaman. <strong>Hanya satu</strong> per halaman</td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td>Kelompok konten bertema, sebaiknya punya judul (<code>h2</code>)</td>
+</tr>
+<tr>
+<td><code>footer</code></td>
+<td>Kaki halaman: hak cipta, keterangan</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>&amp;copy;</code> dan <code>&amp;mdash;</code> adalah <em>character entity</em>: cara menulis simbol © dan tanda pisah (—) tanpa risiko salah penyandian. <code>aria-label</code> memberi nama pada <code>nav</code> supaya pembaca layar dapat membedakannya bila ada lebih dari satu navigasi.</p>
+<h2 id="15-navigasi-daftar-bersarang">1.5 Navigasi: daftar bersarang<a class="headerlink" href="#15-navigasi-daftar-bersarang" title="Permanent link">#</a></h2>
+<p>Menu adalah <strong>daftar tautan</strong>, jadi ditulis dengan <code>ul</code> dan <code>li</code>. Grup "Film" dan "Anggota" dibuat dengan daftar di dalam daftar.</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">nav</span> <span class="na">aria-label</span><span class="o">=</span><span class="s">&quot;Navigasi utama&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../index.html&quot;</span><span class="p">&gt;</span>Beranda<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Film<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../film/list.html&quot;</span><span class="p">&gt;</span>Daftar Film<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../film/tambah.html&quot;</span> <span class="na">aria-current</span><span class="o">=</span><span class="s">&quot;page&quot;</span><span class="p">&gt;</span>Tambah Film<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+    ...
+  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<ul>
+<li>Tautan memakai <strong>path relatif</strong>. Halaman di folder <code>film/</code> mengakses Beranda dengan <code>../index.html</code> (naik satu folder).</li>
+<li><code>aria-current="page"</code> menandai tautan halaman yang sedang dibuka. Pembaca layar mengumumkannya, dan di Jobsheet 2 atribut ini juga kita pakai sebagai <em>selector</em> CSS untuk menyorot menu aktif. Satu atribut, dua manfaat.</li>
+<li><code>&lt;span&gt;Film&lt;/span&gt;</code> adalah label grup. Ia sengaja bukan tautan.</li>
+</ul>
+<h2 id="16-beranda-progress-dan-dl">1.6 Beranda: <code>progress</code> dan <code>dl</code><a class="headerlink" href="#16-beranda-progress-dan-dl" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Ringkasan<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;pinjam&quot;</span><span class="p">&gt;</span>Film sedang dipinjam: 3 dari 12<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">progress</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;pinjam&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;3&quot;</span> <span class="na">max</span><span class="o">=</span><span class="s">&quot;12&quot;</span><span class="p">&gt;</span>25%<span class="p">&lt;/</span><span class="nt">progress</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">dl</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;&lt;</span><span class="nt">dt</span><span class="p">&gt;</span>Total Film<span class="p">&lt;/</span><span class="nt">dt</span><span class="p">&gt;&lt;</span><span class="nt">dd</span><span class="p">&gt;</span>12<span class="p">&lt;/</span><span class="nt">dd</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;&lt;</span><span class="nt">dt</span><span class="p">&gt;</span>Total Anggota<span class="p">&lt;/</span><span class="nt">dt</span><span class="p">&gt;&lt;</span><span class="nt">dd</span><span class="p">&gt;</span>8<span class="p">&lt;/</span><span class="nt">dd</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;&lt;</span><span class="nt">dt</span><span class="p">&gt;</span>Sedang Dipinjam<span class="p">&lt;/</span><span class="nt">dt</span><span class="p">&gt;&lt;</span><span class="nt">dd</span><span class="p">&gt;</span>3<span class="p">&lt;/</span><span class="nt">dd</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">dl</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<ul>
+<li><code>&lt;progress value="3" max="12"&gt;</code> adalah elemen HTML5 bawaan untuk menampilkan kemajuan. Teks di dalamnya (<code>25%</code>) hanya tampil di browser yang tidak mendukungnya.</li>
+<li><code>&lt;label for="pinjam"&gt;</code> terhubung ke elemen ber-<code>id="pinjam"</code>, sehingga progress punya nama yang dibaca pembaca layar.</li>
+<li><code>dl</code> (<em>description list</em>) berisi pasangan istilah <code>dt</code> dan nilai <code>dd</code>. Cocok untuk data "nama: nilai" seperti ringkasan ini. Membungkus pasangan dengan <code>div</code> diperbolehkan dan memudahkan penataan CSS nanti.</li>
+</ul>
+<h2 id="17-tabel-data">1.7 Tabel data<a class="headerlink" href="#17-tabel-data" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">caption</span><span class="p">&gt;</span>Daftar film koleksi SIFILM-Mini<span class="p">&lt;/</span><span class="nt">caption</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span>Judul<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span>Sutradara<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span> ... <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span>Aksi<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Laskar Pelangi<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Riri Riza<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>2008<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>125 Menit<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>7.7 / 10<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Drama<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn-edit&quot;</span><span class="p">&gt;</span>Edit<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn-hapus&quot;</span><span class="p">&gt;</span>Hapus<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<ul>
+<li><code>caption</code> adalah judul tabel. Ia terikat langsung ke tabelnya, tidak seperti <code>h2</code> yang terpisah.</li>
+<li><code>thead</code> memisahkan baris judul kolom dari isi (<code>tbody</code>). Pemisahan ini dipakai CSS dan JavaScript nanti, misalnya untuk hanya mencari di <code>tbody</code>.</li>
+<li><code>th scope="col"</code> menyatakan sel itu judul <strong>kolom</strong>, sehingga pembaca layar dapat membacakan "Judul: Laskar Pelangi".</li>
+<li>Tombol memakai <code>type="button"</code>. Tanpa atribut ini, tombol di dalam form bertindak sebagai <em>submit</em>. Class <code>btn-edit</code> dan <code>btn-hapus</code> belum dipakai di Jobsheet 1, tetapi disiapkan sebagai <em>hook</em> untuk CSS (Jobsheet 2) dan JavaScript (Jobsheet 5).</li>
+</ul>
+<h2 id="form">1.8 Form dan validasi HTML5<a class="headerlink" href="#form" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">form</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;form-tambah&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;list.html&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;get&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">legend</span><span class="p">&gt;</span>Detail film<span class="p">&lt;/</span><span class="nt">legend</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;judul&quot;</span><span class="p">&gt;</span>Judul<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;judul&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;judul&quot;</span>
+             <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Contoh: Laskar Pelangi&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;sutradara&quot;</span><span class="p">&gt;</span>Sutradara<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;sutradara&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;sutradara&quot;</span>
+             <span class="na">list</span><span class="o">=</span><span class="s">&quot;daftar-sutradara&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Nama sutradara&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">datalist</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;daftar-sutradara&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Riri Riza&quot;</span><span class="p">&gt;&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Gareth Evans&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">datalist</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;tahun&quot;</span><span class="p">&gt;</span>Tahun Rilis<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;number&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;tahun&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;tahun&quot;</span> <span class="na">min</span><span class="o">=</span><span class="s">&quot;1900&quot;</span> <span class="na">max</span><span class="o">=</span><span class="s">&quot;2026&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;genre&quot;</span><span class="p">&gt;</span>Genre<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">select</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;genre&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;genre&quot;</span> <span class="na">required</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>Pilih Genre<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">option</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;drama&quot;</span><span class="p">&gt;</span>Drama<span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;reset&quot;</span><span class="p">&gt;</span>Reset<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Simpan<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><strong>Elemen pembentuk form</strong></p>
+<ul>
+<li><code>form</code> membungkus semua kontrol. <code>action</code> adalah tujuan pengiriman dan <code>method="get"</code> menaruh data di URL (<code>list.html?judul=...</code>). Karena belum ada server, halaman cukup berpindah ke daftar.</li>
+<li><code>fieldset</code> mengelompokkan kontrol, <code>legend</code> memberinya judul.</li>
+<li><code>label for="judul"</code> terhubung ke <code>input id="judul"</code>. Mengklik label memfokuskan input, dan pembaca layar tahu fungsi kolom itu. <strong>Nilai <code>for</code> harus sama persis dengan <code>id</code>.</strong></li>
+<li><code>name</code> adalah nama field saat data dikirim. <code>id</code> untuk label dan CSS/JS. Keduanya berbeda fungsi.</li>
+</ul>
+<p><strong>Atribut validasi (tanpa JavaScript)</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Atribut</th>
+<th>Efek</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>required</code></td>
+<td>Field tidak boleh kosong</td>
+</tr>
+<tr>
+<td><code>type="number"</code></td>
+<td>Hanya angka; di HP muncul papan angka</td>
+</tr>
+<tr>
+<td><code>min</code> / <code>max</code></td>
+<td>Batas nilai angka (tahun 1900 sampai 2026)</td>
+</tr>
+<tr>
+<td><code>step="0.1"</code></td>
+<td>Kelipatan yang diizinkan (rating 7.7 valid)</td>
+</tr>
+<tr>
+<td><code>pattern</code></td>
+<td>Cocok dengan ekspresi reguler; di anggota: <code>A[0-9]{3}</code> = huruf A + 3 angka</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Teks petunjuk yang tampil dalam pesan kesalahan <code>pattern</code></td>
+</tr>
+<tr>
+<td><code>type="tel"</code></td>
+<td>Field telepon (papan nomor di HP)</td>
+</tr>
+<tr>
+<td><code>placeholder</code></td>
+<td>Contoh isian yang hilang saat mengetik</td>
+</tr>
+<tr>
+<td><code>list</code> + <code>datalist</code></td>
+<td>Saran isian sambil tetap boleh mengetik bebas</td>
+</tr>
+</tbody>
+</table></div>
+<p>Coba kirim form kosong: browser menolak dan menandai field pertama yang salah. Itu validasi HTML5. Kelemahannya, pesan tidak bisa kamu ubah; di Jobsheet 5 kita membuat validasi sendiri dengan JavaScript.</p>
+<p>Tombol <code>type="reset"</code> mengosongkan form, dan <code>type="submit"</code> mengirimnya.</p>
+<h2 id="19-kesalahan-umum">1.9 Kesalahan umum<a class="headerlink" href="#19-kesalahan-umum" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala</th>
+<th>Penyebab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mengklik label tidak memfokuskan input</td>
+<td><code>for</code> pada label tidak sama dengan <code>id</code> input</td>
+</tr>
+<tr>
+<td>Validasi <code>required</code> diabaikan</td>
+<td>Kata <code>required</code> salah ketik (misalnya <code>requried</code>)</td>
+</tr>
+<tr>
+<td>Tautan menu menuju halaman 404</td>
+<td>Path relatif salah; ingat awalan <code>../</code> di subfolder</td>
+</tr>
+<tr>
+<td>Tombol "Hapus" mengirim form</td>
+<td>Lupa <code>type="button"</code></td>
+</tr>
+<tr>
+<td>Karakter rusak (misalnya <code>â€”</code>)</td>
+<td>Lupa <code>&lt;meta charset="UTF-8"&gt;</code> atau file tidak disimpan sebagai UTF-8</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="110-latihan">1.10 Latihan<a class="headerlink" href="#110-latihan" title="Permanent link">#</a></h2>
+<ol>
+<li>Tambahkan field <strong>Sinopsis</strong> (<code>textarea</code>) pada form film, lengkap dengan <code>label</code> dan batas <code>maxlength</code>.</li>
+<li>Tambahkan kolom <strong>Prodi</strong> pada form anggota memakai <code>select</code>, lalu tambahkan kolomnya di tabel.</li>
+<li>Validasikan halaman dengan validator W3C (validator.w3.org) dan perbaiki setiap peringatannya.</li>
+</ol>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="next" href="jobsheet-2.html"><small>Berikutnya</small>Jobsheet 2: CSS</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

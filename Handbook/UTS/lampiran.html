@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lampiran: Rangkuman dan Pemecahan Masalah | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html" aria-current="page">Lampiran</a></li><li><ul class="toc"><li><a href="#71-perjalanan-satu-fitur-dari-jobsheet-1-ke-6">7.1 Perjalanan satu fitur dari Jobsheet 1 ke 6</a></li><li><a href="#72-alur-data-di-jobsheet-6">7.2 Alur data di Jobsheet 6</a></li><li><a href="#server-lokal">7.3 Mengapa Jobsheet 6 tidak jalan lewat file://</a></li><li><a href="#74-contekan-cepat">7.4 Contekan cepat</a></li><li><a href="#75-pemecahan-masalah-lintas-jobsheet">7.5 Pemecahan masalah lintas jobsheet</a></li><li><a href="#76-glosarium">7.6 Glosarium</a></li><li><a href="#77-daftar-periksa-akhir">7.7 Daftar periksa akhir</a></li><li><a href="#78-langkah-selanjutnya">7.8 Langkah selanjutnya</a></li></ul></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Lampiran</p>
+      <h1>Lampiran: Rangkuman dan Pemecahan Masalah</h1>
+      <p class="lead">Perjalanan satu fitur dari Jobsheet 1 ke 6, alur data, server lokal, contekan, glosarium, dan daftar periksa.</p>
+      <ul class="tags"><li>Troubleshooting</li><li>Glosarium</li><li>Daftar periksa</li></ul>
+    </div></header>
+    <main class="article">
+
+<h2 id="71-perjalanan-satu-fitur-dari-jobsheet-1-ke-6">7.1 Perjalanan satu fitur dari Jobsheet 1 ke 6<a class="headerlink" href="#71-perjalanan-satu-fitur-dari-jobsheet-1-ke-6" title="Permanent link">#</a></h2>
+<p>Tabel <strong>Daftar Film</strong> adalah contoh terbaik untuk melihat bagaimana tiap jobsheet menambah satu lapisan:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Jobsheet</th>
+<th>Keadaan tabel Daftar Film</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="jobsheet-1.html">1</a></td>
+<td><code>table</code>, <code>thead</code>, <code>tbody</code>, <code>caption</code> dengan data tertanam; tampil polos</td>
+</tr>
+<tr>
+<td><a href="jobsheet-2.html">2</a></td>
+<td>Diberi garis, jarak, hover baris, tombol berwarna</td>
+</tr>
+<tr>
+<td><a href="jobsheet-3.html#bagian-a">3a</a></td>
+<td>Dibungkus <code>.table-responsive</code> agar bisa digeser di HP</td>
+</tr>
+<tr>
+<td><a href="jobsheet-3.html#bagian-b">3b</a></td>
+<td>Memakai class <code>table table-hover align-middle</code> dan tombol <code>btn</code> Bootstrap</td>
+</tr>
+<tr>
+<td><a href="jobsheet-4.html">4</a></td>
+<td>Dirancang di wireframe: posisi pencarian, kolom Aksi</td>
+</tr>
+<tr>
+<td><a href="jobsheet-5.html">5</a></td>
+<td>Bisa dicari real-time dan dihapus dengan konfirmasi</td>
+</tr>
+<tr>
+<td><a href="jobsheet-6.html">6</a></td>
+<td>Isinya dimuat dari <code>film.json</code>; punya spinner dan pesan error</td>
+</tr>
+</tbody>
+</table></div>
+<p>Perhatikan bahwa <strong>tidak ada lapisan yang membuang lapisan sebelumnya</strong>. HTML semantik dari Jobsheet 1 tetap menjadi fondasi sampai Jobsheet 6.</p>
+<h2 id="72-alur-data-di-jobsheet-6">7.2 Alur data di Jobsheet 6<a class="headerlink" href="#72-alur-data-di-jobsheet-6" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>Pengguna membuka film/list.html (lewat http://localhost)
+  -&gt; browser memuat HTML, CSS Bootstrap, lalu app.js dan film.js
+  -&gt; DOMContentLoaded: muatDaftarFilm() jalan
+  -&gt; spinner tampil; ambilJSON(&quot;../data/film.json&quot;) meminta berkas ke server
+  -&gt; server membalas JSON -&gt; res.json() menjadi array objek
+  -&gt; map(buatBarisFilm) membuat 12 elemen &lt;tr&gt; -&gt; replaceChildren memasangnya
+  -&gt; finally: spinner hilang; sinkronkanTabel() menulis &quot;Menampilkan 12 dari 12 data&quot;
+  -&gt; pengguna mengetik di pencarian -&gt; event input -&gt; sinkronkanTabel() menyaring baris
+  -&gt; pengguna menekan Hapus -&gt; listener di tbody menangkap klik -&gt; baris dihapus
+</code></pre></div>
+
+<h2 id="server-lokal">7.3 Mengapa Jobsheet 6 tidak jalan lewat file://<a class="headerlink" href="#server-lokal" title="Permanent link">#</a></h2>
+<p>Saat sebuah halaman dibuka dengan alamat <code>file:///...</code>, browser menganggap setiap berkas lokal sebagai <em>asal</em> (origin) terpisah dan <strong>melarang halaman membaca berkas lain lewat <code>fetch</code></strong>. Ini kebijakan keamanan: kalau diizinkan, halaman web sembarang bisa membaca berkas pribadi di komputermu. Lewat <code>http://localhost:...</code>, halaman dan JSON berasal dari server dan asal yang sama, sehingga <code>fetch</code> diizinkan.</p>
+<p>Cara menjalankan server lokal:</p>
+<ul>
+<li><strong>Live Server</strong> di VS Code: klik kanan <code>index.html</code>, pilih <em>Open with Live Server</em>.</li>
+<li><strong>Python:</strong> di dalam folder <code>Jobsheet6</code> jalankan <code>python -m http.server 8000</code>, lalu buka <code>http://localhost:8000</code>.</li>
+<li><strong>Node.js:</strong> <code>npx serve</code> di folder <code>Jobsheet6</code>.</li>
+</ul>
+<p>Cek singkat: <strong>alamat di browser harus diawali <code>http://</code>, bukan <code>file://</code>.</strong> Jika memakai <code>file://</code>, tabel akan menampilkan pesan yang menjelaskan hal ini (lihat <a href="jobsheet-6.html#error">Jobsheet 6, bagian 6.7</a>).</p>
+<h2 id="74-contekan-cepat">7.4 Contekan cepat<a class="headerlink" href="#74-contekan-cepat" title="Permanent link">#</a></h2>
+<p><strong>Pola fetch yang bisa dipakai ulang</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">muat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;data/x.json&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;status &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// ... pakai data ...</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// tampilkan pesan error ke pengguna</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// bersihkan: sembunyikan loading</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Layout cepat</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kebutuhan</th>
+<th>CSS</th>
+<th>Bootstrap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Susun menyamping</td>
+<td><code>display: flex</code></td>
+<td><code>d-flex</code></td>
+</tr>
+<tr>
+<td>Jarak antar item</td>
+<td><code>gap: 0.5rem</code></td>
+<td><code>gap-2</code></td>
+</tr>
+<tr>
+<td>Rata kanan</td>
+<td><code>justify-content: flex-end</code></td>
+<td><code>justify-content-end</code></td>
+</tr>
+<tr>
+<td>Sembunyikan di HP</td>
+<td>media query + <code>display: none</code></td>
+<td><code>d-none d-md-block</code></td>
+</tr>
+<tr>
+<td>Kolom grid</td>
+<td><code>grid-template-columns: 1fr 1fr</code></td>
+<td><code>row</code> + <code>col-6</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="75-pemecahan-masalah-lintas-jobsheet">7.5 Pemecahan masalah lintas jobsheet<a class="headerlink" href="#75-pemecahan-masalah-lintas-jobsheet" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala</th>
+<th>Periksa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gaya (CSS) tidak muncul</td>
+<td>Path <code>&lt;link&gt;</code> (awalan <code>../</code> di subfolder), nama file, cache (Ctrl+F5); tab <em>Network</em> menunjukkan 404?</td>
+</tr>
+<tr>
+<td>Bootstrap/ikon tidak muncul</td>
+<td>Internet mati; CDN diblokir; periksa tab <em>Network</em></td>
+</tr>
+<tr>
+<td>JavaScript tidak jalan</td>
+<td>Console: ada error merah? Path <code>&lt;script&gt;</code>? Skrip dimuat di akhir <code>body</code>?</td>
+</tr>
+<tr>
+<td>Elemen "null" di Console</td>
+<td>Selector salah ketik; <code>id</code> tidak ada di halaman itu</td>
+</tr>
+<tr>
+<td>Perubahan kode tidak terlihat</td>
+<td>Cache; simpan file (Ctrl+S); muat ulang keras</td>
+</tr>
+<tr>
+<td>Halaman lebar menggeser ke samping di HP</td>
+<td>Tabel tanpa <code>.table-responsive</code>; elemen dengan lebar tetap</td>
+</tr>
+<tr>
+<td><code>fetch</code> gagal</td>
+<td>Halaman dibuka lewat <code>file://</code>; path JSON salah; JSON tidak valid</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tiga kebiasaan debugging yang paling menolong: <strong>baca pesan error dari atas</strong>, <strong>buka tab Network</strong> untuk memastikan berkas benar-benar termuat, dan <strong>kecilkan masalah</strong> dengan memberi komentar pada fitur lain sampai penyebabnya ketemu.</p>
+<h2 id="76-glosarium">7.6 Glosarium<a class="headerlink" href="#76-glosarium" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Istilah</th>
+<th>Arti singkat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Semantik</td>
+<td>Elemen HTML yang namanya menjelaskan peran kontennya (<code>nav</code>, <code>main</code>)</td>
+</tr>
+<tr>
+<td>Selector</td>
+<td>Pola CSS untuk memilih elemen (<code>.kelas</code>, <code>#id</code>, <code>nav a</code>)</td>
+</tr>
+<tr>
+<td>Specificity</td>
+<td>Tingkat kekhususan selector yang menentukan aturan mana yang menang</td>
+</tr>
+<tr>
+<td>Box model</td>
+<td>Cara elemen dihitung: konten, padding, border, margin</td>
+</tr>
+<tr>
+<td>Flexbox / Grid</td>
+<td>Dua sistem tata letak CSS (satu dimensi / dua dimensi)</td>
+</tr>
+<tr>
+<td>Viewport</td>
+<td>Area tampilan halaman di layar perangkat</td>
+</tr>
+<tr>
+<td>Media query</td>
+<td>Aturan CSS yang berlaku hanya pada kondisi tertentu (misalnya lebar layar)</td>
+</tr>
+<tr>
+<td>Mobile-first</td>
+<td>Menulis CSS untuk layar kecil dulu, lalu memperluas ke layar besar</td>
+</tr>
+<tr>
+<td>Breakpoint</td>
+<td>Lebar layar tempat tata letak berubah</td>
+</tr>
+<tr>
+<td>Framework CSS</td>
+<td>Pustaka komponen dan class siap pakai (Bootstrap)</td>
+</tr>
+<tr>
+<td>Offcanvas</td>
+<td>Panel yang bergeser masuk dari tepi layar</td>
+</tr>
+<tr>
+<td>Wireframe</td>
+<td>Sketsa tata letak halaman tanpa gaya visual</td>
+</tr>
+<tr>
+<td>DOM</td>
+<td>Pohon objek yang mewakili halaman di memori browser</td>
+</tr>
+<tr>
+<td>Event</td>
+<td>Kejadian di halaman (klik, ketik, kirim form)</td>
+</tr>
+<tr>
+<td>Event delegation</td>
+<td>Memasang satu listener di induk untuk menangani event anak-anaknya</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>Format teks untuk bertukar data</td>
+</tr>
+<tr>
+<td>Promise</td>
+<td>Objek yang mewakili hasil operasi yang selesai nanti</td>
+</tr>
+<tr>
+<td>async / await</td>
+<td>Sintaks untuk menulis kode asinkron seperti kode berurutan</td>
+</tr>
+<tr>
+<td>CDN</td>
+<td>Jaringan server yang menyajikan pustaka (Bootstrap) lewat internet</td>
+</tr>
+<tr>
+<td>XSS</td>
+<td>Serangan menyuntikkan skrip lewat teks yang ditampilkan sebagai HTML</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="77-daftar-periksa-akhir">7.7 Daftar periksa akhir<a class="headerlink" href="#77-daftar-periksa-akhir" title="Permanent link">#</a></h2>
+<p><strong>Jobsheet 1:</strong> kelima halaman memakai elemen semantik; semua <code>label</code> terhubung ke <code>input</code>; form menolak input kosong; tidak ada error di validator W3C.</p>
+<p><strong>Jobsheet 2:</strong> semua halaman tersambung ke <code>style.css</code>; warna hanya diatur lewat variabel; menu aktif tersorot memakai <code>aria-current</code>.</p>
+<p><strong>Jobsheet 3:</strong> <code>meta viewport</code> ada di semua halaman; tidak ada scroll horizontal pada lebar 360px; sidebar berubah menjadi menu di bawah breakpoint; versi Bootstrap memakai grid, offcanvas, card, dan form Bootstrap.</p>
+<p><strong>Jobsheet 4:</strong> wireframe memuat kelima halaman dan minimal satu tampilan mobile; setiap elemen penting bernomor dan punya catatan; alur antarhalaman tergambar.</p>
+<p><strong>Jobsheet 5:</strong> hapus meminta konfirmasi dan memperbarui jumlah data; pencarian tidak mencocokkan tombol Aksi; form menampilkan pesan per field dan memfokuskan field salah pertama.</p>
+<p><strong>Jobsheet 6:</strong> data film dan anggota berasal dari JSON; ada indikator loading; kegagalan memuat menampilkan pesan, bukan tabel kosong; Beranda menghitung ringkasan dari JSON.</p>
+<h2 id="78-langkah-selanjutnya">7.8 Langkah selanjutnya<a class="headerlink" href="#78-langkah-selanjutnya" title="Permanent link">#</a></h2>
+<p>Semua perubahan di jobsheet ini hilang saat halaman dimuat ulang, karena data hanya hidup di memori browser. Langkah wajar berikutnya adalah menambahkan <strong>server dan basis data</strong> (misalnya PHP dengan PostgreSQL) sehingga data tersimpan permanen. Fondasinya sudah siap: struktur HTML yang rapi, tampilan yang responsif, validasi di sisi klien, dan kebiasaan memisahkan data dari tampilan lewat JSON. Yang tinggal diganti hanyalah sumber datanya, dari berkas <code>.json</code> menjadi respons server, dan <code>fetch</code> dengan <code>method: "POST"</code> untuk mengirim data form.</p>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="prev" href="jobsheet-6.html"><small>Sebelumnya</small>Jobsheet 6: Fetch API dan JSON</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

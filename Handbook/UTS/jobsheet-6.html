@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobsheet 6: Fetch API dan JSON | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html" aria-current="page"><span class="num">6</span>Fetch API &amp; JSON</a></li><li><ul class="toc"><li><a href="#61-tujuan">6.1 Tujuan</a></li><li><a href="#62-konsep-memisahkan-data-dari-tampilan">6.2 Konsep: memisahkan data dari tampilan</a></li><li><a href="#63-perubahan-pada-html">6.3 Perubahan pada HTML</a></li><li><a href="#64-fetch-promise-dan-asyncawait">6.4 Fetch, Promise, dan async/await</a></li><li><a href="#65-memuat-daftar-film">6.5 Memuat daftar film</a></li><li><a href="#66-path-itu-relatif-terhadap-halaman-html">6.6 Path itu relatif terhadap halaman HTML</a></li><li><a href="#error">6.7 Penanganan error</a></li><li><a href="#68-dashboard-dua-request-paralel">6.8 Dashboard: dua request paralel</a></li><li><a href="#69-dari-form-ke-json">6.9 Dari form ke JSON</a></li><li><a href="#610-melihat-request-di-devtools">6.10 Melihat request di DevTools</a></li><li><a href="#611-kesalahan-umum">6.11 Kesalahan umum</a></li><li><a href="#612-latihan">6.12 Latihan</a></li></ul></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Jobsheet 6 dari 6</p>
+      <h1>Jobsheet 6: Fetch API dan JSON</h1>
+      <p class="lead">Memisahkan data dari tampilan: memuat data dari file JSON dengan fetch dan async/await.</p>
+      <ul class="tags"><li>JSON</li><li>fetch</li><li>async/await</li><li>Promise</li></ul>
+    </div></header>
+    <main class="article">
+
+<h2 id="61-tujuan">6.1 Tujuan<a class="headerlink" href="#61-tujuan" title="Permanent link">#</a></h2>
+<p>Setelah jobsheet ini kamu mampu membaca dan menulis JSON, mengambil data dengan <code>fetch</code> memakai <code>async/await</code>, menampilkan data ke tabel secara dinamis, menangani kegagalan pengambilan data, dan mengubah data form menjadi JSON.</p>
+<h2 id="62-konsep-memisahkan-data-dari-tampilan">6.2 Konsep: memisahkan data dari tampilan<a class="headerlink" href="#62-konsep-memisahkan-data-dari-tampilan" title="Permanent link">#</a></h2>
+<p>Sampai Jobsheet 5, data film <strong>tertanam di HTML</strong>. Menambah satu film berarti mengedit file HTML. Pada aplikasi nyata, data tinggal di tempat lain (basis data, server) dan halaman hanya <em>menampilkan</em>. Jobsheet ini mensimulasikannya: data dipindahkan ke file <code>.json</code>, dan JavaScript mengambilnya lalu membangun tabel.</p>
+<p><strong>JSON</strong> (<em>JavaScript Object Notation</em>) adalah format teks untuk bertukar data. Contoh satu film di <code>data/film.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;judul&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Laskar Pelangi&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sutradara&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Riri Riza&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tahun&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2008</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;durasi&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">125</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">7.7</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;genre&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;drama&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dipinjam&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Aturan JSON yang ketat (lebih ketat dari objek JavaScript):</p>
+<ul>
+<li>Kunci <strong>wajib</strong> diberi tanda kutip ganda: <code>"judul"</code>, bukan <code>judul</code> atau <code>'judul'</code>.</li>
+<li>Tipe yang boleh: string (kutip ganda), angka, <code>true</code>/<code>false</code>, <code>null</code>, array <code>[ ]</code>, dan objek <code>{ }</code>.</li>
+<li>Tidak boleh ada koma setelah elemen terakhir dan tidak boleh ada komentar.</li>
+<li>Satu kesalahan kecil membuat seluruh file gagal dibaca. Periksa file di jsonlint.com atau di editor.</li>
+</ul>
+<p>File <code>film.json</code> berisi <strong>array</strong> berisi 12 objek film, dan <code>anggota.json</code> berisi array 8 objek (<code>no_anggota</code>, <code>nama</code>, <code>alamat</code>, <code>no_hp</code>). Dua fungsi kunci untuk JSON di JavaScript: <code>JSON.parse(teks)</code> mengubah teks menjadi objek, dan <code>JSON.stringify(objek)</code> melakukan sebaliknya.</p>
+<h2 id="63-perubahan-pada-html">6.3 Perubahan pada HTML<a class="headerlink" href="#63-perubahan-pada-html" title="Permanent link">#</a></h2>
+<p>Halaman daftar kini memiliki <code>tbody</code> <strong>kosong</strong> dan sebuah indikator loading:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;loading-indicator&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;d-flex align-items-center gap-2 text-secondary mb-3 d-none&quot;</span> <span class="na">role</span><span class="o">=</span><span class="s">&quot;status&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;spinner-border spinner-border-sm&quot;</span> <span class="na">aria-hidden</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Memuat data...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;table table-hover align-middle mb-0&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;tabel-data&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Indikator memakai class <code>d-none</code> (Bootstrap: <code>display: none</code>) sehingga tersembunyi bawaan, dan JavaScript yang menampilkannya saat data sedang diambil. Skrip dimuat dengan <strong>urutan yang penting</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../assets/js/app.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../assets/js/film.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p><code>film.js</code> memakai fungsi yang didefinisikan di <code>app.js</code> (<code>ambilJSON</code>, <code>buatSel</code>, <code>sinkronkanTabel</code>, dst.), jadi <code>app.js</code> harus dimuat lebih dulu. Beranda memakai <code>dashboard.js</code>, dan halaman anggota memakai <code>anggota.js</code>.</p>
+<h2 id="64-fetch-promise-dan-asyncawait">6.4 Fetch, Promise, dan async/await<a class="headerlink" href="#64-fetch-promise-dan-asyncawait" title="Permanent link">#</a></h2>
+<p><code>fetch(url)</code> meminta berkas lewat jaringan. Karena jaringan butuh waktu, <code>fetch</code> tidak langsung memberi hasil, melainkan sebuah <strong>Promise</strong>: janji bahwa hasilnya akan datang nanti. Kata kunci <code>await</code> menunggu janji itu selesai <strong>tanpa membekukan halaman</strong>, dan hanya boleh dipakai di dalam fungsi <code>async</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">JEDA_SIMULASI_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">600</span><span class="p">;</span><span class="w"> </span><span class="c1">// hanya untuk demo, agar indikator loading sempat terlihat</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">ambilJSON</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">JEDA_SIMULASI_MS</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;Gagal mengambil data (status &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;)&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol>
+<li>Baris pertama hanya menunda 600 milidetik agar spinner terlihat; berkas lokal dimuat terlalu cepat untuk dilihat mata. Hapus baris ini di proyek nyata.</li>
+<li><code>await fetch(url)</code> menghasilkan objek <strong>Response</strong> (status dan isi belum dibaca).</li>
+<li><strong>Jebakan terpenting:</strong> <code>fetch</code> hanya gagal (<em>reject</em>) bila jaringan putus. Respons <code>404 Not Found</code> tetap dianggap "berhasil". Karena itu kita memeriksa <code>res.ok</code> (bernilai <code>true</code> untuk status 200 sampai 299) dan melempar error sendiri bila <code>false</code>.</li>
+<li><code>res.json()</code> membaca isi respons dan mengubahnya menjadi objek JavaScript. Ini juga mengembalikan Promise, dan karena <code>ambilJSON</code> adalah fungsi <code>async</code>, pemanggilnya cukup <code>await ambilJSON(...)</code>.</li>
+</ol>
+<p>Fungsi ini dibuat <strong>sekali</strong> dan dipakai film.js, anggota.js, dan dashboard.js, sehingga penanganan error seragam.</p>
+<h2 id="65-memuat-daftar-film">6.5 Memuat daftar film<a class="headerlink" href="#65-memuat-daftar-film" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">buatBarisFilm</span><span class="p">(</span><span class="nx">film</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">tr</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span>
+<span class="w">        </span><span class="nx">buatSel</span><span class="p">(</span><span class="nx">film</span><span class="p">.</span><span class="nx">judul</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">buatSel</span><span class="p">(</span><span class="nx">film</span><span class="p">.</span><span class="nx">sutradara</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">buatSel</span><span class="p">(</span><span class="nx">film</span><span class="p">.</span><span class="nx">tahun</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">buatSel</span><span class="p">(</span><span class="nx">film</span><span class="p">.</span><span class="nx">durasi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; Menit&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">buatSel</span><span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">film</span><span class="p">.</span><span class="nx">rating</span><span class="p">).</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; / 10&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">buatSel</span><span class="p">(</span><span class="nx">kapital</span><span class="p">(</span><span class="nx">film</span><span class="p">.</span><span class="nx">genre</span><span class="p">)),</span>
+<span class="w">        </span><span class="nx">buatSelAksi</span><span class="p">()</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">tr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">muatDaftarFilm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">tbody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#tabel-data tbody&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">tbody</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nx">tampilkanLoading</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">tbody</span><span class="p">.</span><span class="nx">replaceChildren</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">daftarFilm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ambilJSON</span><span class="p">(</span><span class="s2">&quot;../data/film.json&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">tbody</span><span class="p">.</span><span class="nx">replaceChildren</span><span class="p">(...</span><span class="nx">daftarFilm</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">buatBarisFilm</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">tampilkanGagal</span><span class="p">(</span><span class="nx">tbody</span><span class="p">,</span><span class="w"> </span><span class="mf">7</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">tampilkanLoading</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">sinkronkanTabel</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;DOMContentLoaded&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">muatDaftarFilm</span><span class="p">);</span>
+</code></pre></div>
+
+<p><strong><code>buatBarisFilm</code>: satu objek menjadi satu baris.</strong></p>
+<ul>
+<li><code>buatSel(teks)</code> (di app.js) membuat <code>td</code> dan mengisinya dengan <code>textContent</code>, lagi-lagi bukan <code>innerHTML</code>, karena data dari berkas luar tidak boleh dianggap aman.</li>
+<li><code>toFixed(1)</code> memaksa satu angka desimal sehingga <code>9</code> tampil sebagai <code>9.0 / 10</code>. <code>kapital("sci-fi")</code> menjadi <code>Sci-fi</code>, karena di JSON genre ditulis huruf kecil.</li>
+<li><code>buatSelAksi()</code> membuat sel berisi tombol Edit dan Hapus dengan class Bootstrap yang sama seperti baris statis di Jobsheet 5.</li>
+</ul>
+<p><strong><code>muatDaftarFilm</code>: urutan kerja.</strong></p>
+<ol>
+<li>Tampilkan spinner dan kosongkan <code>tbody</code>.</li>
+<li><code>try</code>: tunggu <code>ambilJSON</code>, lalu <code>daftarFilm.map(buatBarisFilm)</code> mengubah <strong>array data</strong> menjadi <strong>array baris</strong>. Tanda <code>...</code> (<em>spread</em>) mengurai array itu menjadi argumen, dan <code>replaceChildren</code> mengganti seluruh isi <code>tbody</code> dalam satu langkah (lebih efisien daripada menambahkan baris satu per satu).</li>
+<li><code>catch</code>: bila terjadi error di mana pun dalam <code>try</code>, tampilkan pesan di tabel, bukan membiarkan halaman diam.</li>
+<li><code>finally</code>: dijalankan <strong>apa pun hasilnya</strong>. Spinner selalu disembunyikan, dan tabel disinkronkan (jumlah data, pesan kosong).</li>
+</ol>
+<p><strong>Mengapa <code>sinkronkanTabel()</code> tidak lagi dipanggil saat halaman dibuka?</strong> Di Jobsheet 5, fungsi itu dipanggil pada <code>DOMContentLoaded</code>. Di Jobsheet 6 pemanggilan itu dihapus: saat itu tabel masih kosong, sehingga pengguna akan sekilas melihat "Belum ada data." selagi menunggu. Sekarang tabel disinkronkan hanya setelah data tiba.</p>
+<p><strong>Fitur lama tetap bekerja tanpa diubah.</strong> Baris tabel kini dibuat <em>setelah</em> halaman dimuat, tetapi tombol Hapus berfungsi karena listener-nya dipasang di <code>tbody</code> (delegation, <a href="jobsheet-5.html#event">Jobsheet 5, bagian 5.4</a>). Pencarian juga tetap jalan karena <code>sinkronkanTabel</code> membaca baris yang ada <strong>pada saat mengetik</strong>. Inilah hasil nyata dari desain di Jobsheet 5.</p>
+<h2 id="66-path-itu-relatif-terhadap-halaman-html">6.6 Path itu relatif terhadap halaman HTML<a class="headerlink" href="#66-path-itu-relatif-terhadap-halaman-html" title="Permanent link">#</a></h2>
+<p>Perhatikan dua pemanggilan ini:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">ambilJSON</span><span class="p">(</span><span class="s2">&quot;../data/film.json&quot;</span><span class="p">);</span><span class="w">   </span><span class="c1">// di film.js, dipakai dari film/list.html</span>
+<span class="nx">ambilJSON</span><span class="p">(</span><span class="s2">&quot;data/film.json&quot;</span><span class="p">);</span><span class="w">      </span><span class="c1">// di dashboard.js, dipakai dari index.html</span>
+</code></pre></div>
+
+<p>Path di <code>fetch</code> dihitung dari <strong>lokasi halaman HTML yang membuka skrip</strong>, bukan lokasi file JavaScript-nya. <code>film/list.html</code> berada satu tingkat di bawah root, jadi perlu <code>../</code>. <code>index.html</code> berada di root, jadi tidak perlu. Salah path adalah penyebab error <code>404</code> yang paling umum.</p>
+<h2 id="error">6.7 Penanganan error<a class="headerlink" href="#error" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">pesanGagal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">pesan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Gagal memuat data: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;file:&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">pesan</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s2">&quot; Buka halaman lewat server lokal (mis. ekstensi Live Server), bukan file://.&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">pesan</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">tampilkanGagal</span><span class="p">(</span><span class="nx">tbody</span><span class="p">,</span><span class="w"> </span><span class="nx">jumlahKolom</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">tr</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;baris-error&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">td</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">td</span><span class="p">.</span><span class="nx">colSpan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">jumlahKolom</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">td</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;text-center text-danger py-4&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">td</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pesanGagal</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">tr</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">td</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">tbody</span><span class="p">.</span><span class="nx">replaceChildren</span><span class="p">(</span><span class="nx">tr</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;info-jumlah&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">info</span><span class="p">)</span><span class="w"> </span><span class="nx">info</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Aplikasi yang baik <strong>tidak gagal diam-diam</strong>. Pengguna melihat pesan merah di dalam tabel, dengan petunjuk khusus bila halaman dibuka lewat <code>file://</code>. Baris pesan diberi class <code>baris-error</code>, dan <code>sinkronkanTabel</code> mengenalinya serta tidak menimpanya dengan "Belum ada data." Cobalah sendiri: ubah <code>film.json</code> menjadi <code>filem.json</code> di <code>film.js</code> dan lihat pesan <code>status 404</code>.</p>
+<h2 id="68-dashboard-dua-request-paralel">6.8 Dashboard: dua request paralel<a class="headerlink" href="#68-dashboard-dua-request-paralel" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">film</span><span class="p">,</span><span class="w"> </span><span class="nx">anggota</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+<span class="w">    </span><span class="nx">ambilJSON</span><span class="p">(</span><span class="s2">&quot;data/film.json&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">ambilJSON</span><span class="p">(</span><span class="s2">&quot;data/anggota.json&quot;</span><span class="p">)</span>
+<span class="p">]);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">dipinjam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">film</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">dipinjam</span><span class="p">;</span><span class="w"> </span><span class="p">}).</span><span class="nx">length</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">persen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">film</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">((</span><span class="nx">dipinjam</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">film</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">100</span><span class="p">);</span>
+
+<span class="nx">elFilm</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">film</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;total-anggota&quot;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">anggota</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;total-dipinjam&quot;</span><span class="p">).</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dipinjam</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">bar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;bar-dipinjam&quot;</span><span class="p">);</span>
+<span class="nx">bar</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">persen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;%&quot;</span><span class="p">;</span>
+<span class="nx">bar</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dipinjam</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; dari &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">film</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+</code></pre></div>
+
+<ul>
+<li><code>Promise.all([...])</code> menjalankan dua permintaan <strong>bersamaan</strong> dan menunggu keduanya selesai. Jika dijalankan berurutan (<code>await</code> satu per satu) waktu tunggunya dijumlah; paralel hanya selama yang terlama.</li>
+<li><code>const [film, anggota] = ...</code> adalah <em>destructuring</em> array: elemen pertama masuk ke <code>film</code>, kedua ke <code>anggota</code>.</li>
+<li>Angka ringkasan tidak lagi ditulis manual. Total film = panjang array, dipinjam = jumlah objek berisi <code>"dipinjam": true</code> (disaring dengan <code>filter</code>), dan persen untuk lebar progress bar. Hasilnya: 12 film, 8 anggota, 3 dipinjam, 25%.</li>
+<li>Atribut <code>aria-valuenow</code> dan <code>aria-valuemax</code> pada elemen progress juga diperbarui, agar pembaca layar mendapat angka yang benar.</li>
+<li>Pengecekan <code>film.length === 0 ? 0 : ...</code> mencegah pembagian dengan nol.</li>
+</ul>
+<h2 id="69-dari-form-ke-json">6.9 Dari form ke JSON<a class="headerlink" href="#69-dari-form-ke-json" title="Permanent link">#</a></h2>
+<p>Saat form valid, Jobsheet 6 menampilkan data form dalam format JSON:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Object</span><span class="p">.</span><span class="nx">fromEntries</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">FormData</span><span class="p">(</span><span class="nx">form</span><span class="p">));</span><span class="w">   </span><span class="c1">// ambil semua field sebagai objek</span>
+<span class="nx">form</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+<span class="nx">tampilkanSukses</span><span class="p">(</span><span class="nx">form</span><span class="p">,</span><span class="w"> </span><span class="nx">nama</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">);</span>
+<span class="c1">// di dalam tampilkanSukses:</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">);</span><span class="w">             </span><span class="c1">// objek -&gt; teks JSON (rapi, indentasi 2)</span>
+</code></pre></div>
+
+<p><code>new FormData(form)</code> mengumpulkan semua field berdasarkan atribut <strong><code>name</code></strong> (itulah beda <code>name</code> dan <code>id</code> yang dibahas di <a href="jobsheet-1.html#form">Jobsheet 1, bagian 1.8</a>), dan <code>Object.fromEntries</code> mengubahnya menjadi objek. Hasilnya, misalnya:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;judul&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Film Uji&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;sutradara&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tester&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tahun&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;durasi&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;90&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rating&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7.5&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;genre&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;drama&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Perhatikan bahwa <strong>semua nilai berupa string</strong> (<code>"2020"</code>, bukan <code>2020</code>), karena begitulah form bekerja. Server atau kode kita yang kelak mengubahnya menjadi angka. Pada aplikasi dengan server, string JSON inilah yang dikirim seperti ini (contoh, tidak aktif di proyek):</p>
+<div class="highlight"><pre><span></span><code><span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;api/film&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;application/json&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nx">json</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h2 id="610-melihat-request-di-devtools">6.10 Melihat request di DevTools<a class="headerlink" href="#610-melihat-request-di-devtools" title="Permanent link">#</a></h2>
+<p>Buka tab <em>Network</em>, muat ulang halaman daftar film, lalu klik <code>film.json</code>. Tab <em>Headers</em> menunjukkan status <code>200</code>, <em>Response</em> menampilkan isi JSON mentah, dan <em>Timing</em> menunjukkan lamanya. Ubah <em>Throttling</em> menjadi <em>Slow 3G</em> dan muat ulang: spinner akan terlihat lebih lama, seperti di jaringan lambat sungguhan.</p>
+<h2 id="611-kesalahan-umum">6.11 Kesalahan umum<a class="headerlink" href="#611-kesalahan-umum" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala / pesan</th>
+<th>Penyebab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tabel menampilkan "Failed to fetch"</td>
+<td>Halaman dibuka lewat <code>file://</code>; gunakan server lokal</td>
+</tr>
+<tr>
+<td><code>status 404</code></td>
+<td>Path JSON salah (ingat <code>../</code> dari subfolder) atau nama file salah</td>
+</tr>
+<tr>
+<td><code>Unexpected token ... in JSON</code></td>
+<td>File JSON tidak valid: koma sisa, kutip tunggal, atau komentar</td>
+</tr>
+<tr>
+<td><code>ambilJSON is not defined</code></td>
+<td><code>app.js</code> tidak dimuat, atau dimuat <strong>setelah</strong> <code>film.js</code></td>
+</tr>
+<tr>
+<td><code>Cannot use 'await' outside an async function</code></td>
+<td>Fungsi pemanggil lupa diberi <code>async</code></td>
+</tr>
+<tr>
+<td>Tabel kosong tanpa pesan apa pun</td>
+<td>Lupa <code>await</code> sehingga yang dipakai masih Promise, bukan datanya</td>
+</tr>
+<tr>
+<td>Data tampil <code>undefined</code></td>
+<td>Nama properti salah ketik (<code>judul</code> vs <code>Judul</code>); JSON peka huruf besar-kecil</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="612-latihan">6.12 Latihan<a class="headerlink" href="#612-latihan" title="Permanent link">#</a></h2>
+<ol>
+<li>Tambahkan film ke <code>film.json</code>, lalu muat ulang. Tidak ada HTML yang diubah, dan inilah intinya.</li>
+<li>Tambahkan kolom <strong>Status</strong> di tabel film ("Dipinjam" atau "Tersedia") berdasarkan properti <code>dipinjam</code>.</li>
+<li>Tambahkan <code>data/peminjaman.json</code> dan tampilkan daftar peminjaman di halaman baru.</li>
+<li>Tampilkan pesan "Data kosong" bila JSON berupa array kosong <code>[]</code>. Periksa dulu bagaimana <code>sinkronkanTabel</code> menanganinya.</li>
+</ol>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="prev" href="jobsheet-5.html"><small>Sebelumnya</small>Jobsheet 5: JavaScript DOM dan Event</a><a class="next" href="lampiran.html"><small>Berikutnya</small>Lampiran: Rangkuman dan Pemecahan Masalah</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

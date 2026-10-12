@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handbook SIFILM-Mini | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html" aria-current="page">Halaman utama</a></li><li><ul class="toc"><li><a href="#tentang">0.1 Tentang handbook ini</a></li><li><a href="#02-gambaran-proyek">0.2 Gambaran proyek</a></li><li><a href="#03-peta-jobsheet">0.3 Peta jobsheet</a></li><li><a href="#04-struktur-folder">0.4 Struktur folder</a></li><li><a href="#05-persiapan-dan-cara-menjalankan">0.5 Persiapan dan cara menjalankan</a></li><li><a href="#06-cara-membaca-handbook">0.6 Cara membaca handbook</a></li></ul></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Pemrograman Web · SIFILM-Mini</p>
+      <h1>Handbook SIFILM-Mini</h1>
+      <p class="lead">Panduan lengkap enam jobsheet Pemrograman Web dengan satu studi kasus: aplikasi pendataan film dan anggota.</p>
+      <ul class="tags"><li>HTML5</li><li>CSS</li><li>Bootstrap</li><li>JavaScript</li><li>JSON</li></ul>
+    </div></header>
+    <main class="article">
+<h2 class="section-title" id="mulai">Mulai belajar</h2><ul class="cards"><li><a class="card" href="jobsheet-1.html"><span class="n">1</span><h3>HTML5</h3><p>Kerangka halaman, elemen semantik, tabel, form, dan validasi HTML5.</p><span class="go">Buka halaman &rarr;</span></a></li><li><a class="card" href="jobsheet-2.html"><span class="n">2</span><h3>CSS</h3><p>Variabel, selector, layout Grid, Flexbox, dan pseudo-element.</p><span class="go">Buka halaman &rarr;</span></a></li><li><a class="card" href="jobsheet-3.html"><span class="n">3</span><h3>Responsive Design dan Bootstrap</h3><p>Bagian A: responsive dengan CSS. Bagian B: Bootstrap 5.</p><span class="go">Buka halaman &rarr;</span></a></li><li><a class="card" href="jobsheet-4.html"><span class="n">4</span><h3>Wireframe</h3><p>Merancang tata letak desktop dan mobile dengan wireframe.</p><span class="go">Buka halaman &rarr;</span></a></li><li><a class="card" href="jobsheet-5.html"><span class="n">5</span><h3>JavaScript DOM dan Event</h3><p>DOM, event, event delegation, pencarian, dan validasi form.</p><span class="go">Buka halaman &rarr;</span></a></li><li><a class="card" href="jobsheet-6.html"><span class="n">6</span><h3>Fetch API dan JSON</h3><p>JSON, fetch, async/await, penanganan error, dan Promise.all.</p><span class="go">Buka halaman &rarr;</span></a></li><li><a class="card" href="lampiran.html"><span class="n">+</span><h3>Rangkuman dan Pemecahan Masalah</h3><p>Rangkuman, pemecahan masalah, glosarium, dan daftar periksa akhir.</p><span class="go">Buka halaman &rarr;</span></a></li></ul>
+<h2 id="tentang">0.1 Tentang handbook ini<a class="headerlink" href="#tentang" title="Permanent link">#</a></h2>
+<p>Handbook ini menemani enam jobsheet praktikum Pemrograman Web. Seluruh jobsheet memakai <strong>satu studi kasus yang sama</strong>, yaitu SIFILM-Mini, aplikasi sederhana untuk mendata film dan anggota. Dengan konten yang tetap, kamu bisa fokus melihat <strong>apa yang berubah di setiap tahap</strong>: dari HTML polos, lalu diberi gaya, dibuat responsif, dipercepat dengan Bootstrap, dirancang lewat wireframe, diberi perilaku dengan JavaScript, sampai mengambil data dari JSON.</p>
+<p>Setiap halaman jobsheet disusun dengan pola yang sama: <strong>tujuan</strong>, <strong>konsep</strong>, <strong>kode beserta penjelasannya</strong>, <strong>kesalahan umum</strong>, dan <strong>latihan</strong>.</p>
+<h2 id="02-gambaran-proyek">0.2 Gambaran proyek<a class="headerlink" href="#02-gambaran-proyek" title="Permanent link">#</a></h2>
+<p>SIFILM-Mini terdiri dari lima halaman:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Halaman</th>
+<th>File</th>
+<th>Fungsi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beranda</td>
+<td><code>index.html</code></td>
+<td>Ringkasan: total film, total anggota, film yang sedang dipinjam</td>
+</tr>
+<tr>
+<td>Daftar Film</td>
+<td><code>film/list.html</code></td>
+<td>Tabel film (judul, sutradara, tahun, durasi, rating, genre)</td>
+</tr>
+<tr>
+<td>Tambah Film</td>
+<td><code>film/tambah.html</code></td>
+<td>Form input film baru</td>
+</tr>
+<tr>
+<td>Daftar Anggota</td>
+<td><code>anggota/list.html</code></td>
+<td>Tabel anggota (no. anggota, nama, alamat, no. HP)</td>
+</tr>
+<tr>
+<td>Tambah Anggota</td>
+<td><code>anggota/tambah.html</code></td>
+<td>Form input anggota baru</td>
+</tr>
+</tbody>
+</table></div>
+<p>Alur navigasinya: Beranda → Daftar Film ⇄ Tambah Film, dan Beranda → Daftar Anggota ⇄ Tambah Anggota.</p>
+<h2 id="03-peta-jobsheet">0.3 Peta jobsheet<a class="headerlink" href="#03-peta-jobsheet" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Jobsheet</th>
+<th>Materi</th>
+<th>Yang ditambahkan dibanding sebelumnya</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="jobsheet-1.html">1</a></td>
+<td>HTML5</td>
+<td>Struktur semantik, tabel, form dengan validasi bawaan. Tanpa CSS dan JS.</td>
+</tr>
+<tr>
+<td><a href="jobsheet-2.html">2</a></td>
+<td>CSS</td>
+<td>File <code>style.css</code>: variabel, grid, flexbox, pseudo-element. Hanya layar lebar.</td>
+</tr>
+<tr>
+<td><a href="jobsheet-3.html#bagian-a">3a</a></td>
+<td>Responsive Design</td>
+<td><code>meta viewport</code>, media query mobile-first, pembungkus tabel.</td>
+</tr>
+<tr>
+<td><a href="jobsheet-3.html#bagian-b">3b</a></td>
+<td>Bootstrap</td>
+<td>Halaman ditulis ulang dengan komponen dan class Bootstrap 5.</td>
+</tr>
+<tr>
+<td><a href="jobsheet-4.html">4</a></td>
+<td>Wireframe</td>
+<td>Hanya menambah halaman wireframe dan tautannya di sidebar.</td>
+</tr>
+<tr>
+<td><a href="jobsheet-5.html">5</a></td>
+<td>JavaScript DOM &amp; Event</td>
+<td><code>app.js</code>: hapus dengan konfirmasi, pencarian real-time, validasi form.</td>
+</tr>
+<tr>
+<td><a href="jobsheet-6.html">6</a></td>
+<td>Fetch API &amp; JSON</td>
+<td>Data film dan anggota dimuat dari file JSON dengan <code>fetch</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Jobsheet 3 memiliki dua bagian dalam satu halaman. Jobsheet 4, 5, dan 6 melanjutkan versi Bootstrap (3b).</p>
+<h2 id="04-struktur-folder">0.4 Struktur folder<a class="headerlink" href="#04-struktur-folder" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code>sifilm-mini-layout/
+├── Jobsheet1/                 HTML5 saja
+│   ├── index.html
+│   ├── film/      (list.html, tambah.html)
+│   └── anggota/   (list.html, tambah.html)
+├── Jobsheet2/                 + assets/css/style.css
+├── Jobsheet3/
+│   ├── responsive-design/     + media query
+│   └── bootstrap/             + assets/css/custom.css
+├── Jobsheet4/                 + wireframe/index.html
+├── Jobsheet5/                 + assets/js/app.js
+└── Jobsheet6/                 + assets/js/*.js dan data/*.json
+</code></pre></div>
+
+<p>Perhatikan bahwa halaman di dalam subfolder (<code>film/</code>, <code>anggota/</code>) memakai awalan <code>../</code> untuk menunjuk ke file di folder induk, misalnya <code>../assets/css/style.css</code>. Kesalahan path adalah penyebab paling sering CSS atau JS "tidak jalan".</p>
+<h2 id="05-persiapan-dan-cara-menjalankan">0.5 Persiapan dan cara menjalankan<a class="headerlink" href="#05-persiapan-dan-cara-menjalankan" title="Permanent link">#</a></h2>
+<ol>
+<li>Pasang <strong>Visual Studio Code</strong> dan ekstensi <strong>Live Server</strong>.</li>
+<li>Jobsheet 1 sampai 5 bisa dibuka langsung dengan klik dua kali <code>index.html</code>. Bootstrap dan font dimuat dari internet (CDN), jadi perangkat harus online.</li>
+<li>Jobsheet 6 <strong>wajib lewat server lokal</strong>. Klik kanan <code>index.html</code> lalu pilih <em>Open with Live Server</em>, atau jalankan <code>python -m http.server 8000</code> di folder <code>Jobsheet6</code> dan buka <code>http://localhost:8000</code>. Alasannya dijelaskan di <a href="lampiran.html#server-lokal">Lampiran, bagian 7.3</a>.</li>
+<li>Biasakan membuka <strong>DevTools</strong> (tombol F12). Tab <em>Elements</em> untuk melihat DOM dan CSS, <em>Console</em> untuk pesan error JavaScript, <em>Network</em> untuk melihat request <code>fetch</code>.</li>
+</ol>
+<h2 id="06-cara-membaca-handbook">0.6 Cara membaca handbook<a class="headerlink" href="#06-cara-membaca-handbook" title="Permanent link">#</a></h2>
+<p>Kerjakan <strong>berurutan</strong>, karena tiap jobsheet membangun di atas yang sebelumnya. Buka file jobsheet di editor di samping handbook, ketik ulang kodenya (jangan hanya menyalin), lalu ubah-ubah nilainya untuk melihat efeknya. Tombol <strong>Salin</strong> di pojok kanan atas setiap blok kode tersedia bila kamu perlu menyalinnya. Kerjakan latihan di akhir setiap halaman sebelum lanjut.</p>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="next" href="jobsheet-1.html"><small>Mulai dari</small>Jobsheet 1: HTML5</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>

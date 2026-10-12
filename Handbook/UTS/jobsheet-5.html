@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jobsheet 5: JavaScript DOM dan Event | Handbook SIFILM-Mini</title>
+<link rel="stylesheet" href="assets/handbook.css">
+<link rel="stylesheet" href="assets/pygments.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="side-top">
+      <a class="brand" href="index.html"><span class="brand-mark">S</span>SIFILM-Mini</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="side-nav">Menu</button>
+    </div>
+    <nav class="side-nav" id="side-nav" aria-label="Navigasi handbook"><div class="side-label">Handbook</div><ul><li><a href="index.html">Halaman utama</a></li></ul><div class="side-label">Jobsheet</div><ul><li><a href="jobsheet-1.html"><span class="num">1</span>HTML5</a></li><li><a href="jobsheet-2.html"><span class="num">2</span>CSS</a></li><li><a href="jobsheet-3.html"><span class="num">3</span>Responsive &amp; Bootstrap</a></li><li><a href="jobsheet-4.html"><span class="num">4</span>Wireframe</a></li><li><a href="jobsheet-5.html" aria-current="page"><span class="num">5</span>JavaScript DOM &amp; Event</a></li><li><ul class="toc"><li><a href="#51-tujuan">5.1 Tujuan</a></li><li><a href="#52-konsep-dom">5.2 Konsep: DOM</a></li><li><a href="#53-perkakas-dom-yang-dipakai">5.3 Perkakas DOM yang dipakai</a></li><li><a href="#event">5.4 Event</a></li><li><a href="#55-titik-masuk">5.5 Titik masuk</a></li><li><a href="#56-fitur-1-konfirmasi-hapus">5.6 Fitur 1: konfirmasi hapus</a></li><li><a href="#57-fitur-2-pencarian-real-time">5.7 Fitur 2: pencarian real-time</a></li><li><a href="#58-fitur-3-validasi-form">5.8 Fitur 3: validasi form</a></li><li><a href="#59-debugging">5.9 Debugging</a></li><li><a href="#510-kesalahan-umum">5.10 Kesalahan umum</a></li><li><a href="#511-latihan">5.11 Latihan</a></li></ul></li><li><a href="jobsheet-6.html"><span class="num">6</span>Fetch API &amp; JSON</a></li></ul><div class="side-label">Tambahan</div><ul><li><a href="lampiran.html">Lampiran</a></li></ul></nav>
+  </aside>
+  <div class="content">
+    <header class="hero"><div class="hero-inner">
+      <p class="eyebrow">Jobsheet 5 dari 6</p>
+      <h1>Jobsheet 5: JavaScript DOM dan Event</h1>
+      <p class="lead">Membuat halaman bereaksi: hapus dengan konfirmasi, pencarian real-time, dan validasi form.</p>
+      <ul class="tags"><li>DOM</li><li>Event</li><li>Event delegation</li><li>Validasi</li></ul>
+    </div></header>
+    <main class="article">
+
+<h2 id="51-tujuan">5.1 Tujuan<a class="headerlink" href="#51-tujuan" title="Permanent link">#</a></h2>
+<p>Setelah jobsheet ini kamu mampu memilih dan mengubah elemen halaman lewat JavaScript, menangani event (klik, ketik, kirim form), memakai <em>event delegation</em>, dan membuat validasi form sendiri. Tampilan tidak berubah; yang berubah adalah <strong>perilaku</strong>: halaman kini bereaksi terhadap pengguna.</p>
+<h2 id="52-konsep-dom">5.2 Konsep: DOM<a class="headerlink" href="#52-konsep-dom" title="Permanent link">#</a></h2>
+<p>Saat browser membaca HTML, ia membangun <strong>DOM</strong> (<em>Document Object Model</em>): pohon objek yang mewakili setiap elemen. JavaScript tidak mengubah file HTML; ia mengubah pohon di memori, dan browser langsung menggambar ulang. Buka tab <em>Elements</em> di DevTools, itulah DOM, dan kamu akan melihatnya berubah ketika kamu menghapus baris atau mengetik di pencarian.</p>
+<p>Skrip dimuat paling akhir sebelum <code>&lt;/body&gt;</code>, setelah Bootstrap:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;../assets/js/app.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Di akhir <code>body</code>, seluruh HTML sudah ada, sehingga <code>querySelector</code> menemukan elemennya. <strong>Satu file <code>app.js</code> dipakai oleh kelima halaman</strong>, jadi setiap fungsi memeriksa dulu apakah elemen yang dibutuhkannya ada di halaman itu:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">tbody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#tabel-data tbody&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">tbody</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">      </span><span class="c1">// halaman ini tidak punya tabel: berhenti diam-diam</span>
+</code></pre></div>
+
+<p>Tanpa pemeriksaan ini, halaman Beranda dan halaman form akan menghasilkan error di Console.</p>
+<h2 id="53-perkakas-dom-yang-dipakai">5.3 Perkakas DOM yang dipakai<a class="headerlink" href="#53-perkakas-dom-yang-dipakai" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Perkakas</th>
+<th>Fungsi</th>
+<th>Contoh di proyek</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>document.querySelector(css)</code></td>
+<td>Elemen <strong>pertama</strong> yang cocok dengan selector CSS</td>
+<td><code>"#tabel-data tbody"</code></td>
+</tr>
+<tr>
+<td><code>querySelectorAll(css)</code></td>
+<td><strong>Semua</strong> yang cocok (NodeList)</td>
+<td>semua <code>td</code> selain kolom terakhir</td>
+</tr>
+<tr>
+<td><code>document.getElementById(id)</code></td>
+<td>Ambil elemen lewat <code>id</code></td>
+<td><code>"search-input"</code></td>
+</tr>
+<tr>
+<td><code>el.closest(css)</code></td>
+<td>Naik ke leluhur terdekat yang cocok</td>
+<td>dari tombol ke <code>tr</code></td>
+</tr>
+<tr>
+<td><code>el.textContent</code></td>
+<td>Baca/ubah teks, <strong>aman</strong> dari HTML</td>
+<td>isi pesan, nama film</td>
+</tr>
+<tr>
+<td><code>el.value</code></td>
+<td>Nilai input</td>
+<td><code>input.value</code></td>
+</tr>
+<tr>
+<td><code>el.hidden</code></td>
+<td>Sembunyikan/tampilkan elemen</td>
+<td>filter baris</td>
+</tr>
+<tr>
+<td><code>el.classList.add/remove/toggle</code></td>
+<td>Ubah class</td>
+<td><code>is-invalid</code>, <code>is-valid</code></td>
+</tr>
+<tr>
+<td><code>document.createElement(tag)</code></td>
+<td>Membuat elemen baru</td>
+<td>baris pesan, alert</td>
+</tr>
+<tr>
+<td><code>el.append(...)</code>, <code>insertAdjacentElement(posisi, el)</code></td>
+<td>Menyisipkan elemen</td>
+<td>alert sebelum form</td>
+</tr>
+<tr>
+<td><code>el.remove()</code></td>
+<td>Menghapus elemen dari DOM</td>
+<td>menghapus baris</td>
+</tr>
+<tr>
+<td><code>el.setAttribute(nama, nilai)</code></td>
+<td>Mengatur atribut</td>
+<td><code>role</code>, <code>aria-label</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="event">5.4 Event<a class="headerlink" href="#event" title="Permanent link">#</a></h2>
+<p>Event adalah kejadian di halaman (klik, ketik, kirim form). Kita mendaftarkan <strong>pendengar</strong> (<em>listener</em>) yang dijalankan saat kejadian itu muncul:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">elemen</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;nama-event&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// e = objek event: e.target (elemen yang diklik), e.preventDefault(), dll.</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Terjadi saat</th>
+<th>Dipakai untuk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DOMContentLoaded</code></td>
+<td>HTML selesai dibaca</td>
+<td>Titik awal menjalankan semua init</td>
+</tr>
+<tr>
+<td><code>click</code></td>
+<td>Elemen diklik</td>
+<td>Tombol Hapus</td>
+</tr>
+<tr>
+<td><code>input</code></td>
+<td>Isi kolom berubah (setiap ketikan, termasuk tempel dan hapus)</td>
+<td>Pencarian real-time, validasi ulang</td>
+</tr>
+<tr>
+<td><code>change</code></td>
+<td>Nilai <code>select</code> berubah</td>
+<td>Validasi ulang genre</td>
+</tr>
+<tr>
+<td><code>submit</code></td>
+<td>Form dikirim</td>
+<td>Validasi form</td>
+</tr>
+<tr>
+<td><code>reset</code></td>
+<td>Form direset</td>
+<td>Membersihkan tanda kesalahan</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Bubbling dan delegation.</strong> Event "menggelembung" dari elemen yang diklik ke induk-induknya. Karena itu satu listener di <code>tbody</code> bisa menangkap klik pada <strong>semua</strong> tombol di dalamnya, termasuk tombol pada baris yang baru dibuat nanti. Teknik ini disebut <em>event delegation</em>, dan akan sangat menolong di <a href="jobsheet-6.html">Jobsheet 6</a> saat baris tabel dibuat dinamis dari JSON.</p>
+<h2 id="55-titik-masuk">5.5 Titik masuk<a class="headerlink" href="#55-titik-masuk" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;DOMContentLoaded&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">initHapus</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">initPencarian</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">initValidasiForm</span><span class="p">();</span>
+<span class="w">    </span><span class="nx">sinkronkanTabel</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>Semua fitur dibungkus dalam fungsi <code>init...</code> dengan satu tugas masing-masing, lalu dinyalakan dari satu tempat. Pola ini membuat kode mudah dibaca dan mudah dimatikan satu per satu saat debugging (cukup beri komentar pada satu baris).</p>
+<h2 id="56-fitur-1-konfirmasi-hapus">5.6 Fitur 1: konfirmasi hapus<a class="headerlink" href="#56-fitur-1-konfirmasi-hapus" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">initHapus</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">tbody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#tabel-data tbody&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">tbody</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nx">tbody</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">btn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s2">&quot;.btn-hapus&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">btn</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">btn</span><span class="p">.</span><span class="nx">closest</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">row</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">).</span><span class="nx">textContent</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s1">&#39;Yakin ingin menghapus &quot;&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;&quot;?&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">row</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="w">            </span><span class="nx">sinkronkanTabel</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Baca baris demi baris:</p>
+<ol>
+<li>Satu listener <code>click</code> dipasang di <code>tbody</code>, bukan di tiap tombol (delegation).</li>
+<li><code>e.target</code> adalah elemen persis yang diklik. <code>closest(".btn-hapus")</code> memeriksa apakah itu (atau induknya) tombol Hapus. Jika bukan, <code>return</code> dan abaikan klik. Ini juga mencegah error ketika yang diklik adalah sel biasa.</li>
+<li><code>btn.closest("tr")</code> naik ke baris yang memuat tombol.</li>
+<li><code>row.querySelector("td")</code> mengambil sel <strong>pertama</strong> dalam baris (judul film atau no. anggota) untuk ditampilkan di pesan konfirmasi.</li>
+<li><code>confirm()</code> menampilkan kotak OK/Batal dan mengembalikan <code>true</code> bila OK. Hanya bila <code>true</code>, baris dihapus dengan <code>row.remove()</code>.</li>
+<li><code>sinkronkanTabel()</code> memperbarui teks jumlah data dan pesan "kosong" (dijelaskan berikut).</li>
+</ol>
+<p>Perlu diingat: penghapusan hanya terjadi di DOM. <strong>Muat ulang halaman, dan baris kembali</strong> karena datanya masih ada di file HTML. Menyimpan perubahan secara permanen membutuhkan server dan basis data (materi jobsheet berikutnya).</p>
+<h2 id="57-fitur-2-pencarian-real-time">5.7 Fitur 2: pencarian real-time<a class="headerlink" href="#57-fitur-2-pencarian-real-time" title="Permanent link">#</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">initPencarian</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;search-input&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">input</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">input</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">sinkronkanTabel</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Pendengarnya hanya satu baris. Seluruh pekerjaan ada di <code>sinkronkanTabel</code>, yang juga dipakai oleh fitur hapus dan oleh Jobsheet 6:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">sinkronkanTabel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">tbody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#tabel-data tbody&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">tbody</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;search-input&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">kata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">input</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">().</span><span class="nx">toLowerCase</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">baris</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ambilBarisData</span><span class="p">(</span><span class="nx">tbody</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">tampil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nx">baris</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">row</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">teks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">row</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;td:not(:last-child)&quot;</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">td</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">td</span><span class="p">.</span><span class="nx">textContent</span><span class="p">;</span><span class="w"> </span><span class="p">})</span>
+<span class="w">            </span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">cocok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">teks</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">kata</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">row</span><span class="p">.</span><span class="nx">hidden</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="nx">cocok</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">cocok</span><span class="p">)</span><span class="w"> </span><span class="nx">tampil</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="c1">// ... tampilkan/hapus baris pesan &quot;Data tidak ditemukan&quot; / &quot;Belum ada data&quot; ...</span>
+
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;info-jumlah&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">info</span><span class="p">)</span><span class="w"> </span><span class="nx">info</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Menampilkan &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">tampil</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; dari &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">baris</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; data&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Penjelasan bagian penting:</p>
+<ul>
+<li><code>kata</code> adalah isi kolom cari, dipangkas spasinya dan dijadikan huruf kecil agar pencarian tidak peka huruf besar-kecil.</li>
+<li>Untuk setiap baris, kita <strong>menggabungkan teks semua sel kecuali yang terakhir</strong> (<code>td:not(:last-child)</code>). Sel terakhir berisi tombol "Edit" dan "Hapus"; jika ikut dicari, mengetik "edit" akan mencocokkan setiap baris. <code>Array.from(...)</code> mengubah NodeList agar bisa memakai <code>.map</code>.</li>
+<li><code>teks.includes(kata)</code> bernilai <code>true</code> bila teks baris memuat kata kunci. Kolom cari kosong menghasilkan <code>""</code>, dan <code>includes("")</code> selalu <code>true</code>, sehingga semua baris tampil kembali tanpa kode khusus.</li>
+<li><code>row.hidden = !cocok</code> menyembunyikan baris yang tidak cocok. Baris <strong>tidak dihapus</strong>, hanya disembunyikan, jadi mengosongkan pencarian mengembalikannya.</li>
+<li>Event <code>input</code> dipilih dibanding <code>keyup</code> karena <code>input</code> juga tertangkap saat teks ditempel atau dihapus dengan mouse.</li>
+</ul>
+<p>Kalau tidak ada baris yang tampil, fungsi ini membuat satu baris pesan dengan <code>createElement("tr")</code> yang <code>td</code>-nya memakai <code>colSpan</code> sebanyak jumlah kolom tabel, sehingga pesan membentang selebar tabel. Pesannya berbeda: "Belum ada data." bila tabel memang kosong, "Data tidak ditemukan." bila baris ada tetapi semuanya tersaring.</p>
+<h2 id="58-fitur-3-validasi-form">5.8 Fitur 3: validasi form<a class="headerlink" href="#58-fitur-3-validasi-form" title="Permanent link">#</a></h2>
+<p><strong>Alur besarnya</strong></p>
+<div class="highlight"><pre><span></span><code>Pengguna menekan Simpan
+  -&gt; event submit; e.preventDefault() (jangan pindah halaman)
+  -&gt; untuk setiap field: validasiField() mengembalikan pesan kesalahan atau &quot;&quot;
+       ada pesan  -&gt; tampilkanError()  (kotak merah + teks)
+       tidak ada  -&gt; tandaiValid()     (kotak hijau)
+  -&gt; ada kesalahan? fokus ke field pertama yang salah, selesai
+  -&gt; semua benar?  ambil nama, form.reset(), tampilkan alert sukses
+</code></pre></div>
+
+<p><strong>Satu aturan generik, bukan per field.</strong> <code>validasiField</code> membaca aturan dari atribut HTML yang sudah ada (<code>required</code>, <code>min</code>, <code>max</code>, <code>pattern</code>, <code>title</code>), sehingga satu fungsi melayani semua field di form film maupun anggota:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">validasiField</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span><span class="w"> </span><span class="nx">form</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">nilai</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">labelEl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">form</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;label[for=&quot;&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;&quot;]&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">labelEl</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">labelEl</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Field ini&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">required</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">nilai</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; wajib diisi.&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">nilai</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span><span class="w">            </span><span class="c1">// field opsional yang dikosongkan</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">angka</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">nilai</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">Number</span><span class="p">.</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">angka</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Masukkan angka yang valid.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">punyaMin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">min</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">punyaMax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">max</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">punyaMin</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">punyaMax</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">angka</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">min</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">angka</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">max</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; harus di antara &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; dan &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">max</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">punyaMin</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">angka</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">min</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; minimal &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">punyaMax</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">angka</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">max</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; maksimal &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">max</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">pattern</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="ow">new</span><span class="w"> </span><span class="nb">RegExp</span><span class="p">(</span><span class="s2">&quot;^(?:&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">pattern</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;)$&quot;</span><span class="p">).</span><span class="nx">test</span><span class="p">(</span><span class="nx">nilai</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">title</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">&quot;Format &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot; tidak sesuai.&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span><span class="w">                               </span><span class="c1">// kosong = valid</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Nama field diambil dari teks <code>&lt;label for="..."&gt;</code>, sehingga pesan terbaca alami: "Judul wajib diisi."</li>
+<li>Fungsi mengembalikan <strong>teks pesan</strong> bila salah dan <strong>string kosong</strong> bila benar. Kontrak sederhana ini membuat pemanggilnya mudah: <code>if (pesan) ...</code>.</li>
+<li>Urutan pengecekan penting: wajib isi, lalu kosong-yang-diizinkan, lalu angka, lalu pola. Alamat anggota bersifat opsional, jadi saat kosong ia langsung lolos.</li>
+<li>Pola dibungkus <code>^(?:...)$</code> supaya cocok dengan <strong>seluruh</strong> isi. Tanpa jangkar itu, <code>A001xyz</code> lolos untuk pola <code>A[0-9]{3}</code> karena sebagian teksnya cocok. Pesan kesalahan pola memakai atribut <code>title</code> yang sudah kita tulis di HTML.</li>
+</ul>
+<p><strong>Menampilkan hasil dengan class Bootstrap</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">tampilkanError</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span><span class="w"> </span><span class="nx">pesan</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">el</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;is-invalid&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">el</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s2">&quot;is-valid&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">el</span><span class="p">.</span><span class="nx">parentElement</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;.invalid-feedback&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">fb</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">fb</span><span class="p">.</span><span class="nx">className</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;invalid-feedback&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">el</span><span class="p">.</span><span class="nx">insertAdjacentElement</span><span class="p">(</span><span class="s2">&quot;afterend&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">fb</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fb</span><span class="p">.</span><span class="nx">textContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pesan</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Bootstrap sudah menyiapkan gayanya. Input ber-class <code>is-invalid</code> berbingkai merah, dan elemen <code>.invalid-feedback</code> setelahnya otomatis tampil. Kode kita hanya mengatur class dan menyisipkan satu <code>div</code>. Bila <code>div</code> pesan sudah ada, teksnya cukup diganti sehingga tidak menumpuk setiap kali tombol Simpan ditekan.</p>
+<p><strong>Merangkai semuanya</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">initValidasiForm</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;form-tambah&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">form</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nx">form</span><span class="p">.</span><span class="nx">noValidate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">     </span><span class="c1">// matikan balon validasi bawaan browser</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">fields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">form</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;input, select&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nx">form</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;submit&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span><span class="w">         </span><span class="c1">// belum ada server: cegah pindah halaman</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">pertamaError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+
+<span class="w">        </span><span class="nx">fields</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">el</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">pesan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">validasiField</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span><span class="w"> </span><span class="nx">form</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">pesan</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">tampilkanError</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span><span class="w"> </span><span class="nx">pesan</span><span class="p">);</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">pertamaError</span><span class="p">)</span><span class="w"> </span><span class="nx">pertamaError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">el</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">tandaiValid</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">pertamaError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">pertamaError</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">utama</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">form</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;input[type=&#39;text&#39;]&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">nama</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">utama</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">utama</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;data&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">form</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span><span class="w">                 </span><span class="c1">// reset dulu</span>
+<span class="w">        </span><span class="nx">tampilkanSukses</span><span class="p">(</span><span class="nx">form</span><span class="p">,</span><span class="w"> </span><span class="nx">nama</span><span class="p">);</span><span class="w">  </span><span class="c1">// lalu tampilkan pesan sukses</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="c1">// ... listener input/change untuk validasi ulang, dan listener reset ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>form.noValidate = true</code> menonaktifkan validasi bawaan HTML5 dari Jobsheet 1 supaya pesan kita sendiri yang tampil. Atribut <code>required</code>, <code>min</code>, dan lainnya <strong>tetap dipakai</strong>, hanya dibaca oleh JavaScript.</li>
+<li><code>e.preventDefault()</code> membatalkan perilaku bawaan submit (berpindah ke <code>list.html</code>). Tanpanya, form akan pindah halaman sebelum pesan sempat terlihat.</li>
+<li>Semua field divalidasi sekaligus dalam satu putaran, bukan berhenti di kesalahan pertama, supaya pengguna melihat semua kesalahan dalam sekali kirim. <code>pertamaError.focus()</code> memindahkan kursor ke yang pertama.</li>
+<li><strong>Urutan <code>reset</code> lalu <code>tampilkanSukses</code> disengaja.</strong> Listener <code>reset</code> menghapus alert sukses lama. Bila <code>reset()</code> dipanggil setelah alert dibuat, alert baru ikut terhapus. Nama diambil sebelum reset karena nilai input hilang setelahnya.</li>
+<li>Listener tambahan memvalidasi ulang sebuah field saat pengguna mengetik, tetapi <strong>hanya untuk field yang sudah diberi status</strong>. Pengguna tidak dimarahi sebelum menekan Simpan, dan kotak merah hilang begitu isinya diperbaiki.</li>
+</ul>
+<p><strong><code>textContent</code>, bukan <code>innerHTML</code>.</strong> Pesan sukses menampilkan nama yang diketik pengguna. Fungsi <code>tampilkanSukses</code> membangunnya dengan <code>createElement</code> dan <code>textContent</code>. Jika memakai <code>innerHTML</code> dengan teks pengguna, orang bisa mengetik <code>&lt;img src=x onerror=...&gt;</code> dan menjalankan skrip di halaman (XSS). Aturan praktisnya: <strong>teks dari pengguna atau dari data luar selalu lewat <code>textContent</code>.</strong></p>
+<h2 id="59-debugging">5.9 Debugging<a class="headerlink" href="#59-debugging" title="Permanent link">#</a></h2>
+<ul>
+<li><code>console.log(variabel)</code> untuk mengintip nilai; hasilnya di tab <em>Console</em>.</li>
+<li>Tab <em>Sources</em>: klik nomor baris untuk memasang <em>breakpoint</em>, eksekusi berhenti di sana dan kamu bisa melihat nilai setiap variabel.</li>
+<li>Error merah di Console menyebut berkas dan nomor baris. Baca dari pesan paling atas.</li>
+<li>Tab <em>Elements</em>: lihat apakah class <code>is-invalid</code> benar-benar menempel setelah submit.</li>
+</ul>
+<h2 id="510-kesalahan-umum">5.10 Kesalahan umum<a class="headerlink" href="#510-kesalahan-umum" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gejala / pesan</th>
+<th>Penyebab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cannot read properties of null</code></td>
+<td><code>querySelector</code> tidak menemukan elemen (selector salah atau skrip dimuat sebelum HTML); lupa <code>if (!elemen) return</code></td>
+</tr>
+<tr>
+<td>Tombol Hapus tidak bereaksi pada baris baru</td>
+<td>Listener dipasang di setiap tombol, bukan memakai delegation</td>
+</tr>
+<tr>
+<td>Form pindah halaman sebelum pesan terlihat</td>
+<td>Lupa <code>e.preventDefault()</code></td>
+</tr>
+<tr>
+<td>Pesan validasi dobel (browser dan kita)</td>
+<td>Lupa <code>form.noValidate = true</code></td>
+</tr>
+<tr>
+<td>Pencarian cocok ke semua baris saat mengetik "edit"</td>
+<td>Ikut mencari di sel Aksi</td>
+</tr>
+<tr>
+<td>Skrip tidak jalan sama sekali</td>
+<td>Path <code>src</code> salah (<code>../assets/js/app.js</code> di subfolder), cek tab <em>Network</em></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="511-latihan">5.11 Latihan<a class="headerlink" href="#511-latihan" title="Permanent link">#</a></h2>
+<ol>
+<li>Tambahkan tombol <strong>Urutkan A-Z</strong> di atas tabel yang mengurutkan baris berdasarkan kolom pertama.</li>
+<li>Ubah <code>confirm()</code> menjadi modal Bootstrap.</li>
+<li>Tambahkan penghitung karakter di bawah kolom Judul memakai event <code>input</code>.</li>
+<li>Tambahkan aturan: rating harus kelipatan 0.1. Letakkan di <code>validasiField</code>.</li>
+</ol>
+    </main>
+    <nav class="pager" aria-label="Navigasi halaman"><a class="prev" href="jobsheet-4.html"><small>Sebelumnya</small>Jobsheet 4: Wireframe</a><a class="next" href="jobsheet-6.html"><small>Berikutnya</small>Jobsheet 6: Fetch API dan JSON</a></nav>
+    <footer class="foot">Handbook SIFILM-Mini &mdash; Praktikum Pemrograman Web. Kode lengkap ada di folder Jobsheet1 sampai Jobsheet6.</footer>
+  </div>
+</div>
+<script src="assets/handbook.js"></script>
+</body>
+</html>
