@@ -1,50 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Jobsheet 2: markup sama seperti Jobsheet 1, ditambah stylesheet eksternal (assets/css/style.css). -->
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPUS-Mini | Beranda</title>
+    <title>SIFILM-Mini | Beranda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Zilla+Slab:wght@500;600&display=swap">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header>
-        <h1>SIMPUS-Mini</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="active">Beranda</a></li>
-                <li><a href="buku/list.html">Daftar Buku</a></li>
-                <li><a href="buku/tambah.html">Tambah Buku</a></li>
-                <li><a href="anggota/list.html">Daftar Anggota</a></li>
-                <li><a href="anggota/tambah.html">Tambah Anggota</a></li>
-            </ul>
-        </nav>
+      <p class="brand"><a href="index.html">SIFILM-Mini</a></p>
     </header>
 
-    <main>
-        <section>
-            <h2>Selamat Datang di Sistem Perpustakaan Mini</h2>
-            <p>Aplikasi sederhana untuk mengelola data buku dan anggota perpustakaan.</p>
-        </section>
+    <nav aria-label="Navigasi utama">
+      <ul>
+        <li><a href="index.html" aria-current="page">Beranda</a></li>
+        <li><span>Film</span>
+          <ul>
+            <li><a href="film/list.html">Daftar Film</a></li>
+            <li><a href="film/tambah.html">Tambah Film</a></li>
+          </ul>
+        </li>
+        <li><span>Anggota</span>
+          <ul>
+            <li><a href="anggota/list.html">Daftar Anggota</a></li>
+            <li><a href="anggota/tambah.html">Tambah Anggota</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-        <section class="home-section">
-            <h2>Ringkasan</h2>
-            <article>
-                <h3>Total Buku</h3>
-                <p>12</p>
-            </article>
-            <article>
-                <h3>Total Anggota</h3>
-                <p>8</p>
-            </article>
-            <article>
-                <h3>Sedang Dipinjam</h3>
-                <p>3</p>
-            </article>
-        </section>
+    <main>
+      <h1>Selamat Datang di Sistem Pendataan Film Mini</h1>
+      <p class="page-lede">Aplikasi sederhana untuk mengelola data film dan anggota.</p>
+
+      <section>
+        <h2>Ringkasan</h2>
+        <p><label for="pinjam">Film sedang dipinjam: 3 dari 12</label></p>
+        <progress id="pinjam" value="3" max="12">25%</progress>
+        <dl>
+          <div><dt>Total Film</dt><dd>12</dd></div>
+          <div><dt>Total Anggota</dt><dd>8</dd></div>
+          <div><dt>Sedang Dipinjam</dt><dd>3</dd></div>
+        </dl>
+      </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 SIMPUS-Mini &mdash; Jobsheet 2</p>
+      <p>&copy; 2026 SIFILM-Mini &mdash; Jobsheet 2</p>
     </footer>
 </body>
 </html>
