@@ -4,6 +4,13 @@ $__jobsheetRoot = dirname(__DIR__);
 $__scriptDir = dirname($_SERVER['SCRIPT_FILENAME']);
 $__rel = ltrim(str_replace('\\', '/', substr($__scriptDir, strlen($__jobsheetRoot))), '/');
 $base = $__rel === '' ? '' : str_repeat('../', substr_count($__rel, '/') + 1);
+
+$__path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$__depth = substr_count(trim($__path, '/'), '/');
+$assetBase = str_repeat('../', $__depth);
+if (strpos($__path, '/api/') === 0) {   // jalan lokal tanpa rewrite Vercel
+    $assetBase .= 'public/';
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
